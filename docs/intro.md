@@ -99,9 +99,9 @@ For 50000 transactions, we get the following results (outliers filtered):
 
 **Sources**
 
-[blxr_benchmark_ams.csv](/files/blxr_benchmark_ams.csv)
+* [blxr_benchmark_ams.csv](/files/blxr_benchmark_ams.csv)
 
-[blxr_benchmark_us_east.csv](/files/blxr_benchmark_us_east.csv)
+* [blxr_benchmark_us_east.csv](/files/blxr_benchmark_us_east.csv)
 
 **Network Topology**
 
