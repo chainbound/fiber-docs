@@ -4,22 +4,15 @@ title: Introduction
 ---
 # Fiber Network
 
-| Current Version | v0.0.3-alpha |
-| --- | --- |
-
 :::info
 💡 Looking for alpha testers! Please contact me on Discord **@mempirate | Chainbound#8926**, or on Twitter [@mempirate](https://twitter.com/mempirate).
 
 **The testing phase is currently in progress, you can still participate!**
-
-![Screenshot 2022-09-14 at 08.36.43.png](/img/21_09_setup.png)
 :::
 
 ## Introduction
 
 Fiber Network is a global network of sentries that connect to the Ethereum p2p networking layer. These sentries (Fiber Nodes) are connected to each other with a high-speed connection, allowing them to quickly send Ethereum messages from one part of the world to the other. This can be leveraged into a global and almost real-time overview of new transactions and blocks, like [Bloxroute](https://bloxroute.com/) and their BDN.
-
-<!-- ![Diagram](/img/diagram.png) -->
 
 ## Concepts
 
@@ -27,7 +20,7 @@ Fiber Network is a global network of sentries that connect to the Ethereum p2p n
 
 Fiber Nodes (FN) are the individual nodes that make up the Fiber Network. They essentially consist of 2 interfaces: an interface for communication with the Ethereum network ([devp2p](https://github.com/ethereum/devp2p) implementation), and an interface for sharing messages internally over the Fibernet (custom [pubsub](https://cloud.google.com/pubsub/docs/overview) implementation with [gRPC](https://grpc.io/)).
 
-Each of the nodes is a very lightweight implementation that is just the Ethereum p2p stack without a state database or EVM, **making it possible to deploy a large swarm of them across regions, countries and datacenters (cloud providers), at relatively low cost**. This is part of where the opportunity sits.
+Each of the nodes is a very lightweight implementation that is just the Ethereum p2p stack without a state database or EVM, **making it possible to deploy a large swarm of them across regions, countries and datacenters (cloud providers), at relatively low cost**.
 
 Each node can connect to a considerable amount of peers (depending on the resources of the underlying machine / container), ensuring great visibility of new transactions (”mempool”) and newly produced blocks.
 
@@ -43,9 +36,7 @@ Every transaction and every block that’s seen on a node gets sent to a central
 - Timestamp
 - What node the block / transaction came from (either a devp2p peer or another FN)
 
-All this information can be used for things like **optimizing the p2p layer, tracing blocks and transactions, measuring latency, etc.**
-
-We are planning on building a service that let’s you trace blocks and transactions through the p2p network.
+All this information can be used for things like **optimizing the p2p layer, tracing blocks and transactions, measuring latency, and anything else you can think of.**
 
 ## Usage
 
@@ -58,7 +49,9 @@ Users will be able to connect to the closest node nearby over a gRPC API. We off
 | Python | fiber-py (WIP) |
 | Rust | [fiber-rs](https://github.com/chainbound/fiber-rs) |
 
+:::info
 If you want to build your own client (or help with the WIP implementations), all you need are the protobuf / gRPC files and a compiler for your language. Documentation for different gRPC language implementations can be found at [https://grpc.io/docs/languages](https://grpc.io/docs/languages/). The Fiber protobuf definitions are at [https://github.com/chainbound/fiber-proto](https://github.com/chainbound/fiber-proto). For examples of how to actually use it (API authentication), please refer to the already implemented packages.
+:::
 
 The API consists of 4 general methods:
 
