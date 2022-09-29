@@ -9,7 +9,7 @@ const config = {
   title: 'Fiber Network',
   tagline: 'Global high speed network for Ethereum transactions',
   url: 'https://chainbound.github.io',
-  baseUrl: '/website',
+  baseUrl: 'website/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
