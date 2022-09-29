@@ -9,7 +9,7 @@ import styles from './index.module.css';
 function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
   return (
-    <header className={clsx('hero hero--dark', styles.heroBanner)}>
+    <header className={clsx('hero hero--light', styles.heroBanner)}>
       <div className="container">
         <h1 className="hero__title">{siteConfig.title}</h1>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
@@ -29,12 +29,12 @@ export default function Home(): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      title={`${siteConfig.title}`}
+      description="Global high speed network for Ethereum transactions">
       <HomepageHeader />
-      <main>
-        <HomepageFeatures />
-      </main>
+      {/* <main> */}
+        {/* <HomepageFeatures /> */}
+      {/* </main> */}
     </Layout>
   );
 }
