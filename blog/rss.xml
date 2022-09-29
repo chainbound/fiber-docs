@@ -2,7 +2,7 @@
 <rss version="2.0">
     <channel>
         <title>Fiber Network Blog</title>
-        <link>https://your-docusaurus-test-site.com/blog</link>
+        <link>https://chainbound.github.io/website/blog</link>
         <description>Fiber Network Blog</description>
         <lastBuildDate>Wed, 28 Sep 2022 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
@@ -10,7 +10,7 @@
         <language>en</language>
         <item>
             <title><![CDATA[Coming Soon]]></title>
-            <link>https://your-docusaurus-test-site.com/blog/welcome</link>
+            <link>https://chainbound.github.io/website/blog/welcome</link>
             <guid>welcome</guid>
             <pubDate>Wed, 28 Sep 2022 00:00:00 GMT</pubDate>
         </item>
