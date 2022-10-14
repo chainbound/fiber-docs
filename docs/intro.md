@@ -44,11 +44,9 @@ sure the user has the lowest latency to the builder / producer as possible.
 
 ### Fiber Nodes
 
-Fiber Nodes (FN) are the individual nodes that make up the Fiber Network. They essentially consist of 2 services: 
+Fiber Nodes (FN) are the individual nodes that make up the Fiber Network. They essentially consist of 3 services: 
 a service for communication with the Ethereum network ([devp2p](https://github.com/ethereum/devp2p) implementation), 
 a service for sharing messages internally over the Fibernet, and a [gRPC](https://grpc.io/) based API.
-
-Each of the nodes is a very lightweight implementation that is just the Ethereum p2p stack without a state database or EVM, **making it possible to deploy a large swarm of them across regions, countries and datacenters (cloud providers), at relatively low cost**.
 
 Each node can connect to a considerable amount of peers (depending on the resources of the underlying machine / container), ensuring great visibility of new transactions (”mempool”) and newly produced blocks.
 
