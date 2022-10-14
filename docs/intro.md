@@ -2,7 +2,7 @@
 sidebar_position: 1
 title: Introduction
 ---
-**Fiber Network** is a global network of sentries that connect to the Ethereum p2p networking layer. These sentries (Fiber Nodes) are connected to each other with a high-speed connection, allowing them to quickly send Ethereum messages from one part of the world to the other. This can be leveraged into a global and almost real-time overview of new transactions and blocks.
+**Fiber Network** is a global network of nodes that connect to the Ethereum p2p networking layer. These Fiber Nodes are connected to each other with a high-speed connection, allowing them to quickly send Ethereum messages from one part of the world to the other. This can be leveraged into a global and almost real-time overview of new transactions and blocks.
 
 ## Motivation
 A lot of DeFi strategies require low latency to transactions, since they represent a pending state change that could
