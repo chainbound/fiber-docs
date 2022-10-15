@@ -65,7 +65,7 @@ const config = {
             position: 'left',
             label: 'Docs',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
+          { to: '/blog', label: 'Blog', position: 'left' },
           // {
           //   href: 'https://github.com/facebook/docusaurus',
           //   label: 'GitHub',
@@ -75,40 +75,40 @@ const config = {
       },
       footer: {
         style: 'light',
-        // links: [
-        //   {
-        //     title: 'Docs',
-        //     items: [
-        //       {
-        //         label: 'Introduction',
-        //         to: '/docs/intro',
-        //       },
-        //     ],
-        //   },
-        //   // {
-        //   //   title: 'Community',
-        //   //   items: [
-        //   //     {
-        //   //       label: 'Discord',
-        //   //       href: 'https://discordapp.com/invite/docusaurus',
-        //   //     },
-        //   //   ],
-        //   // },
-        //   {
-        //     title: 'More',
-        //     items: [
-        //       {
-        //         label: 'Blog',
-        //         to: '/blog',
-        //       },
-        //       {
-        //         label: 'GitHub',
-        //         href: 'https://github.com/chainbound',
-        //       },
-        //     ],
-        //   },
-        // ],
-        copyright: `Copyright © ${new Date().getFullYear()} Chainbound, Inc.`,
+        links: [
+            {
+              title: 'Docs',
+              items: [
+                {
+                  label: 'Introduction',
+                  to: '/docs/intro',
+                },
+              ],
+            },
+          {
+            title: 'Community',
+            items: [
+              {
+                label: 'Discord',
+                href: 'https://discord.gg/J4KNdeCYGX',
+              },
+            ],
+          },
+            {
+              title: 'More',
+              items: [
+                {
+                  label: 'Blog',
+                  to: '/blog',
+                },
+                {
+                  label: 'GitHub',
+                  href: 'https://github.com/chainbound',
+                },
+              ],
+            },
+        ],
+        // copyright: `Copyright © ${new Date().getFullYear()} Chainbound, Inc.`,
       },
       prism: {
         theme: lightCodeTheme,
