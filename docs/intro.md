@@ -48,6 +48,8 @@ Fiber Nodes (FN) are the individual nodes that make up the Fiber Network. They e
 a service for communication with the Ethereum network ([devp2p](https://github.com/ethereum/devp2p) implementation), 
 a service for sharing messages internally over the Fibernet, and a [gRPC](https://grpc.io/) based API.
 
+![](/img/fiber-node.png)
+
 Each node can connect to a considerable amount of peers (depending on the resources of the underlying machine / container), ensuring great visibility of new transactions (”mempool”) and newly produced blocks.
 
 ### Fiber Network
