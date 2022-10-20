@@ -43,6 +43,13 @@ can be anywhere.
 This is basically step 1 in reverse, and the global connectivity of Fiber Network to a high amount of peers will make
 sure the user has the lowest latency to the builder / producer as possible.
 
+## Principles
+Fiber Network was built with the following principles in mind:
+#### Fairness
+We will not introduce artificial latency based on price plans, nor unnecessarily cap the amount of transactions you can send.
+#### Visibility
+We will offer a variety of tools to observe and troubleshoot any strategies.
+
 ## Concepts
 
 ### Fiber Nodes

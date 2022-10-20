@@ -3,7 +3,7 @@ sidebar_position: 2
 title: Getting Started
 ---
 Users can connect to the API at `fiberapi.io:8080`, providing their API key in the process.
-The domain will resolve to the closest node to the client, based on latency. To check this latency, just
+The domain will resolve to the closest node to the client, based on latency (check out the [regions](./regions) for where this will be). To check this latency, just
 `ping fiberapi.io` from the same machine as your client.
 
 The API uses gRPC. We offer a number of client packages to make this connection process as easy as possible:
