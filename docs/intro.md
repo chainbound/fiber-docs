@@ -29,7 +29,7 @@ Each of these steps needs to happen as quickly as possible to get the highest ch
 The special thing about HFT on blockchains is that an opportunity (*target transaction*) **can
 come from anywhere in the world**, in contrast with traditional HFT. It's true that these transactions will often come from centralized services like Infura
 and Alchemy, which have servers in known locations, but that's not always the case. So for step 1, it's crucial
-that we are connected to as much peers as possible across the globe, to make sure we receive the target transactions ASAP.
+that we are connected to as many peers as possible across the globe, to make sure we receive the target transactions ASAP.
 
 This is where Fiber Network steps in. We have deployed [Fiber Nodes](#fiber-nodes) distributed **across the globe**, as well as **concentrated
 in high-activity regions**, to make sure our users receive any target transactions before anyone else. A simplified
