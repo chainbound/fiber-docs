@@ -2,16 +2,41 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://fiber.chainbound.io/blog</id>
     <title>Fiber Network Blog</title>
-    <updated>2022-09-28T00:00:00.000Z</updated>
+    <updated>2022-10-21T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://fiber.chainbound.io/blog"/>
     <subtitle>Fiber Network Blog</subtitle>
     <icon>https://fiber.chainbound.io/img/favicon.ico</icon>
     <entry>
-        <title type="html"><![CDATA[Coming Soon]]></title>
-        <id>welcome</id>
-        <link href="https://fiber.chainbound.io/blog/welcome"/>
-        <updated>2022-09-28T00:00:00.000Z</updated>
+        <title type="html"><![CDATA[Tracing the geographic origin of Ethereum transactions]]></title>
+        <id>transaction-geography</id>
+        <link href="https://fiber.chainbound.io/blog/transaction-geography"/>
+        <updated>2022-10-21T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[In our journey of creating the ideal network topology for our Fiber nodes, we had to determine the critical geographical]]></summary>
+        <content type="html"><![CDATA[<p>In our journey of creating the ideal network topology for our Fiber nodes, we had to determine the critical geographical
+regions of the Ethereum p2p network. We will define these "hot spots" as regions where the most transactions are originally
+broadcasted from.</p><p>Because Fiber is a mempool service, we need to be able to deliver transactions to users as fast as possible, which also means making sure we sufficiently cover these hotspots. This article will go over our findings.</p><h2 class="anchor anchorWithStickyNavbar_LWe7" id="the-setup">The setup<a class="hash-link" href="#the-setup" title="Direct link to heading">​</a></h2><p>The setup will be a number of Ethereum nodes deployed globally that <strong>keep track of when they received a certain transaction, but also
+from which peer it came</strong>.
+Later on, we'll be able to inspect these timestamps to see which node heard about the transaction first.
+We'll also be able to use the peer IP addresses to find which hosting providers are responsible for broadcasting
+the most transactions.</p><p>Each node will be connected to a significant amount of peers (400), <strong>for a theoretical
+maximum reach of 6000 peers</strong>. In practice, this number will be a lot lower due to duplicate peers.
+Now where do we deploy these nodes?</p><p>It's no secret that <strong>most critical Ethereum infrastructure runs on AWS</strong> <a href="#references">[1]</a>:</p><p><img loading="lazy" src="/assets/images/hosting-chart-2b4315f334068219e0601b474a7a7620.png" width="1350" height="762" class="img_ev3q"></p><p>Which is why we deployed our nodes in the following 13 AWS regions:</p><ul><li>us-east-1 (N. Virginia)</li><li>us-east-2 (Ohio)</li><li>us-west-1 (N. California)</li><li>us-west-2 (Oregon)</li><li>ap-east-1 (Hong Kong)</li><li>ap-northeast-2 (Seoul)</li><li>ap-northeast-1 (Tokyo)</li><li>ap-southeast-1 (Singapore)</li><li>eu-west-1 (Ireland)</li><li>eu-west-2 (London)</li><li>eu-west-3 (Paris)</li><li>eu-north-1 (Stockholm) </li></ul><p>This obviously doesn't cover the whole world, but since they're located at backbone hotspots, it will do.</p><p>With this setup, we've recorded 5.5 million Ethereum transactions over the period of a couple of days. Let's look at the results.</p><h2 class="anchor anchorWithStickyNavbar_LWe7" id="the-results">The results<a class="hash-link" href="#the-results" title="Direct link to heading">​</a></h2><h4 class="anchor anchorWithStickyNavbar_LWe7" id="geography">Geography<a class="hash-link" href="#geography" title="Direct link to heading">​</a></h4><p><img loading="lazy" src="/assets/images/tx_geo-60d74af1388cc368069987071c6ece2f.png" width="1400" height="1000" class="img_ev3q">
+Most transactions are seen first in the US in the North Virginia area, which is
+where the notorious <strong>us-east-1</strong> AWS region sits. Ohio is a hotspot as well, seeing
+a little more than 8% of transactions first. Regions on the West Coast are less active:
+Oregon and North California combined only see a little more than 5% of transactions first.</p><p>In <strong>Europe</strong>, Frankfurt is by far the most active region. Paris and London are also important
+regions, both seeing close to 6% of recorded transactions first. In the <strong>Asia Pacific</strong> region, Tokyo and Singapore are the most active.</p><p>Interestingly, looking at the activity per "continent", we can see that the EU and the US lead by a wide margin:
+<img loading="lazy" src="/assets/images/tx_geo_continent-f11cd786698220243e35b2a6201101a5.png" width="1400" height="1000" class="img_ev3q"></p><p>Based on these results, we've determined the number of nodes to deploy in each of these regions.</p><h4 class="anchor anchorWithStickyNavbar_LWe7" id="hosting-providers">Hosting providers<a class="hash-link" href="#hosting-providers" title="Direct link to heading">​</a></h4><p>Since we recorded the sending peer of every transaction, we can take a closer look at the different hosting
+providers that originate the most transactions. We know that AWS hosts a lot of full nodes, but is that actually where
+infrastructure that belongs to the largest <em>transaction broadcasters</em> is?</p><p>To figure that out, we'll look at the most "active" peer (peer from which we received the most transactions first) per region, and identify the hosting provider based on their IP address.</p><table><thead><tr><th>Region</th><th>Hosting Provider</th></tr></thead><tbody><tr><td>us-east-1</td><td>AWS, Virginia</td></tr><tr><td>eu-central-1</td><td>Hetzner, Falkenstein</td></tr><tr><td>us-east-2</td><td>AWS, Ohio</td></tr><tr><td>eu-west-3</td><td>Google Cloud, Brussels</td></tr><tr><td>eu-west-2</td><td>OVH, UK</td></tr><tr><td>ap-northeast-1</td><td>AWS, Tokyo</td></tr><tr><td>ap-southeast-1</td><td>Contabo, Singapore</td></tr><tr><td>eu-west-1</td><td>AWS, Dublin</td></tr><tr><td>us-west-2</td><td>Telus Communications, Vancouver</td></tr><tr><td>ap-east-1</td><td>Google Cloud, Hong Kong</td></tr><tr><td>ap-northeast-2</td><td>AWS, Seoul</td></tr><tr><td>eu-north-1</td><td>Hetzner, Falkenstein</td></tr><tr><td>us-west-1</td><td>AWS, Virginia</td></tr></tbody></table><p>Turns out that <strong>AWS wins only in 6 of the 13 regions</strong>. In Virginia and in Ohio, both very important regions, it has been the biggest broadcaster. But we also see Google Cloud winning in Hong Kong as well as in Paris (from their datacenter in Brussels, Belgium). Hetzner wins in Frankfurt by a wide margin, perhaps not surprisingly. It also wins in Stockholm, Sweden,
+even though the broadcaster was in Frankfurt. This tells us that the eu-north area does not seem to have a lot of
+activity. In Oregon, the biggest broadcaster was in Vancouver, Canada. In Singapore, it came from Contabo.</p><p>Another interesting observation is that there's almost never one broadcaster that stands out per region. The second and
+third biggest broadcasters are never far behind. This suggests that providers like <a href="https://www.alchemy.com/" target="_blank" rel="noopener noreferrer">Alchemy</a>
+and <a href="https://infura.io/" target="_blank" rel="noopener noreferrer">Infura</a>, who send the largest part of Ethereum transactions, use a lot of nodes, possibly
+distributed across geographic areas.</p><h2 class="anchor anchorWithStickyNavbar_LWe7" id="conclusion">Conclusion<a class="hash-link" href="#conclusion" title="Direct link to heading">​</a></h2><p>When milliseconds matter, this is all information that has to be taken into consideration, and that's what we did
+with Fiber. Listening to transactions is only one aspect of high frequency trading on blockchains, but it's a very important one that one needs to get right by carefully choosing the regions, concentration, and cloud providers
+across which to deploy nodes.</p><h2 class="anchor anchorWithStickyNavbar_LWe7" id="references">References<a class="hash-link" href="#references" title="Direct link to heading">​</a></h2><ol><li><a href="https://ethernodes.org/networkType/Hosting" target="_blank" rel="noopener noreferrer">https://ethernodes.org/networkType/Hosting</a></li></ol>]]></content>
         <author>
             <name>Jonas Bostoen</name>
             <uri>https://github.com/jonasbostoen</uri>

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkfiber_website=self.webpackChunkfiber_website||[]).push([[535],{5641:e=>{e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"Tracing the geographic origin of Ethereum transactions","permalink":"/blog/transaction-geography"}]}')}}]);
