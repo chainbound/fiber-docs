@@ -99,5 +99,9 @@ When milliseconds matter, this is all information that has to be taken into cons
 with Fiber. Listening to transactions is only one aspect of high frequency trading on blockchains, but it's a very important one that one needs to get right by carefully choosing the regions, concentration, and cloud providers
 across which to deploy nodes.
 
+If you're interested in learning more about Fiber, check out the [documentation](/docs/intro.md) or
+join the [Discord](https://discord.gg/J4KNdeCYGX). We will be posting more stories like these,
+follow us on Twitter for updates [@chainbound_](https://twitter.com/chainbound_).
+
 ## References
 1. https://ethernodes.org/networkType/Hosting
