@@ -16,6 +16,10 @@
   /* height: 120%; */
 }
 
+.mainLogo {
+  width: 400px;
+}
+
 @media screen and (max-width: 996px) {
   .heroBanner {
     padding: 2rem;

@@ -11,7 +11,7 @@ function HomepageHeader() {
   return (
     <header className={clsx('hero hero--light', styles.heroBanner)}>
       <div className="container">
-        <h1 className="hero__title">{siteConfig.title}</h1>
+      <img src="/img/logo-full.svg" className={clsx('mainLogo', styles.mainLogo)}></img>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         {/* <div className={styles.buttons}> */}
           {/* <Link
@@ -28,6 +28,7 @@ function HomepageHeader() {
 export default function Home(): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
   return (
+    // <img></img>
     <Layout
       title={`${siteConfig.title}`}
       description="Global high speed network for Ethereum transactions">

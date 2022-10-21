@@ -12,7 +12,7 @@ const config = {
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/favicon.svg',
 
 
   // Even if you don't use internalization, you can use this field to set useful
@@ -53,11 +53,11 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'Fiber Network',
-        // logo: {
-        //   alt: 'My Site Logo',
-        //   src: 'img/logo.svg',
-        // },
+        // title: 'Fiber Network',
+        logo: {
+          alt: 'Fiber Logo',
+          src: 'img/logo-full.svg',
+        },
         items: [
           {
             type: 'doc',
