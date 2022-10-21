@@ -36,7 +36,9 @@ third biggest broadcasters are never far behind. This suggests that providers li
 and <a href="https://infura.io/" target="_blank" rel="noopener noreferrer">Infura</a>, who send the largest part of Ethereum transactions, use a lot of nodes, possibly
 distributed across geographic areas.</p><h2 class="anchor anchorWithStickyNavbar_LWe7" id="conclusion">Conclusion<a class="hash-link" href="#conclusion" title="Direct link to heading">​</a></h2><p>When milliseconds matter, this is all information that has to be taken into consideration, and that's what we did
 with Fiber. Listening to transactions is only one aspect of high frequency trading on blockchains, but it's a very important one that one needs to get right by carefully choosing the regions, concentration, and cloud providers
-across which to deploy nodes.</p><h2 class="anchor anchorWithStickyNavbar_LWe7" id="references">References<a class="hash-link" href="#references" title="Direct link to heading">​</a></h2><ol><li><a href="https://ethernodes.org/networkType/Hosting" target="_blank" rel="noopener noreferrer">https://ethernodes.org/networkType/Hosting</a></li></ol>]]></content>
+across which to deploy nodes.</p><p>If you're interested in learning more about Fiber, check out the <a href="/docs/intro">documentation</a> or
+join the <a href="https://discord.gg/J4KNdeCYGX" target="_blank" rel="noopener noreferrer">Discord</a>. We will be posting more stories like these,
+follow us on Twitter for updates <a href="https://twitter.com/chainbound_" target="_blank" rel="noopener noreferrer">@chainbound_</a>.</p><h2 class="anchor anchorWithStickyNavbar_LWe7" id="references">References<a class="hash-link" href="#references" title="Direct link to heading">​</a></h2><ol><li><a href="https://ethernodes.org/networkType/Hosting" target="_blank" rel="noopener noreferrer">https://ethernodes.org/networkType/Hosting</a></li></ol>]]></content>
         <author>
             <name>Jonas Bostoen</name>
             <uri>https://github.com/jonasbostoen</uri>
