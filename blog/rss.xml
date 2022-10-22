@@ -9,13 +9,13 @@
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
         <item>
-            <title><![CDATA[Tracing the geographic origin of Ethereum transactions]]></title>
-            <link>https://fiber.chainbound.io/blog/transaction-geography</link>
-            <guid>transaction-geography</guid>
+            <title><![CDATA[Identifying hotspots on the Ethereum p2p network]]></title>
+            <link>https://fiber.chainbound.io/blog/ethereum-hotspots</link>
+            <guid>ethereum-hotspots</guid>
             <pubDate>Fri, 21 Oct 2022 00:00:00 GMT</pubDate>
             <description><![CDATA[In our journey of creating the ideal network topology for our Fiber nodes, we had to determine the critical geographical]]></description>
             <content:encoded><![CDATA[<p>In our journey of creating the ideal network topology for our Fiber nodes, we had to determine the critical geographical
-regions of the Ethereum p2p network. We will define these "hot spots" as regions where the most transactions are originally
+regions of the Ethereum p2p network. We will define these "hotspots" as regions where the most transactions are originally
 broadcasted from.</p><p>Because Fiber is a mempool service, we need to be able to deliver transactions to users as fast as possible, which also means making sure we sufficiently cover these hotspots. In essence, we want to make sure we're as close to the original
 broadcaster is possible, which in p2p terms means either being directly connected to it, or only 1 or 2 hops away. Each hop
 will introduce a non-trivial amount of latency, which is something we need to minimize.</p><p>Let's look at a couple scenarios:</p><p><img loading="lazy" src="/assets/images/2-hop-setup-472f68397ff0365f93fa9e97bd880999.png" width="2088" height="1126" class="img_ev3q"></p><p>In this setup, we're 2 hops away from the transaction broadcaster. We'll simplify here and assume that nodes always
@@ -55,6 +55,8 @@ join the <a href="https://discord.gg/J4KNdeCYGX" target="_blank" rel="noopener n
 follow us on Twitter for updates <a href="https://twitter.com/chainbound_" target="_blank" rel="noopener noreferrer">@chainbound_</a>!</p><h2 class="anchor anchorWithStickyNavbar_LWe7" id="references">References<a class="hash-link" href="#references" title="Direct link to heading">​</a></h2><ol><li><a href="https://ethernodes.org/networkType/Hosting" target="_blank" rel="noopener noreferrer">https://ethernodes.org/networkType/Hosting</a></li><li>In reality, the full message is only broadcast to a subset of peers, whereas the rest receive only the hash <strong>announcement</strong>.
 It's up to these nodes to check if they've already received the transaction, and otherwise they have to request
 it. This introduces another round trip. See the devp2p specificiation on transaction exchange: <a href="https://github.com/ethereum/devp2p/blob/master/caps/eth.md#transaction-exchange" target="_blank" rel="noopener noreferrer">https://github.com/ethereum/devp2p/blob/master/caps/eth.md#transaction-exchange</a></li></ol>]]></content:encoded>
+            <category>ethereum</category>
+            <category>devp2p</category>
         </item>
     </channel>
 </rss>

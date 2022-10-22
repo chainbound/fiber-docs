@@ -8,13 +8,13 @@
     <subtitle>Fiber Network Blog</subtitle>
     <icon>https://fiber.chainbound.io/img/favicon.svg</icon>
     <entry>
-        <title type="html"><![CDATA[Tracing the geographic origin of Ethereum transactions]]></title>
-        <id>transaction-geography</id>
-        <link href="https://fiber.chainbound.io/blog/transaction-geography"/>
+        <title type="html"><![CDATA[Identifying hotspots on the Ethereum p2p network]]></title>
+        <id>ethereum-hotspots</id>
+        <link href="https://fiber.chainbound.io/blog/ethereum-hotspots"/>
         <updated>2022-10-21T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[In our journey of creating the ideal network topology for our Fiber nodes, we had to determine the critical geographical]]></summary>
         <content type="html"><![CDATA[<p>In our journey of creating the ideal network topology for our Fiber nodes, we had to determine the critical geographical
-regions of the Ethereum p2p network. We will define these "hot spots" as regions where the most transactions are originally
+regions of the Ethereum p2p network. We will define these "hotspots" as regions where the most transactions are originally
 broadcasted from.</p><p>Because Fiber is a mempool service, we need to be able to deliver transactions to users as fast as possible, which also means making sure we sufficiently cover these hotspots. In essence, we want to make sure we're as close to the original
 broadcaster is possible, which in p2p terms means either being directly connected to it, or only 1 or 2 hops away. Each hop
 will introduce a non-trivial amount of latency, which is something we need to minimize.</p><p>Let's look at a couple scenarios:</p><p><img loading="lazy" src="/assets/images/2-hop-setup-472f68397ff0365f93fa9e97bd880999.png" width="2088" height="1126" class="img_ev3q"></p><p>In this setup, we're 2 hops away from the transaction broadcaster. We'll simplify here and assume that nodes always
@@ -58,5 +58,7 @@ it. This introduces another round trip. See the devp2p specificiation on transac
             <name>Jonas Bostoen</name>
             <uri>https://github.com/jonasbostoen</uri>
         </author>
+        <category label="ethereum" term="ethereum"/>
+        <category label="devp2p" term="devp2p"/>
     </entry>
 </feed>
