@@ -75,6 +75,7 @@ const config = {
           //   label: 'GitHub',
           //   position: 'right',
           // },
+          {to: '/pricing', label: 'Pricing', position: 'left'},
         ],
       },
       footer: {

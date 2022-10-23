@@ -2,16 +2,15 @@ import React from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.css';
 
-type FeatureItem = {
+type PricingItem = {
   title: string;
-  Svg: React.ComponentType<React.ComponentProps<'svg'>>;
   description: JSX.Element;
 };
 
-const FeatureList: FeatureItem[] = [
+const FeatureList: PricingItem[] = [
   {
-    title: 'Fast',
-    Svg: require('@site/static/img/fast.svg').default,
+    title: 'Professional',
+    // Svg: require('@site/static/img/fast.svg').default,
     description: (
       <>
         Fiber is faster than the competition. 
@@ -20,7 +19,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Easy to use',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    // Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
         Use any of the provided client packages in your language of choice to easily
@@ -30,7 +29,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'High visibility',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    // Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
         Dashboards and tracing tools will give you high visibility into your transactions,
@@ -40,12 +39,12 @@ const FeatureList: FeatureItem[] = [
   },
 ];
 
-function Feature({title, Svg, description}: FeatureItem) {
+function Feature({title, description}: PricingItem) {
   return (
     <div className={clsx('col col--4')}>
-      <div className="text--center">
+      {/* <div className="text--center">
         <Svg className={styles.featureSvg} role="img" />
-      </div>
+      </div> */}
       <div className="text--center padding-horiz--md">
         <h3>{title}</h3>
         <p>{description}</p>
