@@ -52,6 +52,10 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      colorMode: {
+        defaultMode: 'light',
+        disableSwitch: true,
+      },
       navbar: {
         // title: 'Fiber Network',
         logo: {
@@ -108,7 +112,7 @@ const config = {
               ],
             },
         ],
-        // copyright: `Copyright © ${new Date().getFullYear()} Chainbound, Inc.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Chainbound, Inc.`,
       },
       prism: {
         theme: lightCodeTheme,
