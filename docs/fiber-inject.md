@@ -32,7 +32,7 @@ If the Docker container doesn't print the following (`docker logs fiber-inject`)
 that's probably the case, and you have to add `fiber-inject` as a trusted peer. First we need to expose the p2p port of the Docker container, so you'll have to
 run it like this:
 ```bash
-docker run -p 8080:8080 -p 30303:30304 mempirate/fiber-inject 
+docker run -p 8080:8080 -p 30304:30303 mempirate/fiber-inject 
     --fiber-api fiberapi.io:8080 
     --fiber-key $YOUR_API_KEY 
     --enodes $ENODE1,$ENODE2 
