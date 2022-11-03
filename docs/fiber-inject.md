@@ -47,9 +47,11 @@ Next, find the `enode`. This should also be printed in the output:
 14:51:44.811 INF [DEVP2P] Starting devp2p server               enode=enode://6e45ab02bc08b03da9527ef42e07e12d144eea3365b102b3d7f3b7a3f4ae0aed24a039d346af3a7e0e3c84257458af076e55e8860e262f551dab9d4e472f0fe3@127.0.0.1:30303?discport=0
 ```
 
-Now add this enode to your local node's trusted peerset. If you're using geth, you can use the JavaScript console:
+Now add this enode to your local node's trusted peerset, but make sure you use your mapped port as the `enode` port. 
+If you're using geth, you can use the JavaScript console:
 ```bash
-geth attach --datadir $DATADIR --exec 'admin.addTrustedPeer("$ENODE")'
+geth attach --datadir $DATADIR --exec \
+'admin.addTrustedPeer("enode://6e45ab02bc08b03da9527ef42e07e12d144eea3365b102b3d7f3b7a3f4ae0aed24a039d346af3a7e0e3c84257458af076e55e8860e262f551dab9d4e472f0fe3@127.0.0.1:30304")'
 ```
 
 Now if you check the output, the connection should have been made.
