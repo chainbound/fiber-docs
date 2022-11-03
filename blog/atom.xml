@@ -6,7 +6,7 @@
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://fiber.chainbound.io/blog"/>
     <subtitle>Fiber Network Blog</subtitle>
-    <icon>https://fiber.chainbound.io/img/favicon.svg</icon>
+    <icon>https://fiber.chainbound.io/img/favicon2.svg</icon>
     <entry>
         <title type="html"><![CDATA[Identifying hotspots on the Ethereum p2p network]]></title>
         <id>ethereum-hotspots</id>
