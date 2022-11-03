@@ -12,7 +12,7 @@ const config = {
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/favicon.svg',
+  favicon: 'img/favicon2.svg',
 
 
   // Even if you don't use internalization, you can use this field to set useful
@@ -57,10 +57,10 @@ const config = {
         disableSwitch: true,
       },
       navbar: {
-        // title: 'Fiber Network',
+        title: '',
         logo: {
           alt: 'Fiber Logo',
-          src: 'img/logo-full.svg',
+          src: 'img/favicon2.svg',
         },
         items: [
           {
