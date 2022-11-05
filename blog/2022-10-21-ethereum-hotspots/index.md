@@ -13,6 +13,8 @@ Because Fiber is a mempool service, we need to be able to deliver transactions t
 broadcaster is possible, which in p2p terms means either being directly connected to it, or only 1 or 2 hops away. Each hop
 will introduce a non-trivial amount of latency, which is something we need to minimize.
 
+<!-- truncate -->
+
 Let's look at a couple scenarios:
 
 ![](./2-hop-setup.png)
