@@ -1,5 +1,5 @@
 ---
-sidebar_position: 5
+sidebar_position: 6
 title: Mempool Injector
 ---
 Often, it's very useful to inject transactions from Fiber into your local mempool. We offer a Docker image that will help you do that.

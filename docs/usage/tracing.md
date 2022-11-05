@@ -1,5 +1,5 @@
 ---
-sidebar_position: 4
+sidebar_position: 5
 title: Tracing
 ---
 Tracing can be very useful for seeing where certain transactions originated as well as how fast they propagated. Fiber has
