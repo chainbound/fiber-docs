@@ -47,8 +47,12 @@ sure the user has the lowest latency to the builder / producer as possible.
 Fiber Network was built with the following principles in mind:
 #### Fairness
 We will not introduce artificial latency based on price plans, nor unnecessarily cap the amount of transactions you can send.
+#### Reliability
+Fiber is a fault-tolerant system, and we aim to be the most reliable player in the mempool service game.
 #### Visibility
 We will offer a variety of tools to observe and troubleshoot any strategies.
+#### Adaptiveness
+The P2P network is always changing and adapting, and Fiber will change with it.
 
 ## Concepts
 

@@ -1,5 +1,5 @@
 ---
-sidebar_position: 3
+sidebar_position: 4
 title: Regions
 ---
 Fiber has endpoints in the following regions:
