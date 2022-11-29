@@ -10,12 +10,12 @@ The domain will resolve to the closest node to the client, based on latency (che
 
 The API uses gRPC. We offer a number of client packages to make this connection process as easy as possible:
 
-| Programming Language | Package                                               | Documentation |
-| ----------------------- | -------------------------------------------------- | ------------- |
-| JavaScript / TypeScript | [fiber-ts](https://github.com/chainbound/fiber-ts) | [README](https://github.com/chainbound/fiber-ts#readme)|
-| Golang                  | [fiber-go](https://github.com/chainbound/fiber-go) | [README](https://github.com/chainbound/fiber-go#readme)|
-| Python                  | fiber-py (WIP)                                     | |
-| Rust                    | [fiber-rs](https://github.com/chainbound/fiber-rs) | [README](https://github.com/chainbound/fiber-rs#readme)|
+| Programming Language | Package                                               | 
+| ----------------------- | -------------------------------------------------- | 
+| JavaScript / TypeScript | [fiber-ts](https://github.com/chainbound/fiber-ts) | 
+| Golang                  | [fiber-go](https://github.com/chainbound/fiber-go) | 
+| Python                  | fiber-py (WIP)                                     | 
+| Rust                    | [fiber-rs](https://github.com/chainbound/fiber-rs) | 
 
 :::info
 If you want to build your own client (or help with the WIP implementations), all you need are the protobuf / gRPC files and a compiler for your language. Documentation for different gRPC language implementations can be found at [https://grpc.io/docs/languages](https://grpc.io/docs/languages/). The Fiber protobuf definitions are at [https://github.com/chainbound/fiber-proto](https://github.com/chainbound/fiber-proto). For examples of how to actually use it (API authentication), please refer to the already implemented packages.
