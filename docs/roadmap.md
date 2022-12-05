@@ -8,6 +8,7 @@ title: Roadmap
 **Done**
 
 - Working product on AWS with small user base
+- 3 client implementations (Go, Rust, JS)
 - Transaction stream that's about 5-10% faster than Bloxroute
 - Basic transaction filtering
 - API for sending transactions
@@ -18,12 +19,13 @@ title: Roadmap
 - Tool for injecting fiber transactions into a local mempool ([link](/docs/usage/fiber-inject))
 
 **To Do**
-- [ ]  Implement block propagation
-- [ ]  Rewrite in Rust for better performance, stability and resource efficiency
-- [ ]  Implement peer selection algorithm for best network topology
-- [ ]  Exclusive peering connections with builders for better propagation times
-- [ ]  More observability tooling and metrics for debugging, research and overall better monitoring
-- [ ]  Tools for utilizing the index database:
+- [ ] Implement block propagation
+- [ ] Python client
+- [ ] Rewrite in Rust for better performance, stability and resource efficiency
+- [ ] Implement peer selection algorithm for best network topology
+- [ ] Exclusive peering connections with builders for better propagation times
+- [ ] More observability tooling and metrics for debugging, research and overall better monitoring
+- [ ] Tools for utilizing the index database:
     - Maps for tracing transactions
     - Identifying heavy transaction broadcasters
     - Seeing network hotspots
