@@ -12,6 +12,10 @@ Example MEV strategies could be
 * NFT Sniping
 * Liquidations
 * PGAs (Priority Gas Auctions)
+* Long-tail MEV
+
+For long-tail MEV, it would be unwise to use a service like Flashbots, since the bundles are public and other searchers
+are constantly on the lookout for new strategies.
 
 ## Fast, reliable and wide mempool access without infrastructure
 Because Fiber provides an API for streaming transactions, you don't need any infrastructure like full nodes yourself. On top of that,
