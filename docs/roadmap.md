@@ -6,10 +6,10 @@ title: Roadmap
 ## Phase 1: **Fiber** goes Live!  
 #### _September -> November '22_
 
-:white_check_mark: `FIBER` MVP Deployment on AWS instances across 4 regions
-- [x] Introduction of Basic Transaction Filtering (`BTF`)
-- [x] API Implementation to send transactions ([link](https://fiber.chainbound.io/docs/usage/api))
-- [x] `FIBER` deployment across 13 regions
+:white_check_mark: `FIBER` MVP Deployment on AWS instances across 4 regions  
+:white_check_mark: Introduction of Basic Transaction Filtering (`BTF`)  
+:white_check_mark: API Implementation to send transactions ([link](https://fiber.chainbound.io/docs/usage/api))  
+:white_check_mark: `FIBER` deployment across 13 regions  
 
 
 _Preliminary results: ~2.5s faster than Infura and ~5/10% faster than Bloxroute_
@@ -17,12 +17,13 @@ _Preliminary results: ~2.5s faster than Infura and ~5/10% faster than Bloxroute_
 ## Phase 2: **Fiber** opminizaatooor
 #### _December '22 -> January '23_  
 
-- [x] Set database for transaction indexing and tracing ([link](/docs/usage/tracing)), further adds-on include:
-  - [ ] Develop mapping algorithm for transactions tracing
-  - [ ] Release `FIBER-monitor` - system to monitor  major network transactions broadcasters and transactions hotspots
-- [x] Release `FIBER-dash` dashboard for system performance monitoring ([link](http://fiber-stats.chainbound.io/d/h4zwdDK4z/fiber-stats?orgId=1&refresh=30s))
-- [x] Upgrade internal messaging network with ~2x performance throughput
-- [x] Deployment of `FIBER-inject` - `geth` implementation with extended `FIBER` mempool ([link](/docs/usage/fiber-inject))
+:white_check_mark: Set database for transaction indexing and tracing ([link](/docs/usage/tracing)), further adds-on include:
+- [ ] Develop mapping algorithm for transactions tracing  
+- [ ] Release `FIBER-monitor` - system to monitor  major network transactions broadcasters and transactions hotspots  
+
+:white_check_mark: Release `FIBER-dash` dashboard for system performance monitoring ([link](http://fiber-stats.chainbound.io/d/h4zwdDK4z/fiber-stats?orgId=1&refresh=30s))  
+:white_check_mark: Upgrade internal messaging network with ~2x performance throughput  
+:white_check_mark: Deployment of `FIBER-inject` - `geth` implementation with extended `FIBER` mempool ([link](/docs/usage/fiber-inject))
 - [ ] Deployment of `FIBER-block` - tool to monitor block propagation
 - [ ] Release `fiber-py` - Fiber client in python
 - [ ] Implementation of peer-selection-algorithm for optimized network topology
