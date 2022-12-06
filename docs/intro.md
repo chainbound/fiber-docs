@@ -3,8 +3,8 @@ sidebar_position: 1
 title: Introduction
 ---
 **Fiber Network** is a global network of nodes that connect to the Ethereum p2p networking layer. Fiber nodes are connected to each other with a 
-high-speed connection, optimizing Ethereum messaging layer across the globe. `FIBER` can be leveraged for real-time **monitoring** 
-of pending transactions + validated states and efficiently **send** transactions on Ethereum.
+high-speed connection, optimizing the Ethereum messaging layer across the globe. **Fiber** can be leveraged for real-time **monitoring** 
+of pending transactions + validated states and for efficiently **sending transactions** on Ethereum.
 
 
 :::info
