@@ -2,15 +2,18 @@
 sidebar_position: 1
 title: Introduction
 ---
-**Fiber Network** is a global network of nodes that connect to the Ethereum p2p networking layer. These Fiber Nodes are connected to each other with a high-speed connection, allowing them to quickly send Ethereum messages from one part of the world to the other. This can be leveraged into a global and almost real-time overview of new transactions and blocks.
+**Fiber Network** is a global network of nodes that connect to the Ethereum p2p networking layer. Fiber nodes are connected to each other with a 
+high-speed connection, optimizing Ethereum messaging layer across the globe. `FIBER` can be leveraged for real-time **monitoring** 
+of pending transactions + validated states and efficiently **send** transactions on Ethereum.
+
+
 :::info
 If you're interested in trying it out, join our [Discord](https://discord.gg/J4KNdeCYGX).
 :::
 
 ## Motivation
-A lot of DeFi strategies require low latency to transactions, since they represent a pending state change that could
-result in financial opportunities. We will group together these strategies, which include [MEV](https://ethereum.org/en/developers/docs/mev/) like 
-arbitrage and liquidations, but also things like market making, as **High Frequency Trading** (HFT).
+Quant DeFi strategies require low transaction latency, since they leverage pending states to scout financial opportunities.
+These include the infamous [MEV](https://ethereum.org/en/developers/docs/mev/), and more specifically arbitrage, liquidations, and classic market making.  
 
 There are a lot of differences with HFT in traditional markets however. Firstly, in traditional markets, all financial data
 goes through a centralized exchange. This centralized exchange is usually located in a single geographical area, which means
