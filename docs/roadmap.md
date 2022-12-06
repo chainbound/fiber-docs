@@ -6,7 +6,7 @@ title: Roadmap
 ## Phase 1: **Fiber** goes Live!  
 #### _September -> November '22_
 
-- [x] `FIBER` MVP Deployment on AWS instances across 4 regions
+:white_check_mark: `FIBER` MVP Deployment on AWS instances across 4 regions
 - [x] Introduction of Basic Transaction Filtering (`BTF`)
 - [x] API Implementation to send transactions ([link](https://fiber.chainbound.io/docs/usage/api))
 - [x] `FIBER` deployment across 13 regions
@@ -14,7 +14,7 @@ title: Roadmap
 
 _Preliminary results: ~2.5s faster than Infura and ~5/10% faster than Bloxroute_
 
-## Phase 2: **Fiber** opminizaator
+## Phase 2: **Fiber** opminizaatooor
 #### _December '22 -> January '23_  
 
 - [x] Set database for transaction indexing and tracing ([link](/docs/usage/tracing)), further adds-on include:
@@ -39,7 +39,7 @@ _Preliminary results: ~2.5s faster than Infura and ~5/10% faster than Bloxroute_
 
 ## Phase 4: Block-Builders 2.0
 #### _March -> April '22_
-- [ ] Release of `FIBER-builder` - Dedicated fiber block-builder, leveraging Fiber network and `FIBER-flow`
+- [ ] Release of `FIBER-builder` - Dedicated fiber block-builder, leveraging Fiber network and `FIBER-flow`-
 
 ## Phase 5: Rolling up **Fiber**
 #### _Q3/4 '23_
