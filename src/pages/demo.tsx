@@ -39,9 +39,13 @@ export default class DemoTable extends React.Component<{}, { transactions: Array
             <Layout title="Demo">
                 <div className={clsx(styles.demo)}>
                     <h1>Demo</h1>
+<<<<<<< HEAD
                     <p>This is a live table of Uniswap trades recorded from the Fiber transaction stream, with data about
                         when and where the transaction was seen in the network.
                     </p>
+=======
+                    <p>This is a live table of Uniswap trades recorded from the Fiber transaction stream.</p>
+>>>>>>> c9a83dc7ca69d86c8dfc74071bb9f7c7ca1b2bcf
                     <table>
                         <tr>
                             <th>Hash</th>
