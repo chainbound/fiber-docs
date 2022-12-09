@@ -4,10 +4,14 @@ import clsx from 'clsx';
 
 import styles from './index.module.css';
 
-const WS_URL = 'ws://ec2-44-201-89-109.compute-1.amazonaws.com/ws/uniswap'
+const WS_URL = 'wss://demo-api.fiber.chainbound.io/ws/uniswap'
 let socket;
 if (typeof window != 'undefined') {
+    try {
     socket = new WebSocket(WS_URL);
+    } catch (e) {
+        console.error(e);
+    }
 }
 
 export default class DemoTable extends React.Component<{}, { transactions: Array<any> }> {
@@ -46,24 +50,28 @@ export default class DemoTable extends React.Component<{}, { transactions: Array
                         when and where the transaction was seen in the network.
                     </p>
                     <table>
-                        <tr>
-                            <th>Hash</th>
-                            <th>Timestamp</th>
-                            <th>Location</th>
-                        </tr>
-                        {this.state.transactions.map(txEvent => {
-                            let parts = txEvent.NodeID.split('-');
+                        <thead>
+                            <tr>
+                                <th>Hash</th>
+                                <th>Timestamp</th>
+                                <th>Location</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.state.transactions.map(txEvent => {
+                                let parts = txEvent.NodeID.split('-');
 
-                            parts = parts.slice(-3)
-                            let nodeID = parts.join('-')
-                            return (
-                                <tr key={txEvent.Hash}>
-                                    <td><a href={`https://etherscan.io/tx/${txEvent.Hash}`} target="_blank">{txEvent.Hash}</a></td>
-                                    <td>{txEvent.Timestamp}</td>
-                                    <td>{nodeID}</td>
-                                </tr>
-                            )
-                        })}
+                                parts = parts.slice(-3)
+                                let nodeID = parts.join('-')
+                                return (
+                                    <tr key={txEvent.Hash}>
+                                        <td><a href={`https://etherscan.io/tx/${txEvent.Hash}`} target="_blank">{txEvent.Hash}</a></td>
+                                        <td>{txEvent.Timestamp}</td>
+                                        <td>{nodeID}</td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
 
                     </table>
                 </div>
