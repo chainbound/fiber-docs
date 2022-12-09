@@ -5,7 +5,10 @@ import clsx from 'clsx';
 import styles from './index.module.css';
 
 const WS_URL = 'ws://ec2-44-201-89-109.compute-1.amazonaws.com/ws/uniswap'
-const socket = new WebSocket(WS_URL);
+let socket;
+if (typeof window != 'undefined') {
+    socket = new WebSocket(WS_URL);
+}
 
 export default class DemoTable extends React.Component<{}, { transactions: Array<any> }> {
     private socket: WebSocket;
@@ -23,7 +26,7 @@ export default class DemoTable extends React.Component<{}, { transactions: Array
         });
 
         this.socket.addEventListener('message', (msg) => {
-            const txEvent = JSON.parse(msg.data);
+            const txEvent = JSON.parse(msg.data as string);
             if (!this.state.transactions.some(tx => tx.Hash === txEvent.Hash)) {
                 this.setState({ transactions: [txEvent, ...this.state.transactions.slice(0, 9)] });
             }
@@ -39,13 +42,9 @@ export default class DemoTable extends React.Component<{}, { transactions: Array
             <Layout title="Demo">
                 <div className={clsx(styles.demo)}>
                     <h1>Demo</h1>
-<<<<<<< HEAD
                     <p>This is a live table of Uniswap trades recorded from the Fiber transaction stream, with data about
                         when and where the transaction was seen in the network.
                     </p>
-=======
-                    <p>This is a live table of Uniswap trades recorded from the Fiber transaction stream.</p>
->>>>>>> c9a83dc7ca69d86c8dfc74071bb9f7c7ca1b2bcf
                     <table>
                         <tr>
                             <th>Hash</th>
