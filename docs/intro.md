@@ -12,31 +12,25 @@ If you're interested in trying it out, join our [Discord](https://discord.gg/J4K
 :::
 
 ## Motivation
-Quant DeFi strategies require low transaction latency, since they leverage pending states to scout financial opportunities.
-These include the infamous [MEV](https://ethereum.org/en/developers/docs/mev/), and more specifically arbitrage, liquidations, and classic market making.  
+Fiber aims to provide a faster and more stable network for transacting on EVM blockchains by optimizing how distributed networks (such as Ethereum) propagate transactions. 
+This service focuses on optimizing transactions propagation and building a global mempool.
+Fiber caters to quant funds, searchers, research companies and in general anyone looking optimize blockchain execution.
 
-There are a lot of differences with HFT in traditional markets however. Firstly, in traditional markets, all financial data
-goes through a centralized exchange. This centralized exchange is usually located in a single geographical area, which means
-that organizations wanting fast access to market data will need to **co-locate** with the exchange servers. This is often
-prohibitively expensive, and usually reserved only for the big players.
 
-On blockchains, it doesn't work like that. A low latency strategy on a blockchain usually consists of 3 steps:
-1. **Listening**: this step is concerned with listening to the p2p network for opportunities which come in the form of
-transactions or blocks.
-2. **Processing**: this step processes transactions and blocks, and decides whether there are opportunities that can
-be captured or not. For example: an arbitrage bot looking for price discrepancies across different DEXes.
-3. **Broadcasting**: if the previous step produced a transaction to capture
-an opportunity, this transaction needs to be broadcasted to the network.
+To give a better idea of Fiber capabilities, we will go over the trade-flow of a classic HFT strategy in DeFi:
+1. **Pre Trade - State Upload*: Upload current blockchain state and simulate pending transactions. 
+2. **Pre Trade - State Analysis**: Scout opportunities given pending transactions and latest-block. For example: Scouting an arbitrage opportunity between two DeFi pools.
+3. **Execution**: Given step 2 produced an opportunity - Trader X broadcasts a transaction to capture the alpha.
 
-Each of these steps needs to happen as quickly as possible to get the highest chance of capturing the opportunity.
+Each of these steps require minimal latency to maximize Alpha generation. 
 The special thing about HFT on blockchains is that an opportunity (*target transaction*) **can
-come from anywhere in the world**, in contrast with traditional HFT. It's true that these transactions will often come from centralized services like Infura
-and Alchemy, which have servers in known locations, but that's not always the case. So for step 1, it's crucial
-that we are connected to as many peers as possible across the globe, to make sure we receive the target transactions ASAP.
+come from anywhere in the world**, in contrast with traditional HFT. So for step 1, it's crucial
+that we are connected to as many peers as possible across the globe, to make sure we receive the target transactions as soon as possible.
 
-This is where Fiber Network steps in. We have deployed [Fiber Nodes](#fiber-nodes) distributed **across the globe**, as well as **concentrated
-in high-activity regions**, to make sure our users receive any target transactions before anyone else. A simplified
-overview can be seen in the diagram below:
+Fiber Network does so by deploying [Fiber Nodes](#fiber-nodes)  **across the globe**, with higher **concentration
+in high-activity regions**. Fiber setup aims to give users the most up-to-date blockchain state.  
+
+A simplified overview can be seen in the diagram below:
 
 ![](/img/fiber-network.png)
 
@@ -62,8 +56,9 @@ The P2P network is always changing and adapting, and Fiber will change with it.
 ### Fiber Nodes
 
 Fiber Nodes (FN) are the individual nodes that make up the Fiber Network. They essentially consist of 3 services: 
-a service for communication with the Ethereum network ([devp2p](https://github.com/ethereum/devp2p) implementation), 
-a service for sharing messages internally over the Fibernet, and a [gRPC](https://grpc.io/) based API.
+- [] Communication service with the Ethereum network ([devp2p](https://github.com/ethereum/devp2p)
+- [] Implementation service
+- [] Internal p2p service: a service that shares messages internally over the Fibernet, and with [gRPC](https://grpc.io/) based APIs.
 
 ![](/img/fiber-node.png)
 
@@ -71,7 +66,9 @@ Each node can connect to a considerable amount of peers (depending on the resour
 
 ### Fiber Network
 
-The crucial part to understand here is that the nodes are connected as a mesh network over high-speed cross-region links, and Ethereum messages are efficiently binary encoded for maximum speed. This ensures that when an Ethereum message (transaction or block) enters the Fibernet through **node A in Virginia**, and needs to get to **node B in Frankfurt** (for getting to the block producer for example), the link between these 2 nodes will be the best possible path for getting there. [1]
+The crucial part to understand here is that the nodes are connected as a mesh network over high-speed cross-region links, and Ethereum messages are efficiently binary encoded for maximum speed. 
+This ensures that when an Ethereum message (transaction or block) enters the Fibernet through **node A in Virginia**, and needs to get to **node B in Frankfurt** 
+(for getting to the block producer for example), the link between these 2 nodes will be the best possible path for getting there. [1]
 
 ### Indexing
 Every transaction and every block that’s seen on a node gets sent to a central indexing service along with the following properties:
@@ -83,4 +80,5 @@ Every transaction and every block that’s seen on a node gets sent to a central
 All this information can be used for things like **optimizing the p2p layer, tracing blocks and transactions, measuring latency, and anything else you can think of.**
 
 ## Footnotes
-1. It is possible that the direct link between these 2 nodes is down / flaky, but because all Fiber Nodes relay all newly seen transactions, a third node (say in London) will relay the transaction itself, with only a tiny latency increase.
+1. It is possible that the direct link between these 2 nodes is down / flaky, but because all Fiber Nodes relay all newly seen transactions, 
+a third node (say in London) will relay the transaction itself, with only a tiny latency increase.
