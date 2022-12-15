@@ -8,9 +8,11 @@ import styles from './index.module.css';
 const INFURA_URL = 'wss://mainnet.infura.io/ws/v3/0728aa7b5c674c1796b64920ef30342d';
 const WS_URL = 'wss://demo-api.fiber.chainbound.io/ws/uniswap'
 let socket;
+let provider;
 if (typeof window != 'undefined') {
     try {
         socket = new WebSocket(WS_URL);
+        provider = new ethers.providers.WebSocketProvider(INFURA_URL);
     } catch (e) {
         console.error(e);
     }
@@ -23,7 +25,7 @@ export default class DemoTable extends React.Component<{}, { transactions: Array
     constructor(props) {
         super(props);
         this.socket = socket;
-        this.ethers = new ethers.providers.WebSocketProvider(INFURA_URL);
+        this.ethers = provider;
 
         this.state = {
             transactions: []
