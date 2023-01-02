@@ -18,7 +18,7 @@ Fiber caters to quant funds, searchers, research companies and in general anyone
 
 
 To give a better idea of Fiber capabilities, we will go over the trade-flow of a classic HFT strategy in DeFi:
-1. **Pre Trade - State Upload*: Upload current blockchain state and simulate pending transactions. 
+1. **Pre Trade - State Upload**: Upload current blockchain state and simulate pending transactions. 
 2. **Pre Trade - State Analysis**: Scout opportunities given pending transactions and latest-block. For example: Scouting an arbitrage opportunity between two DeFi pools.
 3. **Execution**: Given step 2 produced an opportunity - Trader X broadcasts a transaction to capture the alpha.
 
@@ -56,16 +56,15 @@ The P2P network is always changing and adapting, and Fiber will change with it.
 ### Fiber Nodes
 
 Fiber Nodes (FN) are the individual nodes that make up the Fiber Network. They essentially consist of 3 services: 
-- [] Communication service with the Ethereum network ([devp2p](https://github.com/ethereum/devp2p)
-- [] Implementation service
-- [] Internal p2p service: a service that shares messages internally over the Fibernet, and with [gRPC](https://grpc.io/) based APIs.
+- Communication service with the Ethereum network ([devp2p](https://github.com/ethereum/devp2p)
+- Internal messaging service: a service that shares messages internally over the Fibernet.
+- gRPC based API
 
 ![](/img/fiber-node.png)
 
 Each node can connect to a considerable amount of peers (depending on the resources of the underlying machine / container), ensuring great visibility of new transactions (”mempool”) and newly produced blocks.
 
 ### Fiber Network
-
 The crucial part to understand here is that the nodes are connected as a mesh network over high-speed cross-region links, and Ethereum messages are efficiently binary encoded for maximum speed. 
 This ensures that when an Ethereum message (transaction or block) enters the Fibernet through **node A in Virginia**, and needs to get to **node B in Frankfurt** 
 (for getting to the block producer for example), the link between these 2 nodes will be the best possible path for getting there. [1]
