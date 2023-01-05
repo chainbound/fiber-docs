@@ -8,7 +8,7 @@ title: Roadmap
 
 - [x] MVP deployment on AWS instances across 4 regions  
 - [x] Introduction of Basic Transaction Filtering  
-- [x] API Implementation to send transactions ([link](https://fiber.chainbound.io/docs/usage/api))  
+- [x] API Implementation to send transactions ([link](/docs/usage/api))  
 - [x] Deploy across 13 AWS regions  
 
 
