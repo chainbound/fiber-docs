@@ -18,13 +18,15 @@ _Preliminary results: ~120ms faster than Infura (median) and ~5/10% faster than 
 
 - [x] Release **fiber-inject** - full node sidecar for injecting **Fiber** transactions into local mempool over p2p ([link](/docs/usage/fiber-inject))  
 - [x] Set database for transaction indexing and tracing ([link](/docs/usage/tracing))
-- [ ] Implement block stream
-- [ ] Release **fiber-monitor** - system to monitor  major network transaction broadcasters and hotspots
-- [ ] Release **fiber-stats**, a dashboard for system performance monitoring 
-- [ ] Upgrade internal messaging network with ~2x throughput and improved latency  
-- [ ] Release `fiber-py` - Fiber client in python  
-- [ ] Implementation of peer-selection-algorithm for optimized network topology  
+- [x] Upgrade internal messaging network with ~2x throughput and improved latency  
+- [ ] Release **fiber-stats**: dashboard for performance monitoring ([link](http://fiber-stats.chainbound.io/d/h4zwdDK4z/fiber-stats?orgId=1&refresh=30s&from=now-5m&to=now))
+- [ ] Release **Fiber v0.1.0-beta**
+  - [ ] [Reth](https://github.com/paradigmxyz/reth) integration for a solid base networking layer that can be chain-agnostic
+  - [ ] Block stream 
+  - [ ] Implementation of peer-selection-algorithm for optimized network topology  
 - [ ] Development of observability tools and metrics for debugging, research and system monitoring  
+- [ ] Release **fiber-monitor** - system to monitor  major network transaction broadcasters and hotspots
+- [ ] Release `fiber-py` - Fiber client in python  
 
 ## Phase 3: Privatizing the order-flow
 #### _January -> March '23_
