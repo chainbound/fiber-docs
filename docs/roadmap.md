@@ -19,7 +19,7 @@ _Preliminary results: ~120ms faster than Infura (median) and ~5/10% faster than 
 - [x] Release **fiber-inject** - full node sidecar for injecting **Fiber** transactions into local mempool over p2p ([link](/docs/usage/fiber-inject))  
 - [x] Set database for transaction indexing and tracing ([link](/docs/usage/tracing))
 - [x] Upgrade internal messaging network with ~2x throughput and improved latency  
-- [ ] Release **fiber-stats**: dashboard for performance monitoring ([link](http://fiber-stats.chainbound.io/d/h4zwdDK4z/fiber-stats?orgId=1&refresh=30s&from=now-5m&to=now))
+- [x] Release **fiber-stats**: dashboard for performance monitoring ([link](http://fiber-stats.chainbound.io/d/h4zwdDK4z/fiber-stats?orgId=1&refresh=30s&from=now-5m&to=now))
 - [ ] Release **Fiber v0.1.0-beta**
   - [ ] [Reth](https://github.com/paradigmxyz/reth) integration for a solid base networking layer that can be chain-agnostic
   - [ ] Block stream 
