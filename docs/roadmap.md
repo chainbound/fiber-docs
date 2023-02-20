@@ -3,61 +3,108 @@ sidebar_position: 5
 title: Roadmap
 ---
 
-## Phase 1: **Fiber** goes Live!  
-#### _September -> November '22_
+:::caution
+This space is constantly changing and we’re hesitant to commit to a certain roadmap, because at any point in time, 
+new developments could (directly or indirectly) completely change our course.
+:::
 
-- [x] MVP deployment on AWS instances across 4 regions  
-- [x] Introduction of Basic Transaction Filtering  
-- [x] API Implementation to send transactions ([link](/docs/usage/api))  
-- [x] Deploy across 13 AWS regions  
+## Phase 0
+### Overview
+This phase is where we’re at now. It basically entails optimizing Fiber and building better tooling and UX.
 
+### Current features
 
-_Preliminary results: ~120ms faster than Infura (median) and ~5/10% faster than Bloxroute_
-## Phase 2: **Fiber** optimizoooor
-#### _December '22 -> January '23_  
+- Highly performant and reliable Rust deployment on AWS
+- 13 nodes across 10 regions
+- Transaction and block streams with transaction filtering
+- Client libraries in 3 languages: [Rust](https://github.com/chainbound/fiber-rs), [Go](https://github.com/chainbound/fiber-go), and [TypeScript](https://github.com/chainbound/fiber-ts)
+- API endpoints for sending and back-running transactions
+- TimescaleDB that indexes transactions and blocks along with location and time metadata
+- Release [benchmarking tool](https://github.com/chainbound/fiber-benchmarks) to compare other mempool services vs Fiber
+- Faster transaction stream than Bloxroute (median 11ms, Fiber wins 80% of the time)
 
-- [x] Release **fiber-inject** - full node sidecar for injecting **Fiber** transactions into local mempool over p2p ([link](/docs/usage/fiber-inject))  
-- [x] Set database for transaction indexing and tracing ([link](/docs/usage/tracing))
-- [x] Upgrade internal messaging network with ~2x throughput and improved latency  
-- [x] Release **fiber-stats**: dashboard for performance monitoring ([link](http://fiber-stats.chainbound.io/d/h4zwdDK4z/fiber-stats?orgId=1&refresh=30s&from=now-5m&to=now))
-- [ ] Release **Fiber v0.1.0-beta**
-  - [ ] [Reth](https://github.com/paradigmxyz/reth) integration for a solid base networking layer that can be chain-agnostic
-  - [ ] Block stream 
-  - [ ] Implementation of peer-selection-algorithm for optimized network topology  
-- [ ] Development of observability tools and metrics for debugging, research and system monitoring  
-- [ ] Release **fiber-monitor** - system to monitor  major network transaction broadcasters and hotspots
-- [ ] Release `fiber-py` - Fiber client in python  
+### To Do
 
-## Phase 3: Privatizing the order-flow
-#### _January -> March '23_
+- [ ]  Static peering options to directly connect devp2p between Fiber and a customer's local node
+- [ ]  Optimize consensus layer networking for lower latency block stream
+- [ ]  Implement peer selection algorithm for best possible network topology
+- [ ]  Improvements for discarding stale / invalid transactions
+- [ ]  Scale up by deploying more nodes (if necessary)
+- [ ]  Python client library
+- [ ]  Specialized block and transaction explorer front-end: **Fiber p2p explorer**
+    - Maps for tracing transactions & blocks
+    - Finding active transaction broadcasters
+    - Identifying active validators
 
-- [ ] Beta deployment of **fiber-flow**
-  - [ ] Private order-flow system with direct connections to block builders
-  - [ ] Unified endpoint for submitting bundles to block builder RPCs, with conditional cancellations and deadlines
-- [ ] Production deployment of **fiber-flow** including:
-  - [ ] Kickback rewards from MEV  
-  - [ ] Transaction & bundle simulation  
-  - [ ] Revert protection  
+## Phase 1
 
-## Phase 4: Block-Builders 2.0
-#### _March -> April '22_
-- [ ] Release of **fiber-builder** - Dedicated Fiber block-builder, leveraging Fiber network and **fiber-flow**
+### Overview
+This phase is where we integrate more with the ecosystem that Flashbots has set up. 
+At some point, we would like to segway into block building, and potentially SUAVE, - this would be our entry point.
 
-## Phase 5: Expansion
-#### _Q3/4 '23_
-- [ ] Release of **fiber-polygon** - Fiber implementation for the Polygon blockchain  
-- [ ] Release of **fiber-avax** - Fiber implementation for the Avalanche blockchain  
+### To Do
 
+- [ ]  Fiber RPC that aggregates all builder endpoints (currently each builder has their own endpoint)
+    - Similar to Flashbots Protect RPC, but across all builders for faster inclusion and front-running protection
+- [ ]  Specialized searcher API
+    - **API that connects to all block builders**, that provides all the functionality a block builder provides (submitting bundles and private transactions), but along with policies for specifying which builders to submit to, conditional cancellations and timeouts etc. Area for further exploration.
+    - **Distributed simulation platform**: a set of globally distributed full-nodes connected to the Fiber Network, optimized for transaction and bundle simulation. Very up-to-date state due to Fiber, so should be faster than anyone trying to build this themselves. We can leverage reth (or a patched version) for this. We also want to experiment with specialized simulation (i.e. more simulation parameters than are usually available).
+    - **When we want to run our own builder later in the roadmap, we can leverage the order flow we would receive from this.**
+    - Integrate with [MEV-Share](https://collective.flashbots.net/t/mev-share-programmably-private-orderflow-to-share-mev-with-users/1264): become a matchmaker
 
-_At Chainbound we believe the future is in the proliferation of rollups. These will capture the majority of blockchain activity and 
-Ethereum will transition into a global settlement layer.
-Right now, rollups do not have a public mempool as a single sequencer (normally run by the rollup foundation) manages validation, 
-sequencing and batching. In the future, validation will become decentralized, as anyone will be able to run sequencers. 
-At that point Fiber will:_   
+## Phase 2
+:::info
+This phase is completely dependent on the direction sequencer decentralization takes, and also on when it happens. 
+There’s still a lot of research being done on the ordering policies to be used in a decentralized setup (i.e. Chainlink FSS, FBA-FCFS and more), 
+so it might still be some time off.
+:::
 
-- [ ] Launch on L2s  
-- [ ] Develop co-location services with sequencers to provide fast access to newly validated states  
+### Overview
 
+This phase is where we need to look at other domains. Since Flashbots, latency isn’t the primary auction mechanism for extracting MEV on Ethereum anymore. 
+It still provides an edge (some blocks are not built by mev-boost, meaning that traditional ordering still applies), 
+and used alongside Flashbots, there are some advantages as well. But in general, we feel like we need to expand the product offering to remain competitive.
 
-_Rollups currently in this roadmap are `Arbitrum` and `Optimism`_
-  
+We choose to look at L2s primarily because we believe that’s where most blockchain activity will happen in the future. 
+
+We also want to provide support for the ERC4337 mempool, since searchers and builders (our customers) will probably also be the ERC4337 bundlers.
+
+**To discuss: do we look at the Cosmos ecosystem here as well?**
+
+### To Do
+
+- [ ]  Become part of the decentralized sequencer set on rollups like Optimism, Arbitrum, Fuel, Starknet, ZkSync. 
+  - This is a pre-requisite to provide any service there since the L2 mempools will most likely be permissioned (we don’t actually need to have a sequencer if we just have points of presence at every one of the sequencer sets, who stream transactions any way. However, if there is an ordering mechanism like [FBA-FCFS](https://research.arbitrum.io/t/transaction-ordering-policy/127/2), which takes *****some***** time to reach order consensus, there might be a non-trivial delay between the broadcast and the publish on the API, since the API should only publish the canonical L2 order).
+- [ ]  Adapt / develop respective L2 nodes to meet performance / latency requirements
+- [ ]  Build a highly performant API, possibly with co-location services
+- [ ]  ERC4337 `userOps` stream for bundlers
+
+## Phase 4
+
+### Overview
+
+Use the existing customer base and the searcher API from phase 2 for our own **block builder**. 
+
+### To Do
+
+- [ ]  Planning to explore AI, symbolic execution, FPGAs and other technologies (as well as our low-latency learnings) for building the best blocks
+- [ ]  TBD
+
+## Research
+
+### Overview
+
+Aside from building, we would also like to be involved in research to help the overall ecosystem. Below we list some of the topics we’re interested in:
+
+### Topics
+
+- Encrypted mempools (SGX, threshold encryption, delay encryption, witness encryption)
+- Libp2p and overall p2p networking optimizations
+- Sequencer decentralization and fair sequencing
+- Shared sequencer sets
+- MEV in general
+- Optimizing EVM execution (options for parallellization, eWASM revisit)
+- Alternative smart contract VMs (Fuel VM, Aptos, CosmWasm, …)
+- Light clients
+- DA layers like Celestia
+- …
