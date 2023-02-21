@@ -79,7 +79,7 @@ We also want to provide support for the ERC4337 mempool, since searchers and bui
 - [ ]  Build a highly performant API, possibly with co-location services
 - [ ]  ERC4337 `userOps` stream for bundlers
 
-## Phase 4
+## Phase 3
 
 ### Overview
 
