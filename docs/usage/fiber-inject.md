@@ -9,7 +9,7 @@ We offer a Docker image that will help you do that.
 ```bash
 docker run -p 8080:8080 --name fiber-inject mempirate/fiber-inject \
     fiber-inject \
-    --fiber-api fiberapi.io:8080 \
+    --fiber-api $API_ENDPOINT \
     --fiber-key $YOUR_API_KEY \
     --enodes $ENODE1,$ENODE2 \
 ```
