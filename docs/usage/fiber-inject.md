@@ -2,7 +2,8 @@
 sidebar_position: 6
 title: Mempool Injector
 ---
-Often, it's very useful to inject transactions from Fiber into your local mempool. We offer a Docker image that will help you do that.
+Often, it's very useful to inject transactions from Fiber into your local mempool. 
+We offer a Docker image that will help you do that.
 
 ## Usage
 ```bash
@@ -11,15 +12,9 @@ docker run -p 8080:8080 --name fiber-inject mempirate/fiber-inject \
     --fiber-api fiberapi.io:8080 \
     --fiber-key $YOUR_API_KEY \
     --enodes $ENODE1,$ENODE2 \
-    --port 8080
 ```
-
-This will proxy the gRPC API on `localhost:8080`, and once (**and only once**) you subscribe to the transaction stream, `fiber-inject` will send these
-transactions to your local node over devp2p.
-
-:::danger
-For this to work, you HAVE to connect your client to `localhost:8080` instead of `fiberapi.io:8080`.
-:::
+This will subscribe to the Fiber transaction stream and broadcast all the transactions it receives
+to your local nodes (specified by `--enodes`, provided they're connected).
 
 Your local `enode`'s IP address should either be the gateway address of your Docker network (usually `172.17.0.1`), or one of the publicly reachable
 IP addresses of your machine.
@@ -38,7 +33,6 @@ docker run -p 8080:8080 -p 30304:30303 --name fiber-inject mempirate/fiber-injec
     --fiber-api fiberapi.io:8080 \
     --fiber-key $YOUR_API_KEY \
     --enodes $ENODE1,$ENODE2 \
-    --port 8080
 ```
 :::info
 Make sure the mapped port isn't already taken by your local node.
