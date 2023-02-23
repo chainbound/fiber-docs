@@ -30,7 +30,7 @@ run it like this:
 ```bash
 docker run -p 8080:8080 -p 30304:30303 --name fiber-inject mempirate/fiber-inject \
     fiber-inject \
-    --fiber-api fiberapi.io:8080 \
+    --fiber-api $API_ENDPOINT \
     --fiber-key $YOUR_API_KEY \
     --enodes $ENODE1,$ENODE2 \
 ```
