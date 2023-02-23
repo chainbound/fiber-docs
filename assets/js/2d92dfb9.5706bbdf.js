@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkfiber_website=self.webpackChunkfiber_website||[]).push([[7690],{9010:e=>{e.exports=JSON.parse('{"label":"rust","permalink":"/blog/tags/rust","allTagsPath":"/blog/tags","count":1}')}}]);
