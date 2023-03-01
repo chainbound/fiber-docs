@@ -109,7 +109,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Chainbound, Inc.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Chainbound LLC`,
       },
       prism: {
         theme: lightCodeTheme,
