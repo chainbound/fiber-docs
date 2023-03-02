@@ -7,7 +7,7 @@ We offer a Docker image that will help you do that.
 
 ## Usage
 ```bash
-docker run -p 8080:8080 --name fiber-inject mempirate/fiber-inject \
+docker run --name fiber-inject mempirate/fiber-inject \
     fiber-inject \
     --fiber-api $API_ENDPOINT \
     --fiber-key $YOUR_API_KEY \
@@ -28,7 +28,7 @@ If the Docker container doesn't print the following (`docker logs fiber-inject`)
 that's probably the case, and you have to add `fiber-inject` as a trusted peer. First we need to expose the p2p port of the Docker container, so you'll have to
 run it like this:
 ```bash
-docker run -p 8080:8080 -p 30304:30303 --name fiber-inject mempirate/fiber-inject \
+docker run -p 30304:30303 --name fiber-inject mempirate/fiber-inject \
     fiber-inject \
     --fiber-api $API_ENDPOINT \
     --fiber-key $YOUR_API_KEY \
