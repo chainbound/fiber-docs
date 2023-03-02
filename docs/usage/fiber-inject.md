@@ -11,7 +11,7 @@ docker run --name fiber-inject mempirate/fiber-inject \
     fiber-inject \
     --fiber-api $API_ENDPOINT \
     --fiber-key $YOUR_API_KEY \
-    --enodes $ENODE1,$ENODE2 \
+    --enodes $ENODE1,$ENODE2
 ```
 This will subscribe to the Fiber transaction stream and broadcast all the transactions it receives
 to your local nodes (specified by `--enodes`, provided they're connected).
@@ -32,7 +32,7 @@ docker run -p 30304:30303 --name fiber-inject mempirate/fiber-inject \
     fiber-inject \
     --fiber-api $API_ENDPOINT \
     --fiber-key $YOUR_API_KEY \
-    --enodes $ENODE1,$ENODE2 \
+    --enodes $ENODE1,$ENODE2
 ```
 :::info
 Make sure the mapped port isn't already taken by your local node.
