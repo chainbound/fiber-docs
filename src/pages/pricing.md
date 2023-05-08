@@ -7,25 +7,6 @@ title: Pricing
 We have a 7 day refund period. Contact me on Discord at **@mempirate | Chainbound#8926** if you want to try it out.
 :::
 
-## Fiber Basic
-| Price | $500 USD / Month   |
-| ----- | ------------------ |
-| Active streams | 1 |
-| Transaction limit | Unlimited |
-| Egress limit | Unlimited |
-
-## Fiber Professional
-
-| Price | $1000 USD / Month |
-| ----- | ------------------ |
-| Active streams | 3 |
-| Transaction limit | Unlimited |
-| Egress limit | Unlimited |
-
-## Additional Streams
-| Price | $300 USD / Month |
-| ----- | ------------------ |
-
 ## Base Plan
 Fiber has a base plan of **$800 USD / month**. This base plan includes
 * 1 stream
