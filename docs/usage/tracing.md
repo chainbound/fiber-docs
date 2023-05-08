@@ -3,102 +3,65 @@ sidebar_position: 5
 title: Tracing
 ---
 Tracing can be very useful for seeing where certain transactions originated as well as how fast they propagated. Fiber has
-an API that will show you the exact path a transaction took through the network. To clarify, here is the example output
-for transaction [0xbd61e4eea352256c130daf09d54fd7e6410a746c3850c29dfcc1112385c30c16](https://etherscan.io/tx/0xbd61e4eea352256c130daf09d54fd7e6410a746c3850c29dfcc1112385c30c16):
+an API that will show you the exact path a transaction took through the network. You can use our [`cbctl`](https://github.com/chainbound/cbctl) CLI tool to access the API.
+
+To clarify, this is how you would trace a transaction with `cbctl`:
+
+**Command**
 ```
-[
-    {
-        "Timestamp": 1666168061245,
-        "From": "enode://b48ddef5bae433438978fdff974b7c4247523e73a9c2dda435588eb8cc20f0e556283e7e1880a42be00d3bd8ddb442da2ba2539111ad2faa225511ba70d79af0@34.92.208.56:29888",
-        "NodeID": "fiber-node-i3otsu-ap-east-1"
-    },
-    {
-        "Timestamp": 1666168061250,
-        "From": "enode://359bd6bf8774a68b0bab92318b083070489bf2c4b6e1ba727e1e39989a4153cf1459d704162da0939aea823a8b93be85c44504e5f29b78808a21e9497ff12c0a@35.73.208.158:30303",
-        "NodeID": "fiber-node-zxlct6-us-west-1"
-    },
-    {
-        "Timestamp": 1666168061263,
-        "From": "fiber-node-zxlct6-us-west-1",
-        "NodeID": "fiber-node-97c19t-us-west-2"
-    },
-    {
-        "Timestamp": 1666168061264,
-        "From": "fiber-node-i3otsu-ap-east-1",
-        "NodeID": "fiber-node-fgp8wr-ap-northeast-2"
-    },
-    {
-        "Timestamp": 1666168061266,
-        "From": "enode://0bb0b938e1d9f7d9083b3e2bf7b045af266dcc3e9a30425b42d63dd8aaf64697bb3df4e607ccefb4c1751deff845d26b3b65aa08a8d88395009211deaac4fc00@144.76.57.184:30303",
-        "NodeID": "fiber-node-131w03-eu-central-1"
-    },
-    {
-        "Timestamp": 1666168061267,
-        "From": "enode://6810dae7f81ef21e0e63c28f4bdcc23053faad4fd63f484da0b9b28cbba5a32fc844b4526dc9b11b3a9235757543b4debc1a54058ff57a66ba56884320c1b784@142.132.249.66:30303",
-        "NodeID": "fiber-node-aqra30-eu-central-1"
-    },
-    {
-        "Timestamp": 1666168061268,
-        "From": "enode://b04878af5a911767aba214c68b19945a470fb96e0727f48a5e18fb5925cf6e31fd25f8bbb14710b0a3f68d1bc0cc568ab0b4c298aa8c84f3c72ba315c23a2948@100.24.53.140:30303",
-        "NodeID": "fiber-node-r55juv-us-east-1"
-    },
-    {
-        "Timestamp": 1666168061269,
-        "From": "fiber-node-i3otsu-ap-east-1",
-        "NodeID": "fiber-node-73e8sa-ap-northeast-1"
-    },
-    {
-        "Timestamp": 1666168061269,
-        "From": "enode://b04878af5a911767aba214c68b19945a470fb96e0727f48a5e18fb5925cf6e31fd25f8bbb14710b0a3f68d1bc0cc568ab0b4c298aa8c84f3c72ba315c23a2948@100.24.53.140:30303",
-        "NodeID": "fiber-node-wudnrk-us-east-1"
-    },
-    {
-        "Timestamp": 1666168061269,
-        "From": "fiber-node-r55juv-us-east-1",
-        "NodeID": "fiber-node-wudnrk-us-east-1"
-    },
-    {
-        "Timestamp": 1666168061270,
-        "From": "fiber-node-i3otsu-ap-east-1",
-        "NodeID": "fiber-node-rm4zf9-ap-southeast-1"
-    },
-    {
-        "Timestamp": 1666168061271,
-        "From": "enode://3e6f45ff7e29aebb2fec616eb95e1b1f2def1def0e04ff57c428502fe957587193782c1a6c7a73068ab8d314e3270b7ace23006cf103fe4c203bcabdb507dd9a@157.90.209.20:30303",
-        "NodeID": "fiber-node-xf9aix-eu-west-3"
-    },
-    {
-        "Timestamp": 1666168061272,
-        "From": "enode://bd5e2398d2c87d59f8fb86bd7e6d41d070f0999f497bebab8f793f6136150ddef7ed08a9a5f47df26d2b1f95b8abb118e43d08acc8fb20747b2ea3254be29094@116.202.163.31:30303",
-        "NodeID": "fiber-node-cdhwy2-eu-west-1"
-    },
-    {
-        "Timestamp": 1666168061275,
-        "From": "fiber-node-131w03-eu-central-1",
-        "NodeID": "fiber-node-2gr8l2-eu-west-2"
-    },
-    {
-        "Timestamp": 1666168061275,
-        "From": "fiber-node-r55juv-us-east-1",
-        "NodeID": "fiber-node-4r0c28-us-east-2"
-    },
-    {
-        "Timestamp": 1666168061276,
-        "From": "enode://3e6f45ff7e29aebb2fec616eb95e1b1f2def1def0e04ff57c428502fe957587193782c1a6c7a73068ab8d314e3270b7ace23006cf103fe4c203bcabdb507dd9a@157.90.209.20:30303",
-        "NodeID": "fiber-node-jy34hu-eu-north-1"
-    }
-]
+cbctl fiber trace tx --hash 0xaa04f9b21ad55393eac0343e4c162be56cdc54f15f7abc59dfecca347635ec9f --show-source
 ```
-The output is a JSON list of entries, and an entry consists of 3 fields:
+**Output**
+```
+Timestamp       Node ID                 Region                  Observation Type        Source
+[1683552246359] fiber-node-tzqfmUHX     (eu-central-1)          p2p                     enode://0xc4702653ad608e49f36a292e87d4299e34c69ee5a8d79c1f06c5e76a2941e682ca25b974e97b5165d3ce164c37098819fe9821a3c01fe8c0adc4cc697d7e0cda@144.76.79.170:30303
+[1683552246359] fiber-node-UBUhZvC3     (eu-central-1)          fiber                   fiber-node-tzqfmUHX-eu-central-1
+[1683552246361] fiber-node-UBUhZvC3     (eu-central-1)          p2p                     enode://0xa039a887e07e8899c308b94bc77c9d6a8c3fa589a0191646bb6a5f42c471bad9f8ea545d3a8d2f3ff03a9c7edb6c0f056dac2d485064a948bbac50742df5da0b@3.68.227.119:30303
+[1683552246364] fiber-node-1FNltdeP     (eu-west-3)             fiber                   fiber-node-tzqfmUHX-eu-central-1
+[1683552246368] fiber-node-uy91LhSB     (eu-west-2)             fiber                   fiber-node-UBUhZvC3-eu-central-1
+[1683552246375] fiber-node-1FNltdeP     (eu-west-3)             p2p                     enode://0x9a6808b872cdef7d153aaf26e4447f27499b367f44121068d36d38e4829e336df2a32acf9088ba1a07952016abeea92e58368338b73406a178e751c56335b5b5@81.249.172.138:30403
+[1683552246376] fiber-node-uy91LhSB     (eu-west-2)             p2p                     enode://0xbcfb491c00fd1a6577311cf96c40165c1e70450968a10f920bc8900f1d6042db0dc6555064333ec153cc147a9d665d410f905383aa1b022d6e4878139e85c858@13.36.234.254:30303
+[1683552246401] fiber-node-uxXKJltD     (us-east-1)             p2p                     enode://0x11dfc468e1370365058f8024e371b9fdd9fc8b7d7666f14912d8354e2d1e98c1bcb570028fabe9e3a5755df500fe933b58dc41390e0c42bd5b5efbbd2e9f2af8@138.201.137.117:30303
+[1683552246401] fiber-node-vKZvH7Va     (us-east-1)             fiber                   fiber-node-uxXKJltD-us-east-1
+[1683552246401] fiber-node-RrDUEn2O     (us-east-1)             fiber                   fiber-node-uxXKJltD-us-east-1
+[1683552246406] fiber-node-RrDUEn2O     (us-east-1)             p2p                     enode://0xf0177460cedeb39a9e9791e1b93ee510467e9b75052ab4ff6bdbdf273d6c7a1d6db010a39032974f90798415ca284bc400182eef119dbc1b83da2a103478b171@34.229.169.228:30303
+[1683552246406] fiber-node-vKZvH7Va     (us-east-1)             p2p                     enode://0x49def938197d138fccdfd15250e27fa2b423f7ecf560ef9c826a16f8558f9d062b88648e92578ce7e81558ce53832ffd87efe0ae42d191858bbc42f11e70af85@18.234.75.196:30303
+[1683552246406] fiber-node-bp1hdWL3     (us-east-2)             fiber                   fiber-node-uxXKJltD-us-east-1
+[1683552246412] fiber-node-bp1hdWL3     (us-east-2)             p2p                     enode://0x919da281398a13e227b26c21b1747e7d28acf3270eb2a707787961608e21d0e4206b1806b04029eec0a75933a08ad730359184e6005dc4245b6c2116a1da57d6@44.201.98.188:30303
+[1683552246432] fiber-node-rvrbVEEN     (us-west-1)             fiber                   fiber-node-uxXKJltD-us-east-1
+[1683552246437] fiber-node-pjjlW9ba     (ap-southeast-1)        fiber                   fiber-node-UBUhZvC3-eu-central-1
+[1683552246439] fiber-node-rvrbVEEN     (us-west-1)             p2p                     enode://0xf8c1c390d373c7d439dbee739213b3529067997b97b8249ba550e8348ad9affafa133c784e40e81aaec535bf88beaebf4f2285561ff7d333282b23b4c9ce2d93@185.171.131.117:30303
+[1683552246441] fiber-node-pjjlW9ba     (ap-southeast-1)        p2p                     enode://0x2976502fd13cc604da9775ae332ed45c13708d5c04677d311085be717a7162ebd7fdfa5659d48b047f38f106810f3293f7beac9649decb74256e65d336da8dce@18.141.166.63:29888
+[1683552246448] fiber-node-yJuuNX1O     (ap-northeast-1)        p2p                     enode://0x1ef5d1c8ea44928c284a2e850647428773d0f2ba02343795dec93f76dedd73949d516e7580666bc1809782ee0acc51e39f8de90520baca31b164840e0cebda99@52.193.254.254:44881
+[1683552246456] fiber-node-YboaGO5a     (ap-east-1)             fiber                   fiber-node-tzqfmUHX-eu-central-1
+[1683552246462] fiber-node-YboaGO5a     (ap-east-1)             p2p                     enode://0xf149cf0fb44e5c493e5f7cd7d2b4841a9faa817d034c1d5394527b8105a296a1ba7e15823b60469dd304f5e50f535076a311a1f29b422ca4407ac45f22bd2049@78.46.174.84:30303
+[1683552246463] fiber-node-hz71Y1Ml     (ap-northeast-2)        p2p                     enode://0x451229d9f219fe1660b8a6959d13a0bbfbed25427a99caa4b5f45a6076e620ad1fa396525be0b643bff974b3762e997864808be9b7b4d9f443b595e290f5273c@3.36.101.198:40216
+```
+The output is a table of observations with 5 columns:
 * `Timestamp`: the UNIX timestamp in milliseconds.
-* `NodeID`: the unique ID of the Fiber Node in question. It contains the location as well.
-* `From`: if received from the devp2p network, an enode, otherwise the Fiber NodeID of the node we received it from.
+* `NodeID`: the unique ID of the Fiber Node in question.
+* `Region`: the regions of said Fiber Node.
+* `Observation Type`: the type of observation. It can be either `p2p` or `fiber`.
+    * `p2p`: the observation was from a peer in the p2p network.
+    * `fiber`: the observation was from another node in the Fiber Network.
+    * We include both types of observations because it can be useful to compare the 2. You can filter by observation type by using the `--type` flag.
+* `Source`: if received from the p2p network, an enode, otherwise the NodeID of the node we received it from.
 
 ### Usage
-The API requires authentication, which you can do with your API key. The format is the following:
+First, set up `cbctl` by following the instructions [here](https://github.com/chainbound/cbctl#readme).
+
+Then, you can use the `fiber trace tx` subcommand to trace transactions:
+```bash
+NAME:
+   cbctl fiber trace tx - Trace a transaction
+
+USAGE:
+   cbctl fiber trace tx [command options] [arguments...]
+
+OPTIONS:
+   --hash value, -H value  The transaction hash to trace
+   --type value, -t value  The observation type to trace (p2p | fiber | all) (default: "all")
+   --private, -p           Whether or not the transaction is private (sent with your API key) (default: false)
+   --show-source, -s       Whether or not to show the source of the transaction (default: false)
+   --help, -h              show help
 ```
-http://fiber-trace.chainbound.io/trace/<tx_hash>?key=<your_api_key>
-```
-:::danger
-Don't share the link containing your key with others.
-:::

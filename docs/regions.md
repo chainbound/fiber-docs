@@ -7,7 +7,6 @@ Fiber has endpoints in the following regions:
 * North Virginia
 * Ohio
 * North California
-* Oregon
 
 #### Asia
 * Hong Kong
@@ -16,7 +15,6 @@ Fiber has endpoints in the following regions:
 * Singapore
 
 #### Europe
-* Ireland
+* Frankfurt
 * London
 * Paris
-* Stockholm
