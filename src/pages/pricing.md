@@ -21,6 +21,6 @@ If the base plan doesn't cover your needs, we have an additional usage based pri
 | Package Name | Info                         | Price (monthly) |
 | ------------ | ---------------------------- | --------------- |
 | Egress A     | 15 GB of additional egress   | $400            |
-| Egress B     | 30 GB of additional egress   | $800            |
+| Egress B     | 40 GB of additional egress   | $800            |
 | Egress C     | Unlimited additional egress  | [Talk to us](mailto:info@chainbound.io)      |
 | Stream       | 1 additional stream          | $300            |
