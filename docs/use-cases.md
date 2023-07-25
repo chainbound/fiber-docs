@@ -88,7 +88,7 @@ class BeaconBlockBody(Container):
     # Capella operations
     bls_to_execution_changes: List[SignedBLSToExecutionChange, MAX_BLS_TO_EXECUTION_CHANGES]  # [New in Capella]
 ```
-### 2.1 FiberGuard for Validator
+### 2.1 FiberGuard for Validators
 Validators can leverage this stream to boost their performances and latency via **FiberGuard**. 
 This is particularly useful for validators that are running on cloud providers, where the latency is higher than on-premise setups.
 
@@ -136,7 +136,7 @@ class ExecutionPayload(Container):
     withdrawals: List[Withdrawal, MAX_WITHDRAWALS_PER_PAYLOAD]  # [New in Capella] 
 ```
 
-### 3.1 Low-latency Transaction Inclusion Receipts 
+### 3.1 Transaction Inclusion Receipts 
 This use-case is particularly useful for **Builders** and **Searchers** that are looking to confirm the inclusion of their transactions in the most recent block.
 
 Given the **low-latency** of this stream, Builders and Searchers can **reduce the time to confirmation** of their transactions between 40ms to 200ms, 
@@ -167,6 +167,7 @@ Some benefits of using Fiber for HFT execution across TradFi, CeFi and DeFi incl
 ## 4. CL API - `sendTransaction`
 [...]
 ## 5 FiberDB
+Check out the [FiberDB](./fiberdb) section for more info of Fiber proprietary database.
 ### 5.1 P2p Network Explorations
 Ethereum is by far the most decentralized EVM blockchains in terms of nodes distribution across geo-locations. 
 The geo-distribution diversity (shown in the table below) of Ethereum nodes lays the ground for many interesting 
