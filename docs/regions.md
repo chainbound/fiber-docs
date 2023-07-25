@@ -4,17 +4,16 @@ title: Regions
 ---
 Fiber has endpoints in the following regions:
 #### United States
-* North Virginia
-* Ohio
-* North California
+* North Virginia (us-east-1)
+* Ohio (us-east-2)
+* North California (us-west-1)
 
 #### Asia
-* Hong Kong
-* Seoul
-* Tokyo
-* Singapore
+* Hong Kong (ap-east-1)
+* Tokyo (ap-northeast-1)
+* Singapore (ap-southeast-1)
 
 #### Europe
-* Frankfurt
-* London
-* Paris
+* Frankfurt (eu-central-1)
+* London (eu-west-2)
+* Paris (eu-west-3)
