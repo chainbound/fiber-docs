@@ -167,7 +167,7 @@ Some benefits of using Fiber for HFT execution across TradFi, CeFi and DeFi incl
 ## 4. CL API - `sendTransaction`
 [...]
 ## 5 FiberDB
-Check out the [FiberDB](./fiberdb) section for more info of Fiber proprietary database.
+Check out the [FiberDB](./fiberdb) section for more info on Fiber's proprietary database.
 ### 5.1 P2p Network Explorations
 Ethereum is by far the most decentralized EVM blockchains in terms of nodes distribution across geo-locations. 
 The geo-distribution diversity (shown in the table below) of Ethereum nodes lays the ground for many interesting 
