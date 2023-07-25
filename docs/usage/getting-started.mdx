@@ -243,7 +243,7 @@ import { TypedTransaction } from '@ethereumjs/tx';
 
 const sub = client.subscribeNewTxs();
 
-sub.onData((tx: TypedTransaction) => {
+sub.on("data", (tx: TypedTransaction) => {
     handleTx(tx);
 });
 ```
@@ -454,7 +454,7 @@ import { Block } from "fiber-ts";
 
 const sub = client.subscribeNewBlocks();
 
-sub.onData((block: Block) => {
+sub.on("data", (block: Block) => {
   handleBlock(block);
 });
 ```
