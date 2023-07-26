@@ -2,13 +2,34 @@
 sidebar_position: 5
 title: Tracing
 ---
+### Usage
+First, set up `cbctl` by following the instructions [here](https://github.com/chainbound/cbctl#readme).
+
+Then, you can use the `fiber trace` subcommand to trace messages:
+```bash
+NAME:
+   cbctl fiber trace - Trace transactions or blocks
+
+USAGE:
+   cbctl fiber trace command [command options] [arguments...]
+
+COMMANDS:
+   tx       Trace a transaction
+   block    Trace a block
+   help, h  Shows a list of commands or help for one command
+
+OPTIONS:
+   --help, -h  show help
+```
+
+### Transaction Tracing
 Tracing can be very useful for seeing where certain transactions originated as well as how fast they propagated. Fiber has
 an API that will show you the exact path a transaction took through the network. You can use our [`cbctl`](https://github.com/chainbound/cbctl) CLI tool to access the API.
 
 To clarify, this is how you would trace a transaction with `cbctl`:
 
 **Command**
-```
+```bash
 cbctl fiber trace tx --hash 0xaa04f9b21ad55393eac0343e4c162be56cdc54f15f7abc59dfecca347635ec9f --show-source
 ```
 **Output**
@@ -47,21 +68,51 @@ The output is a table of observations with 5 columns:
     * We include both types of observations because it can be useful to compare the 2. You can filter by observation type by using the `--type` flag.
 * `Source`: if received from the p2p network, an enode, otherwise the NodeID of the node we received it from.
 
-### Usage
-First, set up `cbctl` by following the instructions [here](https://github.com/chainbound/cbctl#readme).
+### Block Tracing
+Similarly, you can also trace blocks with `cbctl` using either an execution block hash or number:
+```
+cbctl fiber trace block --hash <block_hash>
+# or
+cbctl fiber trace block --number <block_number>
+```
 
-Then, you can use the `fiber trace tx` subcommand to trace transactions:
+For example:
+
+**Command**:
 ```bash
-NAME:
-   cbctl fiber trace tx - Trace a transaction
+cbctl fiber trace block --number 17769274
+```
 
-USAGE:
-   cbctl fiber trace tx [command options] [arguments...]
-
-OPTIONS:
-   --hash value, -H value  The transaction hash to trace
-   --type value, -t value  The observation type to trace (p2p | fiber | all) (default: "all")
-   --private, -p           Whether or not the transaction is private (sent with your API key) (default: false)
-   --show-source, -s       Whether or not to show the source of the transaction (default: false)
-   --help, -h              show help
+**Output**:
+```
+Timestamp	Node ID			Region			Observation Type
+[1690277953069]	fiber-node-WZfpDrEh	(us-east-1)		p2p
+[1690277953076]	fiber-node-sRjq9ckr	(us-east-1)		fiber
+[1690277953076]	fiber-node-q5MFsXcd	(us-east-1)		fiber
+[1690277953082]	fiber-node-EEMW2afd	(us-east-2)		fiber
+[1690277953107]	fiber-node-gSwmEiFj	(us-west-1)		fiber
+[1690277953114]	fiber-node-Kyu2snsE	(eu-west-2)		fiber
+[1690277953118]	fiber-node-EBafacey	(eu-west-3)		fiber
+[1690277953122]	fiber-node-4WUOdGw3	(eu-central-1)		fiber
+[1690277953122]	fiber-node-fJsb66hv	(eu-central-1)		fiber
+[1690277953144]	fiber-node-q5MFsXcd	(us-east-1)		p2p
+[1690277953150]	fiber-node-yKhHJsyo	(ap-northeast-1)		fiber
+[1690277953151]	fiber-node-Er6JELxH	(ap-northeast-1)		fiber
+[1690277953163]	fiber-node-hZ4K3q7A	(ap-northeast-2)		fiber
+[1690277953176]	fiber-node-LkP2dHge	(ap-east-1)		fiber
+[1690277953184]	fiber-node-JVIFxwE0	(ap-southeast-1)		fiber
+[1690277953185]	fiber-node-qCD5QJB2	(ap-southeast-1)		fiber
+[1690277953219]	fiber-node-sRjq9ckr	(us-east-1)		p2p
+[1690277953359]	fiber-node-Kyu2snsE	(eu-west-2)		p2p
+[1690277953366]	fiber-node-EEMW2afd	(us-east-2)		p2p
+[1690277953392]	fiber-node-qCD5QJB2	(ap-southeast-1)		p2p
+[1690277953461]	fiber-node-4WUOdGw3	(eu-central-1)		p2p
+[1690277953479]	fiber-node-fJsb66hv	(eu-central-1)		p2p
+[1690277953580]	fiber-node-EBafacey	(eu-west-3)		p2p
+[1690277953639]	fiber-node-yKhHJsyo	(ap-northeast-1)		p2p
+[1690277953669]	fiber-node-Er6JELxH	(ap-northeast-1)		p2p
+[1690277953674]	fiber-node-gSwmEiFj	(us-west-1)		p2p
+[1690277953841]	fiber-node-LkP2dHge	(ap-east-1)		p2p
+[1690277954136]	fiber-node-JVIFxwE0	(ap-southeast-1)		p2p
+[1690277954152]	fiber-node-hZ4K3q7A	(ap-northeast-2)		p2p
 ```
