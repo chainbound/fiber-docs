@@ -2,7 +2,11 @@
 sidebar_position: 4
 title: Regions
 ---
+
 Fiber has endpoints in the following regions:
+
+![Fiber Regions](/img/regions.png)
+
 #### United States
 * North Virginia (us-east-1)
 * Ohio (us-east-2)

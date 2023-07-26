@@ -2,30 +2,46 @@
 sidebar_position: 1
 title: Getting Started
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
-Users can connect to the API at `fiberapi.io:8080`, providing their API key in the process.
-The domain will resolve to the closest node to the client, based on latency (check out the [regions](/docs/regions) for where this will be). To check this latency, just `ping fiberapi.io` from the same machine as your client.
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+Users can connect to the API at `beta.fiberapi.io:8080`, providing their API key in the process.
+The domain will resolve to the closest node to the client, based on latency
+(check out the [regions](/docs/regions) for where this will be).
+To check this latency, just run:
+
+```bash
+ping beta.fiberapi.io
+```
+
+from the same machine as your client.
 
 The API uses gRPC. We offer a number of client packages to make this connection process as easy as possible:
 
-| Programming Language | Package                                               | 
-| ----------------------- | -------------------------------------------------- | 
-| JavaScript / TypeScript | [fiber-ts](https://github.com/chainbound/fiber-ts) | 
-| Golang                  | [fiber-go](https://github.com/chainbound/fiber-go) | 
-| Python                  | fiber-py (WIP)                                     | 
-| Rust                    | [fiber-rs](https://github.com/chainbound/fiber-rs) | 
+| Programming Language    | Package                                            |
+| ----------------------- | -------------------------------------------------- |
+| JavaScript / TypeScript | [fiber-ts](https://github.com/chainbound/fiber-ts) |
+| Golang                  | [fiber-go](https://github.com/chainbound/fiber-go) |
+| Python                  | [fiber-py](https://github.com/chainbound/fiber-py) |
+| Rust                    | [fiber-rs](https://github.com/chainbound/fiber-rs) |
 
 :::info
-If you want to build your own client (or help with the WIP implementations), all you need are the protobuf / gRPC files and a compiler for your language. Documentation for different gRPC language implementations can be found at [https://grpc.io/docs/languages](https://grpc.io/docs/languages/). The Fiber protobuf definitions are at [https://github.com/chainbound/fiber-proto](https://github.com/chainbound/fiber-proto). For examples of how to actually use it (API authentication), please refer to the already implemented packages.
+If you want to build your own client (or help with the existing implementations), all you need are the
+protobuf / gRPC files and a compiler for your language. Documentation for different gRPC language
+implementations can be found at [https://grpc.io/docs/languages](https://grpc.io/docs/languages/).
+The Fiber protobuf definitions are at [https://github.com/chainbound/fiber-proto](https://github.com/chainbound/fiber-proto).
+For examples of how to actually use it (API authentication), please refer to the already implemented packages.
 :::
 
 :::info
 We highly recommend using either the **Go** or **Rust** packages if you're looking for the best performance.
 :::
 
-## Installation
+## Installing
+
+Fiber is available as a package on the following package managers:
+
 <Tabs>
 <TabItem value="go" label="Golang">
 
@@ -50,12 +66,21 @@ yarn add fiber-ts
 ```
 
 </TabItem>
+
+<TabItem value="py" label="Python">
+
+```bash
+pip install git+https://github.com/chainbound/fiber-py
+# or
+poetry add git+https://github.com/chainbound/fiber-py
+```
+
+</TabItem>
 </Tabs>
 
-## Usage
+## Connecting
 
-### Connecting
-The first step is connecting to a Fiber Node API. As we've seen above, there's one URL configured with latency based routing
+The first step is connecting to a Fiber Node API. As we've seen above, there's one URL configured with latency-based routing
 to always resolve to the closest instance to your client. Here's how to use the different packages to connect to Fiber:
 
 <Tabs>
@@ -71,7 +96,7 @@ import (
 )
 
 func main() {
-    client := fiber.NewClient("fiberapi.io:8080", "YOUR_API_KEY")
+    client := fiber.NewClient("beta.fiberapi.io:8080", "YOUR_API_KEY")
     // Close the client when you're done to make sure API accounting is done correctly
     defer client.Close()
 
@@ -92,7 +117,10 @@ use fiber::Client;
 
 #[tokio::main]
 async fn main() {
-    let mut client = Client::connect("fiberapi.io:8080".to_string(), "YOUR_API_KEY".to_string()).await.unwrap();
+    let mut client = Client::connect(
+        "beta.fiberapi.io:8080".to_string(),
+        "YOUR_API_KEY".to_string()
+    ).await.unwrap();
 }
 ```
 
@@ -100,20 +128,34 @@ async fn main() {
 <TabItem value="js" label="JavaScript">
 
 ```js
-import { Client } from 'fiber-ts';
+import { Client } from "fiber-ts";
 
-const client = new Client('fiberapi.io:8080', 'YOUR_API_KEY');
+const client = new Client("beta.fiberapi.io:8080", "YOUR_API_KEY");
 
 // Wait 3 seconds for the client to connect
 await client.waitForReady(3);
 ```
 
 </TabItem>
+<TabItem value="py" label="Python">
+
+```py
+from fiber.client import Client
+
+client = Client('beta.fiberapi.io:8080', 'YOUR_API_KEY')
+try:
+  client.connect()
+except Exception as e:
+  print('Error connecting', e)
+```
+
+</TabItem>
 </Tabs>
 
-### Subscribing
+## Subscribing
 
-#### Transactions
+### Transactions
+
 Next, let's look at how we can subscribe to transactions. We're omitting the code above, but your client needs to be connected to Fiber first.
 
 <Tabs>
@@ -146,10 +188,12 @@ func main() {
     }
 }
 ```
+
 :::note
 The transaction type we use here (`fiber.Transaction`), contains all possible fields of all the different transaction types. You can differentiate them
 with the `type` field. There's also a helper method to convert this transaction to a `go-ethereum.types.Transaction` type, which you can do with
 `toNative()`. **Example**:
+
 ```go
 ...
 
@@ -158,6 +202,7 @@ for tx := range ch {
     handleGethTransaction(nativeTx)
 }
 ```
+
 :::
 
 </TabItem>
@@ -169,7 +214,10 @@ use fiber::Client;
 #[tokio::main]
 async fn main() {
     // Client needs to be mutable
-    let mut client = Client::connect("fiberapi.io:8080".to_string(), "YOUR_API_KEY".to_string()).await.unwrap();
+    let mut client = Client::connect(
+        "beta.fiberapi.io:8080".to_string(),
+        "YOUR_API_KEY".to_string()
+    ).await.unwrap();
 
     let mut sub = client.subscribe_new_txs(None).await;
 
@@ -195,21 +243,37 @@ import { TypedTransaction } from '@ethereumjs/tx';
 
 const sub = client.subscribeNewTxs();
 
-sub.on('tx', (tx: TypedTransaction) => {
+sub.on("data", (tx: TypedTransaction) => {
     handleTx(tx);
 });
 ```
 
 </TabItem>
+<TabItem value="py" label="Python">
+
+```py
+try:
+  sub = client.subscribe_new_txs()
+
+  # Iterate over transaction stream
+  for tx in sub:
+    do_something(tx)
+except Exception as e:
+  print("error subscribing", e)
+```
+
+</TabItem>
 </Tabs>
 
-#### Filtering
-You might have noticed that the `subscribe` methods take a parameter that we've left undefined for now: **the filter**. 
+### Filtering
+
+You might have noticed that the `subscribe` methods take a parameter that we've left undefined for now: **the filter**.
 Currently, we support filtering on the following transaction fields:
-* Sender
-* Receiver
-* MethodID
-* Value (greater than)
+
+- Sender
+- Receiver
+- MethodID
+- Value (greater than)
 
 Let's look at how we can filter transactions so that we don't receive all of them:
 
@@ -275,13 +339,16 @@ use fiber::Client;
 #[tokio::main]
 async fn main() {
     // Client needs to be mutable
-    let mut client = Client::connect("fiberapi.io:8080".to_string(), "YOUR_API_KEY".to_string()).await.unwrap();
+    let mut client = Client::connect(
+        "beta.fiberapi.io:8080".to_string(),
+        "YOUR_API_KEY".to_string()
+    ).await.unwrap();
 
     // Construct filter
     // example 1: simple receiver filter
     let f = Filter::new()
                 .to("0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D");
-    
+
     // example 2: all transactions with either of these addresses as the receiver
     let f = Filter::new()
                 .or() // creates a new 'OR' level
@@ -316,22 +383,120 @@ The stream yields transactions that are `ethers::types::Transaction` types from 
 🚧 WIP 🚧
 
 </TabItem>
-</Tabs>
+<TabItem value="py" label="Python">
 
-#### Blocks
 🚧 WIP 🚧
 
-### Sending / Backrunning Transactions
+</TabItem>
+</Tabs>
 
+### Blocks
+
+Here is how you can subscribe to the new blocks stream in the different packages:
+
+<Tabs>
+<TabItem value="go" label="Golang">
+
+```go
+import (
+    ...
+    fiber "github.com/chainbound/fiber-go"
+)
+
+func main() {
+    ...
+
+    ch := make(chan *fiber.Block)
+
+    go func() {
+        if err := client.SubscribeNewBlocks(ch); err != nil {
+            log.Fatal(err)
+        }
+    }()
+
+    for block := range ch {
+        handleBlock(block)
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value="rs" label="Rust">
+
+```rust
+use fiber::Client;
+
+#[tokio::main]
+async fn main() {
+    let mut client = Client::connect(
+        "beta.fiberapi.io:8080".to_string(),
+        "API_KEY".to_string()
+    ).await.unwrap();
+
+    let mut sub = client.subscribe_new_blocks().await;
+
+    // Consume the stream
+    while let Some(block) = sub.next().await {
+        handle_block(tx);
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value="js" label="Javascript">
+
+```js
+import { Block } from "fiber-ts";
+
+...
+
+const sub = client.subscribeNewBlocks();
+
+sub.on("data", (block: Block) => {
+  handleBlock(block);
+});
+```
+
+</TabItem>
+
+<TabItem value="py" label="Python">
+
+```py
+try:
+  sub = client.subscribe_new_blocks()
+
+for block in sub:
+do_something(block)
+except Exception as e:
+print("error subscribing", e)
+```
+
+</TabItem>
+</Tabs>
+
+## Sending Transactions
+
+Fiber allows you to inject transactions directly to the p2p network, guaranteeing low latency and reliable
+propagation globally. <br />
 We currently support 4 methods for sending transactions:
-* `SendTransaction`: takes a signed transaction
-* `SendRawTransaction`: takes a signed, RLP encoded transaction
-* `BackrunTransaction`: takes the transaction hash of the transaction to backrun, and a signed transaction
-* `BackrunRawTransaction`: takes the transaction hash of the transaction to backrun, and a signed, RLP encoded transaction
+
+- `SendTransaction`: takes a signed transaction
+- `SendRawTransaction`: takes a signed, RLP encoded transaction
+- `SendTransactionSequence`: takes an array of signed transactions to be sent in sequence
+- `SendRawTransactionSequence`: takes an array of signed, RLP encoded transactions to be sent in sequence
+
+:::info
+The `SendTransactionSequence` and `SendRawTransactionSequence` methods don't guarantee that the transactions
+will land in order onchain. They will be sent in sequence, but the final ordering will be determined by the
+block producer for the block in which they're included.
+:::
 
 Here's how to use these endpoints in the different packages:
 
-#### SendTransaction 
+### SendTransaction
+
 <Tabs>
 <TabItem value="go" label="Golang">
 
@@ -468,9 +633,41 @@ const result: TransactionResponse = await client.sendTransaction(signed);
 ```
 
 </TabItem>
+
+<TabItem value="py" label="Python">
+
+```py
+from fiber.client import Client, Transaction
+
+...
+
+try:
+    new_transaction = Transaction(
+        to='0x123abc...',
+        gas=100000,
+        nonce=0,
+        value=100,
+        sender='0x789xyz...',
+        type=1,
+        gas_price=10,
+        input='0xabcdef...',
+        max_fee=1000,
+        priority_fee=5,
+        v=27,
+        r='0x123456...',
+        s='0x789abc...',
+        access_list=None,
+        chain_id=1
+    )
+  sub = client.send_transaction(new_transaction)
+except Exception as e:
+    print("error sending tx", e)
+```
+
+</TabItem>
 </Tabs>
 
-#### SendRawTransaction
+### SendRawTransaction
 
 <Tabs>
 <TabItem value="go" label="Golang">
@@ -607,17 +804,49 @@ const result = await client.sendRawTransaction(signedTx);
 ```
 
 </TabItem>
+<TabItem value="py" label="Python">
+
+```py
+from fiber.client import Client
+from web3 import Web3
+
+...
+
+private_key = 'YOUR_PRIVATE_KEY'
+
+# Set the transaction parameters
+transaction = {
+    'nonce': 0,
+    'gasPrice': 100,
+    'gas': YOUR_GAS_LIMIT,
+    'to': YOUR_RECIPIENT_ADDRESS,
+    'value': YOUR_AMOUNT_IN_WEI,
+    'data': YOUR_DATA
+}
+
+signed_tx = web3.eth.account.sign_transaction(transaction, private_key)
+
+try:
+    response = client.send_raw_transaction(signed_tx.rawTransaction)
+    print(response)
+except Exception as e:
+    print("error sending tx", e)
+```
+
+</TabItem>
 </Tabs>
 
-#### BackrunTransaction
-Backruns a transaction at the p2p level. 
+### SendTransactionSequence
+
+Sends multiple signed transactions in a sequence at the p2p level.
+
 :::caution
-This is not a bundle like in Flashbots. See [API Design section](./api.md#backruntransaction).
+This is not a bundle like in Flashbots. See [API Design section](./api.md#backruntransaction). <br />
+The final transaction ordering is determined by the block producer.
 :::
 
 <Tabs>
 <TabItem value="go" label="Golang">
-
 
 ```go
 import (
@@ -633,21 +862,39 @@ import (
     "github.com/ethereum/go-ethereum/crypto"
 )
 
-
 func main() {
-    // Connection process, signing transaction omitted
+
     ...
 
-    target := common.HexToHash("0xabcd...")
-    // Returns:
-    // * Transaction hash
-    // * Unix timestamp in microseconds at which the node saw the transaction (useful for debugging latency issues)
-    // * Any potential errors
-    hash, timestamp, err := client.BackrunTransaction(ctx, target, signed)
+    // Example transaction
+    tx := types.NewTx(&types.DynamicFeeTx{
+        Nonce:     nonce,
+        To:        common.HexToAddress("0x...."),
+        Value:     big.NewInt(100),
+        Gas:       21000,
+        GasFeeCap: big.NewInt(x),
+        GasTipCap: big.NewInt(y),
+        Data:      nil,
+    })
+
+    pk, _ := crypto.HexToECDSA("PRIVATE_KEY")
+    signer := types.NewLondonSigner(common.Big1)
+
+    signed, err := types.SignTx(tx, signer, pk)
     if err != nil {
         log.Fatal(err)
     }
 
+    // type should be *types.Transaction (but signed, e.g. v,r,s fields filled in)
+    // (this is the transaction that will be sent first)
+    target := someTargetTransaction
+
+    hashes, timestamp, err := client.SendTransactionSequence(ctx, target, signed)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    doSomething(hashes, timestamp)
 }
 ```
 
@@ -659,8 +906,8 @@ In Rust, we again use `ethers-rs` to construct and sign transactions.
 
 ```rust
 use ethers::{
-    signers::{LocalWallet, Signer},
-    types::{transaction::eip2718::TypedTransaction, Address, TransactionRequest}, utils::hex::ToHex,
+    ...
+    types::Transaction,
 };
 use fiber::Client;
 
@@ -669,8 +916,10 @@ async fn main() {
     // Connection process, signing transaction omitted
     ...
 
-    let target = "0xabcd...".to_string();
-    let (hash, timestamp) = client.backrun_transaction(target, &signed).await.unwrap();
+    // build transactions with ethers-rs
+    let transactions: Vec<Transaction> = vec![tx1, tx2, tx3];
+
+    let (hash, timestamp) = client.send_transaction_sequence(transactions).await.unwrap();
 }
 ```
 
@@ -678,7 +927,8 @@ async fn main() {
 
 <TabItem value="js" label="JavaScript">
 
-The JavaScript package uses `@ethereumjs/tx` to construct and sign transactions. If you want to use `ethers.js` or `web3.js`, you can do that with [SendRawTransaction](#sendrawtransaction)
+The JavaScript package uses `@ethereumjs/tx` to construct and sign transactions.
+If you want to use `ethers.js` or `web3.js`, you can do that with [SendRawTransaction](#sendrawtransaction)
 
 ```js
 import { Client, TransactionResponse } from 'fiber-ts';
@@ -687,21 +937,39 @@ import { TypedTransaction, TransactionFactory } from '@ethereumjs/tx';
 // Connection process, signing transaction omitted
 ...
 
+const transactions = [tx1, tx2, tx3];
 
-// Result contains the timestamp (unix microseconds) and hash of the transaction
-const result: TransactionResponse = await client.backrunTransaction("0xabcd...", signed);
+// Result contains an array of transaction hashes and their timestamps
+const result: TransactionResponse = await client.sendTransactionSequence(transactions);
+```
+
+</TabItem>
+<TabItem value="py" label="Python">
+
+```py
+from fiber.client import Client
+from web3 import Web3
+
+# Connection process, signing transactions omitted
+...
+
+try:
+    response = client.send_transaction_sequence([tx1, tx2, tx3])
+    print(response)
+except Exception as e:
+    print("error sending tx", e)
 ```
 
 </TabItem>
 </Tabs>
 
-#### RawBackrunTransaction
-Exactly the same as above, but this time our transaction has to be RLP encoded. Check [SendRawTransaction](#sendrawtransaction) section
+### SendRawTransactionSequence
+
+Exactly the same as above, but this time our transactions have to be RLP encoded. Check the [SendRawTransaction](#sendrawtransaction) section
 for full examples of signing and RLP encoding transactions.
 
 <Tabs>
 <TabItem value="go" label="Golang">
-
 
 ```go
 import (
@@ -722,16 +990,20 @@ func main() {
     // Connection process, signing transaction omitted
     ...
 
-    target := common.HexToHash("0xabcd...")
-    // Returns:
-    // * Transaction hash
-    // * Unix timestamp in microseconds at which the node saw the transaction (useful for debugging latency issues)
-    // * Any potential errors
-    hash, timestamp, err := client.RawBackrunTransaction(ctx, target, raw)
+    bytes, err := signed.MarshalBinary()
     if err != nil {
         log.Fatal(err)
     }
 
+    // Type should be []byte
+    targetTransaction := someTargetTransaction
+
+    hashes, timestamp, err := client.SendRawTransactionSequence(ctx, targetTransaction, bytes)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    doSomething(hashes, timestamp)
 }
 ```
 
@@ -754,7 +1026,9 @@ async fn main() {
     ...
 
     let target = "0xabcd...".to_string();
-    let (hash, timestamp) = client.raw_backrun_transaction(target, &raw_signed).await.unwrap();
+
+    let transactions = vec![target, raw_signed];
+    let (hash, timestamp) = client.send_raw_transaction_sequence(transactions).await.unwrap();
 }
 ```
 
@@ -774,6 +1048,25 @@ import { TypedTransaction, TransactionFactory } from '@ethereumjs/tx';
 
 // Result contains the timestamp (unix microseconds) and hash of the transaction
 const result: TransactionResponse = await client.rawBackrunTransaction("0xabcd...", rawSigned);
+```
+
+</TabItem>
+<TabItem value="py" label="Python">
+
+```py
+from fiber.client import Client
+from web3 import Web3
+
+# Connection process, signing transactions omitted
+...
+
+target = '0xabcd...'
+
+try:
+    response = client.send_raw_transaction_sequence([target, raw_signed])
+    print(response)
+except Exception as e:
+    print("error sending tx", e)
 ```
 
 </TabItem>
