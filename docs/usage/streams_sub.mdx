@@ -9,11 +9,9 @@ import TabItem from "@theme/TabItem";
 ## Transactions - `subscribeNewTxs`
 
 :::note
-This method opens a subscription in the form of a gRPC stream.
+This method opens a subscription in the form of a gRPC stream
 and broadcasts pending transaction that the node receives, either from the Fibernet or from full nodes
 it's connected to.
-
-
 :::
 
 
@@ -363,7 +361,7 @@ print("error subscribing", e)
 </Tabs>
 
 :::caution
-Block streamed are not **finalized**, meaning that the data is not guaranteed to be part of the canonical chain. Recent blocks can always be [reorged](https://www.paradigm.xyz/2021/07/ethereum-reorgs-after-the-merge).
+Blocks streamed are not **finalized**, meaning that the data is not guaranteed to be part of the canonical chain. Recent blocks can always be [reorged](https://www.paradigm.xyz/2021/07/ethereum-reorgs-after-the-merge).
 :::
 ### Execution Payload Filter
 A stream of [**execution payloads**](https://github.com/ethereum/consensus-specs/blob/dev/specs/capella/beacon-chain.md#executionpayload).

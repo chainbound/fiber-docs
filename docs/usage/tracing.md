@@ -26,7 +26,7 @@ OPTIONS:
 Tracing can be very useful for seeing where certain transactions originated as well as how fast they propagated. Fiber has
 an API that will show you the exact path a transaction took through the network. You can use our [`cbctl`](https://github.com/chainbound/cbctl) CLI tool to access the API.
 
-To clarify, this is how you would trace a transaction with `cbctl`:
+Here an example of how to trace a transaction with `cbctl`:
 
 **Command**
 ```bash
