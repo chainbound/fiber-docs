@@ -71,7 +71,7 @@ const config = {
           },
           { to: '/blog', label: 'Blog', position: 'left' },
           { to: '/pricing', label: 'Pricing', position: 'left' },
-          { href: 'http://fiber-stats.chainbound.io/public-dashboards/f82cf92d44dc439b811094a7c1b3eb43?orgId=1&refresh=30s', label: 'Stats', position: 'left' },
+          { to: '#', label: 'Stats (Coming Soon)', position: 'left' },
         ],
       },
       footer: {
