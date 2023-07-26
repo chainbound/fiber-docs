@@ -3,27 +3,14 @@ title: Pricing
 ---
 
 # Pricing
+_At Chainbound, we believe in creating personalized experiences that perfectly suit your needs. 
+We understand that every customer's requirements are unique and that pricing should reflect this._
+
+_In alignment with this philosophy, rather than a standard price list, 
+we now offer bespoke pricing based on your individual requirements.
+This helps us ensure that you receive the best value for your specific needs!_
+
 :::info
-We have a 7 day refund period. Contact me on Discord at **@mempirate | Chainbound#8926** if you want to try it out.
+Join our [Discord](https://discord.com/invite/J4KNdeCYGX) or reach out at [sales@chainbound.io](mailto:sales@chainbound.io) 
+to learn more!
 :::
-
-## Base Plan
-Fiber has a base plan of **$800 USD / month**. This base plan includes
-* 1 stream
-* 5 GB of egress (enough for about 5 days of full transaction streaming)
-* Unlimited transaction sending
-* Access to [tracing API](/docs/usage/tracing)
-* Access to [all endpoints](/docs/regions) globally
-
-## Usage Based Pricing
-If the base plan doesn't cover your needs, we have an additional usage based pricing model in the form of extension packages for both egress and number of streams:
-
-| Package Name | Info                         | Price (monthly) |
-| ------------ | ---------------------------- | --------------- |
-| Egress A     | 15 GB of additional egress   | $400            |
-| Egress B     | 40 GB of additional egress   | $800            |
-| Egress C     | Unlimited additional egress  | [Talk to us](mailto:sales@chainbound.io)      |
-| Stream       | 1 additional stream          | $300            |
-
-## Enterprise Plan
-If you'd like to discuss a custom solution, please [contact us](mailto:sales@chainbound.io).
