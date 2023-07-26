@@ -2,7 +2,7 @@
 sidebar_position: 3
 title: Streams
 ---
-Fiber currently only offers transaction streams. New block streams are included on the roadmap.
+Fiber offers both transaction and block streams.
 
 ## Transaction Stream
 The transaction stream provides **low-latency access to all new transactions seen by the Fiber Network**.
@@ -46,3 +46,14 @@ f := filter.New(
 Evaluating filters will introduce anywhere from 10 to 200 microseconds, depending on the complexity of the filter.
 There's currently a limit of 16 filter elements or "nodes" in the filter tree.
 :::
+
+## Block Streams
+:::caution
+Both streams below are not **finalized**, meaning that the data is not guaranteed to be part of the canonical chain. Recent blocks can always be [reorged](https://www.paradigm.xyz/2021/07/ethereum-reorgs-after-the-merge).
+:::
+### Execution Payload Stream
+A stream of [**execution payloads**](https://github.com/ethereum/consensus-specs/blob/dev/specs/capella/beacon-chain.md#executionpayload). These payloads are part of the beacon block, but they are only concerned with the execution layer (eth1). They contain
+the traditional [block header](https://github.com/ethereum/consensus-specs/blob/dev/specs/capella/beacon-chain.md#executionpayloadheader) and the full list of transactions.
+
+### Beacon Block Stream
+A stream of [**beacon blocks**](https://github.com/ethereum/consensus-specs/blob/dev/specs/phase0/beacon-chain.md#beaconblock). These blocks contain the full consensus (eth2) data.
