@@ -57,7 +57,7 @@ This has many use-cases, including:
 Fiber is not integrated with any Private Order Flow (POF) provider, therefore users should be mindful of the usual dangers of submitting to the public mempool (front-running, sandwiching attacks).
 :::
 
-## 2. Systematic Risk Minitagation
+## 2. Systematic Risk Mitigation
 ### 2.1 Hacks Detection & Prevention
 Hackers are constantly looking for new ways to exploit vulnerabilities in smart contracts.
 
