@@ -78,7 +78,9 @@ The following chart shows the **validator's reward** over time, outlining the im
 ![](/img/validators_reward.png)
 :::
 
-Validators can leverage the `NewBeaconBlocks` stream to boost their performance and latency via **FiberGuard**.
+Validators have the opportunity to enhance their performance and reduce latency by utilizing **FiberGuard**. 
+This technology offers validators a 
+dependable and low-latency `NewBeaconBlocks` stream, **essential for generating attestations efficiently**.
 
 Via **FiberGuard**, `NewBeaconBlocks` stream can be leveraged by validators to improve their performance by:
 1. Reduce streaming latency of `BeaconBlock` by **up to 1 seconds**, compared to a single node setup, and **50-200ms** compared to other services.

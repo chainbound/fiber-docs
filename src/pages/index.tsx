@@ -30,7 +30,7 @@ export default function Home(): JSX.Element {
     // <img></img>
     <Layout
       title={`${siteConfig.title}`}
-      description="Global high speed network for Ethereum transactions">
+      description="Global high speed network for Ethereum">
       <HomepageHeader />
       {/* <main> */}
         {/* <HomepageFeatures /> */}
