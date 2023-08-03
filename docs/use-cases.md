@@ -4,8 +4,7 @@ title: Use Cases
 ---
 **Fiber is accessible via API, facilitating seamless streaming and propagation of data across the Ethereum network**
 
-_Consequently, the need for deploying and maintaining individual full nodes is rendered unnecessary.
-By abstracting away the complexities of node infrastructure, Fiber simplifies the process of accessing_ **real-time data
+_By abstracting away the complexities of node infrastructure, Fiber simplifies the process of accessing_ **real-time data
 across Consensus and Execution layers.**
 
 The distributed nature of the network allows for transactions to be processed and propagated **more efficiently than other services** (eg. RPC providers or mempool services) and single nodes.
@@ -29,7 +28,6 @@ The stream can be leveraged to deploy MEV strategies, as:
 * Liquidity Sniping
 * NFT Sniping
 * Liquidations
-* PGAs (Priority Gas Auctions)
 * Long-tail MEV
 
 :::note
@@ -39,7 +37,8 @@ Order Flow (POF). Given `NewTransactions` has proven to be the fastest and most 
 :::
 
 ### 1.2 Transaction Inclusion Receipts
-Fiber can also be leveraged by **Builders** and **Searchers** that are looking to confirm the inclusion of their transactions in the most recent block as fast as possible.
+Fiber can also be leveraged by **Builders** and **Searchers** that are looking to confirm the inclusion of their transactions in the most recent block 
+as fast as possible.
 On the Consensus Layer, Fiber provides the `NewExecutionPayloads` stream, which abstracts the payload from `BeaconBlockBody` and returns it as a separate stream.
 
 Subscription to this stream allows Builders and Searchers to **reduce transaction confirmation time** by 40ms-200ms, compared to other services, such as Bloxroute.
