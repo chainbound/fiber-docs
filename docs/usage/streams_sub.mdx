@@ -268,15 +268,18 @@ There's currently a limit of 16 filter elements or "nodes" in the filter tree.
 :::
 
 
-## Blocks - `subscribeNewBlocks`
+## Block Headers - `subscribeNewExecutionHeaders`
 
-:::note
-This method opens a subscription in the form of a gRPC stream and broadcasts [**beacon blocks**](https://github.com/ethereum/consensus-specs/blob/dev/specs/phase0/beacon-chain.md#beaconblock).
-These blocks contain the full consensus (eth2) data.
+`ExecutionHeaders` are the headers of the blocks that are part of the execution layer (eth1). 
+These contain the traditional [block header](https://github.com/ethereum/consensus-specs/blob/dev/specs/capella/beacon-chain.md#executionpayloadheader).
+In contrast with the `ExecutionPayloads`, headers **do not contain the full list of transactions**.
 
+:::caution
+Blocks streamed are not **finalized**, meaning that the data is not guaranteed to be part of the canonical chain. 
+Recent blocks can always be [reorged](https://www.paradigm.xyz/2021/07/ethereum-reorgs-after-the-merge).
 :::
 
-Let's see how to subscribe to new blocks in the different packages:
+Let's see how to subscribe to new block headers in the different packages:
 
 <Tabs>
 <TabItem value="go" label="Golang">
@@ -293,7 +296,7 @@ func main() {
     ch := make(chan *fiber.Block)
 
     go func() {
-        if err := client.SubscribeNewBlocks(ch); err != nil {
+        if err := client.SubscribeNewExecutionPayloadHeaders(ch); err != nil {
             log.Fatal(err)
         }
     }()
@@ -318,7 +321,7 @@ async fn main() {
         "API_KEY".to_string()
     ).await.unwrap();
 
-    let mut sub = client.subscribe_new_blocks().await;
+    let mut sub = client.subscribe_new_execution_headers().await;
 
     // Consume the stream
     while let Some(block) = sub.next().await {
@@ -336,7 +339,7 @@ import { Block } from "fiber-ts";
 
 ...
 
-const sub = client.subscribeNewBlocks();
+const sub = client.subscribeNewExecutionHeaders();
 
 sub.on("data", (block: Block) => {
   handleBlock(block);
@@ -349,7 +352,7 @@ sub.on("data", (block: Block) => {
 
 ```py
 try:
-  sub = client.subscribe_new_blocks()
+  sub = client.subscribe_new_execution_payload_headers()
 
 for block in sub:
 do_something(block)
@@ -360,11 +363,192 @@ print("error subscribing", e)
 </TabItem>
 </Tabs>
 
-:::caution
-Blocks streamed are not **finalized**, meaning that the data is not guaranteed to be part of the canonical chain. Recent blocks can always be [reorged](https://www.paradigm.xyz/2021/07/ethereum-reorgs-after-the-merge).
-:::
-### Execution Payload Filter
-A stream of [**execution payloads**](https://github.com/ethereum/consensus-specs/blob/dev/specs/capella/beacon-chain.md#executionpayload).
-These payloads are part of the beacon block, but they are only concerned with the execution layer (eth1). They contain
-the traditional [block header](https://github.com/ethereum/consensus-specs/blob/dev/specs/capella/beacon-chain.md#executionpayloadheader)
+## Block Payloads - `subscribeNewExecutionPayloads`
+
+Execution Payloads are the traditional Blocks broadcasted on the execution layer (eth1).
+These contain the traditional [block header](https://github.com/ethereum/consensus-specs/blob/dev/specs/capella/beacon-chain.md#executionpayloadheader)
 and the full list of transactions.
+
+:::caution
+Blocks streamed are not **finalized**, meaning that the data is not guaranteed to be part of the canonical chain.
+Recent blocks can always be [reorged](https://www.paradigm.xyz/2021/07/ethereum-reorgs-after-the-merge).
+:::
+
+Let's see how to subscribe to new execution payloads in the different packages:
+
+<Tabs>
+<TabItem value="go" label="Golang">
+
+```go
+import (
+    ...
+    fiber "github.com/chainbound/fiber-go"
+)
+
+func main() {
+    ...
+
+    ch := make(chan *fiber.Block)
+
+    go func() {
+        if err := client.SubscribeNewExecutionPayloads(ch); err != nil {
+            log.Fatal(err)
+        }
+    }()
+
+    for block := range ch {
+        handleBlock(block)
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value="rs" label="Rust">
+
+```rust
+use fiber::Client;
+
+#[tokio::main]
+async fn main() {
+    let mut client = Client::connect(
+        "beta.fiberapi.io:8080".to_string(),
+        "API_KEY".to_string()
+    ).await.unwrap();
+
+    let mut sub = client.subscribe_new_execution_payloads().await;
+
+    // Consume the stream
+    while let Some(block) = sub.next().await {
+        handle_block(tx);
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value="js" label="Javascript">
+
+```js
+import { Block } from "fiber-ts";
+
+...
+
+const sub = client.subscribeNewExecutionPayloads();
+
+sub.on("data", (block: Block) => {
+  handleBlock(block);
+});
+```
+
+</TabItem>
+
+<TabItem value="py" label="Python">
+
+```py
+try:
+  sub = client.subscribe_new_execution_payloads()
+
+for block in sub:
+do_something(block)
+except Exception as e:
+print("error subscribing", e)
+```
+
+</TabItem>
+</Tabs>
+
+## Beacon Blocks - `subscribeNewBeaconBlocks`
+
+Beacon Blocks are the blocks broadcasted on the beacon chain (eth2), which contain the canonical [consensus info](https://github.com/ethereum/consensus-specs/blob/dev/specs/capella/beacon-chain.md#executionpayloadheader). 
+We currently strip out the execution payload from this stream, as to keep the stream as light and fast as possible. 
+If you also need the execution payload, please use the `subscribeNewExecutionPayloads` stream.
+
+:::caution
+Blocks streamed are not **finalized**, meaning that the data is not guaranteed to be part of the canonical chain.
+Recent blocks can always be [reorged](https://www.paradigm.xyz/2021/07/ethereum-reorgs-after-the-merge).
+:::
+
+Let's see how to subscribe to new beacon blocks in the different packages:
+
+<Tabs>
+<TabItem value="go" label="Golang">
+
+```go
+import (
+    ...
+    fiber "github.com/chainbound/fiber-go"
+)
+
+func main() {
+    ...
+
+    ch := make(chan *fiber.Block)
+
+    go func() {
+        if err := client.SubscribeNewBeaconBlocks(ch); err != nil {
+            log.Fatal(err)
+        }
+    }()
+
+    for block := range ch {
+        handleBlock(block)
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value="rs" label="Rust">
+
+```rust
+use fiber::Client;
+
+#[tokio::main]
+async fn main() {
+    let mut client = Client::connect(
+        "beta.fiberapi.io:8080".to_string(),
+        "API_KEY".to_string()
+    ).await.unwrap();
+
+    let mut sub = client.subscribe_new_beacon_blocks().await;
+
+    // Consume the stream
+    while let Some(block) = sub.next().await {
+        handle_block(tx);
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value="js" label="Javascript">
+
+```js
+import { Block } from "fiber-ts";
+
+...
+
+const sub = client.subscribeNewBeaconBlocks();
+
+sub.on("data", (block: Block) => {
+  handleBlock(block);
+});
+```
+
+</TabItem>
+
+<TabItem value="py" label="Python">
+
+```py
+try:
+  sub = client.subscribe_new_beacon_blocks()
+
+for block in sub:
+do_something(block)
+except Exception as e:
+print("error subscribing", e)
+```
+
+</TabItem>
+</Tabs>

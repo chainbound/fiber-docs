@@ -4,8 +4,7 @@ title: Use Cases
 ---
 **Fiber is accessible via API, facilitating seamless streaming and propagation of data across the Ethereum network**
 
-_Consequently, the need for deploying and maintaining individual full nodes is rendered unnecessary.
-By abstracting away the complexities of node infrastructure, Fiber simplifies the process of accessing_ **real-time data
+_By abstracting away the complexities of node infrastructure, Fiber simplifies the process of accessing_ **real-time data
 across Consensus and Execution layers.**
 
 The distributed nature of the network allows for transactions to be processed and propagated **more efficiently than other services** (eg. RPC providers or mempool services) and single nodes.
@@ -19,7 +18,8 @@ In this [article](https://fiber.chainbound.io/blog/fiber-vs-bloxroute) we outlin
 ## 1. Searchers & Builders
 
 ### 1.1 MEV Capturing
-Low latency access to mempool data gives **searchers** and **builders** a latency and reliability advantage over the competition.
+Low latency access to mempool data gives **searchers** and **builders** a latency and reliability advantage 
+over the competition.
 
 On the Execution Layer (EL), Fiber provides the `NewTransactions` stream, which returns new transactions that are propagated across the Ethereum mempool.
 
@@ -28,7 +28,6 @@ The stream can be leveraged to deploy MEV strategies, as:
 * Liquidity Sniping
 * NFT Sniping
 * Liquidations
-* PGAs (Priority Gas Auctions)
 * Long-tail MEV
 
 :::note
@@ -38,20 +37,21 @@ Order Flow (POF). Given `NewTransactions` has proven to be the fastest and most 
 :::
 
 ### 1.2 Transaction Inclusion Receipts
-Fiber can also be leveraged by **Builders** and **Searchers** that are looking to confirm the inclusion of their transactions in the most recent block as fast as possible.
+Fiber can also be leveraged by **Builders** and **Searchers** that are looking to confirm the inclusion of their transactions in the most recent block 
+as fast as possible.
 On the Consensus Layer, Fiber provides the `NewExecutionPayloads` stream, which abstracts the payload from `BeaconBlockBody` and returns it as a separate stream.
 
 Subscription to this stream allows Builders and Searchers to **reduce transaction confirmation time** by 40ms-200ms, compared to other services, such as Bloxroute.
 
 To note, some applications include:
 * **Stat-Arb:** Decrease the time to confirm on-chain transactions inclusion allows for more accurate hedging on CEXs
-* [...]
+* _Inquire at admin@chainbound.io for more information on MEV use-cases_
 
 ### 1.3 Transaction Propagation
 Via the `sendTransaction` API endpoint, searchers are able to **submit transactions** to the Ethereum network via Fiber.
 This has many use-cases, including:
 * **Redundancy in transaction submission** - Fiber can be used as a backup to their main transaction submission service, which can be private or public.
-* [...]
+* **Censorship resistance** - Fiber can be used to submit transactions to the Ethereum network in a way that is resistant to censorship. 
 
 :::warning
 Fiber is not integrated with any Private Order Flow (POF) provider, therefore users should be mindful of the usual dangers of submitting to the public mempool (front-running, sandwiching attacks).
@@ -66,24 +66,39 @@ With Fiber's stream, protocols and applications can track events in real-time to
 * Automated **detection of hacks** and exploits with real-time alerts
 * Real-time **anomaly detection** in smart contracts deployments and transactions
 
-## 3. Validators & Stakers
+## 3. Validators
 ### 3.1 FiberGuard
+Validators can optimize their performance and minimize their p2p latency with the implementation of FiberGuard, 
+an advanced technology designed to enhance their operations.
+
+FiberGuard provides validators with a reliable and low-latency `NewBeaconBlocks` stream, which is crucial for
+promptly receiving new blocks. This capability enables validators to **efficiently generate attestations** and 
+**produce new blocks**, improving their overall performance.
+
+By adopting FiberGuard, validators can achieve the following benefits:
+
+1. **Reduced Streaming Latency:** With FiberGuard, validators can experience significantly reduced streaming 
+latency of `BeaconBlock`. This improvement can lead to up to **1-second reduction in latency** when compared to a 
+single node setup and a remarkable **50-200 milliseconds** reduction compared to other existing services.
+
+2. **Enhanced Reliability and Uptime:** Leveraging the distributed nature of the Fiber network, 
+validators can **increase the reliability and uptime of their operations**. This means that validators are 
+less prone to downtime or interruptions, resulting in a more dependable validation process.
+
+3. **Lower Operating Costs:** One of the key advantages of utilizing FiberGuard is the cost reduction 
+it offers to running a validator. By mitigating the **risks of reorgs, missed attestations, or inactivity penalties**, 
+validators can avoid potential financial losses and optimize their profitability.
+
 :::note
 **Attestations account for ~85% of the total validator yield** over time. After the Altair upgrade, attestations are highly sensitive to latency:
 if the `slot_delay` of an attestation is larger than 1, the validator will **miss out on more than 20%** of the potential reward
-(read more about attestation rewards [here](https://eth2book.info/capella/part2/incentives/rewards/)).
+(read more about attestations rewards [here](https://eth2book.info/capella/part2/incentives/rewards/)).
 
 The following chart shows the **validator's reward** over time, outlining the importance of `slot_delay` minimization.
 
 ![](/img/validators_reward.png)
 :::
 
-Validators can leverage the `NewBeaconBlocks` stream to boost their performance and latency via **FiberGuard**.
-
-Via **FiberGuard**, `NewBeaconBlocks` stream can be leveraged by validators to improve their performance by:
-1. Reduce streaming latency of `BeaconBlock` by **up to 2 seconds**, compared to a single node setup, and **50-200ms** compared to other services.
-2. **Increase the reliability** and up-time of validators by leveraging the distributed nature of the Fiber network.
-3. **Reduce the cost** of running a validator by decreasing risks of missed attestations or inactivity penalties.
 
 :::info
 FiberGuard allows validators to connect to the stream via **direct/trusted peering connections**, allowing easy integration with an existing beacon node
@@ -93,7 +108,7 @@ without requiring any additional software.
 ## 4. High-Frequency Trading
 ### 4.1 Signal generation
 High Frequency Trading (HFT) across TradFi, CeFi and DeFi requires access to real-time data to generate signals and execute trades.
-Fiber provides a reliable and **low-latency stream of the most up-to-date state** (block) on Ethereum, giving trading shop a competitive edge over their competitors.
+Fiber provides a reliable and **low-latency stream of the most up-to-date state** (block) on Ethereum, giving trading shops a competitive edge over their competitors.
 
 Two Fiber streams can be leveraged by HFTs:
 * By subscribing to `NewExecutionPayload`, HFTs can process transactions, included in the most recent block, before the competition.
