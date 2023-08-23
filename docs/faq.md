@@ -15,7 +15,3 @@ No, for now the only way to connect is using one of the provided [client package
 ### Which networks does Fiber support?
 
 For now, only Ethereum. Support for other EVM chains (Polygon, BSC) is planned.
-
-### Is Fiber faster than Bloxroute Enterprise?
-
-Yes, but by how much varies by location. To check this for yourself, you can use our [benchmarking tool](https://github.com/chainbound/fiber-benchmarks).
