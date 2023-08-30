@@ -10,7 +10,7 @@ function HomepageHeader() {
   return (
     <header className={clsx('hero hero--light', styles.heroBanner)}>
       <div className="container">
-      <img src="/img/logo-text.png" className={clsx('mainLogo', styles.mainLogo)}></img>
+      <img src="/img/echo-full-logo.jpg" className={clsx('mainLogo', styles.mainLogo)}></img>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         {/* <div className={styles.buttons}> */}
           {/* <Link
@@ -30,7 +30,7 @@ export default function Home(): JSX.Element {
     // <img></img>
     <Layout
       title={`${siteConfig.title}`}
-      description="Global high speed network for Ethereum">
+      description="Unified interface for fast transaction dispatch to Ethereum block builders">
       <HomepageHeader />
       {/* <main> */}
         {/* <HomepageFeatures /> */}

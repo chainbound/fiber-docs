@@ -6,13 +6,13 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Fiber Network',
-  tagline: 'Global high speed network for Ethereum transactions',
-  url: 'https://fiber.chainbound.io',
+  title: 'Echo',
+  tagline: 'Unified interface for fast transaction dispatch to Ethereum block builders',
+  url: 'https://echo.chainbound.io',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/favicon2.svg',
+  favicon: 'img/echo-logo.jpg',
 
 
   // Even if you don't use internalization, you can use this field to set useful
@@ -59,8 +59,8 @@ const config = {
       navbar: {
         title: '',
         logo: {
-          alt: 'Fiber Logo',
-          src: 'img/favicon2.svg',
+          alt: 'Echo Logo',
+          src: 'img/echo-logo.jpg',
         },
         items: [
           {
@@ -68,10 +68,7 @@ const config = {
             docId: 'intro',
             position: 'left',
             label: 'Docs',
-          },
-          { to: '/blog', label: 'Blog', position: 'left' },
-          { to: '/pricing', label: 'Pricing', position: 'left' },
-          { to: '#', label: 'Stats (Coming Soon)', position: 'left' },
+          }
         ],
       },
       footer: {
@@ -98,10 +95,6 @@ const config = {
           {
             title: 'More',
             items: [
-              {
-                label: 'Blog',
-                to: '/blog',
-              },
               {
                 label: 'GitHub',
                 href: 'https://github.com/chainbound',
