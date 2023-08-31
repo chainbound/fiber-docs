@@ -7,23 +7,24 @@ import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
 
-_The Ethereum JSON-RPC is a standard collection of methods that all execution clients implement.
+_The Ethereum JSON-RPC API is a standard interface that all execution clients implement.
 It is the canonical interface between users and the network._
 
-**By integrating the standard JSON-RPC interface Fiber allows Users to directly subscribe to the `subscribeNewTxs` and `subscribeNewExecutionPayloads`
-methods without the need to modify their existing stack.**
+**By integrating the standard JSON-RPC interface Fiber allows users to directly subscribe to the `newTransactions` and `newExecutionPayloadHeaders`
+streams without the need to modify their existing stack.**
 
 #### Additional information
 
 * Subscriptions require a full duplex connections. Due to this reason, they are not available via HTTP and **supported only on WebSockets.**
 * Subscriptions are coupled to a connection. If the connection is closed, all subscriptions created over this connection are removed.
-* The subscriptions methods do not support filtering.
+* The subscription methods do not support filtering.
 * The Fiber WebSocket URL is: `ws://beta.fiberapi.io:8545`
+* We don't support the full JSON-RPC [execution API spec](https://ethereum.github.io/execution-apis/api-documentation/), only the methods below.
 
-## eth\_subscribe
+## `eth_subscribe`
 
 - Starts a subscription to specific event.
-- For every event matching subscription, JSON-RPC notification with event details and subscription ID will be sent to a client.
+- For every event matching subscription, a JSON-RPC notification with event details and subscription ID will be sent to a client.
 - Subscriptions are created with a regular RPC call, with `eth_subscribe` as method and subscription type as first parameter. If successful, returns `subscription ID`.
 
 #### Parameters
@@ -257,9 +258,9 @@ async fn subscribe_transactions(provider: &Provider<Ws>, full: bool) {
 </TabItem>
 </Tabs>
 
-## eth\_unsubscribe
+## `eth_unsubscribe`
 
-Unsubscribes from subscription. Subscriptions are cancelled with a regular RPC call with `eth_unsubscribe` as method and `subscription ID` as a parameter. It returns a `bool` indicating if the subscription was cancelled successful.
+Unsubscribes from a subscription. Subscriptions are cancelled with a regular RPC call with `eth_unsubscribe` as method and `subscription ID` as a parameter. It returns a `bool` indicating if the subscription was cancelled successful.
 
 #### Parameters
 
