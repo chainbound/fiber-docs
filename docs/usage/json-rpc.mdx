@@ -10,17 +10,16 @@ import TabItem from "@theme/TabItem";
 _The Ethereum JSON-RPC API is a standard interface that all execution clients implement.
 It is the canonical interface between users and the network._
 
-#### Additional information
+##### Additional information
 
-* Subscriptions require a full duplex connections. Due to this reason, they are not available via HTTP and **supported only on WebSockets.**
+* Subscriptions require full duplex connections. Due to this reason, they are not available via HTTP and **supported only on WebSockets.**
 * Subscriptions are coupled to a connection. If the connection is closed, all subscriptions created over this connection are removed.
 * The subscription methods do not support filtering.
 * The Fiber WebSocket URL is: `ws://beta.fiberapi.io:8545`
 * We don't support the full JSON-RPC [execution API spec](https://ethereum.github.io/execution-apis/api-documentation/), only the methods below.
 
-#### Here documentation for the methods currently supported by Fiber:
-
-------------
+# Supported Methods
+---
 ## `eth_sendRawTransaction`
 - Method to create new message call transaction or a contract creation for signed transactions.
 - Allows users to **broadcast transactions via the Fiber Network,** ensuring fast inclusion.
@@ -39,9 +38,9 @@ It is the canonical interface between users and the network._
 ------------
 ## `eth_subscribe`
 
-- Starts a subscription to specific event.
-- For every event matching subscription, a JSON-RPC notification with event details and subscription ID will be sent to a client.
-- Subscriptions are created with a regular RPC call, with `eth_subscribe` as method and subscription type as first parameter. If successful, returns `subscription ID`.
+- Starts a subscription to specific topic.
+- For every event matching the topic, a JSON-RPC notification with event details and subscription ID will be sent to a client.
+- Subscriptions are created with with the `eth_subscribe` method and subscription type as first parameter. If successful, returns `subscription ID`.
 - **This method allows users to subscribe to the `newTransactions` and `newExecutionPayloadHeaders` low-latency
 streams; without the need to modify their existing stack.**
 
@@ -50,7 +49,7 @@ streams; without the need to modify their existing stack.**
 | Parameter | Type | Description |
 | :--- | :--- | :--- |
 | subscriptionType | `string` | Type of subscription you want to subscribe to. |
-| arguments | `Filter Bool` | Optional arguments available only for pending transactions. |
+| arguments | `bool` | Optional arguments available only for pending transactions. |
 
 #### Returns
 
@@ -58,97 +57,92 @@ streams; without the need to modify their existing stack.**
 | :--- | :--- |
 | `string` | Subscription ID, used to identify subscription and to unsubscribe. |
 
-#### Notifications returns
-
-Depends on the subscription type.
-
-
-### subscriptionType - `newHeads`
+### `newHeads`
 Subscribes to incoming block headers. Fires a notification each time a new header is appended to the chain,
-including chain reorganizations. Returns `Block object`.
+including chain reorganizations. Returns a `BlockHeader`.
 
-**Parameter**
-- `newHeads` Returns full Block body
-
-**Successful reponse**
-```json
-{
-	"jsonrpc":"2.0",
-	"method":"eth_subscription",
-	"params":
-		{
-			"subscription":"0x1a14b6bdcf4542fabf71c4abee244e47",
-			"result":
-				{
-					"author":"0x000000568b9b5a365eaa767d42e74ed88915c204",
-					"difficulty":"0x1",
-					"extraData":"0x4e65746865726d696e6420312e392e32322d302d6463373666616366612d32308639ad8ff3d850a261f3b26bc2a55e0f3a718de0dd040a19a4ce37e7b473f2d7481448a1e1fd8fb69260825377c0478393e6055f471a5cf839467ce919a6ad2700",
-					"gasLimit":"0x7a1200",
-					"gasUsed":"0x0",
-					"hash":"0xa4856602944fdfd18c528ef93cc52a681b38d766a7e39c27a47488c8461adcb0",
-					"logsBloom":"0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-					"miner":"0x0000000000000000000000000000000000000000",
-					"mixHash":"0x0000000000000000000000000000000000000000000000000000000000000000",
-					"nonce":"0x0000000000000000",
-					"number":"0x434822",
-					"parentHash":"0x1a9bdc31fc785f8a95efeeb7ae58f40f6366b8e805f47447a52335c95f4ceb49",
-					"receiptsRoot":"0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
-					"sha3Uncles":"0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347",
-					"size":"0x261",
-					"stateRoot":"0xf38c4bf2958e541ec6df148e54ce073dc6b610f8613147ede568cb7b5c2d81ee",
-					"totalDifficulty":"0x633ebd",
-					"timestamp":"0x604726b0",
-					"transactions":[],
-					"transactionsRoot":"0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
-					"uncles":[]
-				}
-		}
-}
-```
-
-### subscriptionType - `newPendingTransactions`
-Subscribes to incoming pending transactions.
-
-**Parameters**
-- `newPendingTransactions` Returns only transaction hash.
-- `"newPendingTransactions", true` Returns full transaction body.
+**Params:**
+- `["newHeads"]`
 
 **Successful Response**
-```py
+```json
 {
-	"jsonrpc":"2.0",
-	"method":"eth_subscription",
-	"params":
-		{
-			"subscription":"0xfa...61d18f27",
-			"result": {
-			    'hash': '0xc317c...91777b0548f',
-			    'nonce': '0x1',
-			    'blockHash': None,
-			    'blockNumber': None,
-			    'transactionIndex': None,
-			    'from': '0x73496ac...0644bbe7f3dbfd14',
-			    'to': '0xa4ea687a2...1c0d00c49',
-			    'value': '0x0',
-			    'gasPrice': '0x989680',
-			    'gas': '0xea60',
-			    'input': '0xa90...',
-			    'r': '0xd1197e...',
-			    's': '0x3b0df085....',
-			    'v': '0x1b',
-			    'chainId': None,
-			    'type': '0x0'
-			    }
-		}
+  "jsonrpc": "2.0",
+  "method": "eth_subscription",
+  "params": {
+    "subscription": "0x62c26f29d4cd62026ad93ece0841e14b",
+    "result": {
+      "hash": "0xcb70ec38c8c4694e939a98e9b0c01deeb53199a663af03e24ca81d059f4e32a2",
+      "parentHash": "0xc68c05e6d920fd4ba631e61ad82d4af06e96280ce926fa5e0627aac774860322",
+      "sha3Uncles": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "miner": "0xce8a9a40bd846dc8f27dda35dc8630f461fa0b1a",
+      "stateRoot": "0x4477d36ae94b33becda39fb6b7d62cf61e61b2b7d9fc03b8275a67bd14a23ff0",
+      "transactionsRoot": "0x7ffe241ea60187fdb0187bfa22de35d1f9bed7ab061d9401fd47e34a54fbede1",
+      "receiptsRoot": "0xca07680fb05429e4ac7ba4b27f7c0ad0af0b1a50c551579a081784a5919c8f2f",
+      "logsBloom": "0x31fde056d1df0f1d5722b3aaf09c1f21d02b2634c15e6b71d8edb0127336d081eac448e3c40811d24430692204b6412f0611ab72ee47a9db526483aeb1a8b4813fca239acecc6269febf43aa642853b6cf10b10457f2183d7293824cd8eb5f22530728a79ecf8a21a22198f8401cab4318f7008c70164fe486198813c2cb14a5a569896a516c99de8dcb00c2694686a74fc840ad693a0acdb059a7ca239322e49eae8dee32a96210333346ea799d81ec4f68faab6fbb2a6e00659196100066301d5c1537652175c842909dab0db079d520e1772ae47b219f084d06d32a61f455dc10f66e517ab89e774ead283125c232383a999379ec28c22b04b80130670c4d",
+      "difficulty": "0xc70d815d562d3cfa955",
+      "number": "0x11331c9",
+      "gasLimit": "0x1c9c380",
+      "gasUsed": "0x134940f",
+      "timestamp": "0x64f0a30f",
+      "extraData": "0x546974616e2028746974616e6275696c6465722e78797a29",
+      "mixHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "nonce": null,
+      "baseFeePerGas": "0x5c409229f",
+      "withdrawalsRoot": "0x7a5052f5dc36e60c9ad5671ba14f920c55f787db119c64622b3ebe3f00339195"
+    }
+  }
 }
 ```
 
-### Example
+### `newPendingTransactions`
+Subscribes to incoming pending transactions.
+
+**Params**
+- `["newPendingTransactions"]` - Returns only transaction hash.
+- `["newPendingTransactions", true]` - Returns full transaction body.
+
+**Successful Response**
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "eth_subscription",
+  "params": {
+    "subscription": "0x4697ab2aafabae26e67525a3ee7893e",
+    "result": {
+      "hash": "0x1fa3ef0a7a61956b7d34e52d7a10c8d4ac8d1c27889963ec2fe4d249013853de",
+      "nonce": "0x5",
+      "blockHash": null,
+      "blockNumber": null,
+      "transactionIndex": null,
+      "from": "0x5fd7d552ac89e9c848d9c68ea40c77ba155eb684",
+      "to": "0x1d963688fe2209a98db35c67a041524822cf04ff",
+      "value": "0x0",
+      "gasPrice": "0x77359400",
+      "gas": "0xb5fe",
+      "maxFeePerGas": "0x77359400",
+      "maxPriorityFeePerGas": "0x3b9aca00",
+      "input": "0xa22cb465000000000000000000000000f42aa99f011a1fa7cda90e5e98b277e306bca83e0000000000000000000000000000000000000000000000000000000000000001",
+      "r": "0x6164f8ca9e8dd848386127dfc55ef849867d0121a2fe331723a7d1525178393c",
+      "s": "0x2438355b5317ea67ffc4e02398281e77b2adaf0d94eb84742ff5cf8bc92a2bad",
+      "v": "0x1",
+      "yParity": "0x1",
+      "chainId": "0x1",
+      "accessList": [],
+      "type": "0x2"
+    }
+  }
+}
+```
+
+### Examples
 
 Here users can find simple integration examples using popular libraries like web3.py:
 
 <Tabs>
 <TabItem value="py" label="Python">
+
+Example using the standard websockets library.
 
 ```py
 import asyncio
@@ -191,6 +185,8 @@ if __name__ == "__main__":
 </TabItem>
 <TabItem value="js" label="JavaScript">
 
+Example using `ethers.js v6`.
+
 ```js
 import { WebSocketProvider } from "ethers";
 import WebSocket from "ws";
@@ -226,6 +222,8 @@ run().then().catch((error) => {
 
 </TabItem>
 <TabItem value="rs" label="Rust">
+
+Example using [`ethers-rs`](https://github.com/gakonst/ethers-rs).
 
 ```rust
 use ethers::providers::{Authorization, ConnectionDetails, Middleware, Provider, StreamExt, Ws};
