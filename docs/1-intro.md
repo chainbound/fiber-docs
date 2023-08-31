@@ -5,8 +5,8 @@ title: Introduction
 -----------------
 
 
-#### **Echo** is a Specialised API that allows Ethereum users to send bundles to their desired builders and the public mempool. 
-The service is designed for minimal latency, ensuring the highest possibility of being added to the upcoming block.
+#### **Echo** is a specialised API that allows Ethereum users to send bundles to their desired builders and the public mempool. 
+The service is designed for minimal latency, ensuring the highest possibility of being included in the upcoming block.
 
 **If you're interested in integrating with Echo, join our [Discord](https://discord.gg/J4KNdeCYGX) or email us at admin@chainbound.io.**
 
@@ -14,8 +14,8 @@ The service is designed for minimal latency, ensuring the highest possibility of
 
 ## Motivation
 ------
-**Echo** has been build to address some pressing limitation of the current Ethereum transaction flow for 
-**Users**, **Block Builders** and **Ethereum** itself.
+**Echo** has been built to address some pressing limitations of the current Ethereum transaction supply chain for 
+**users**, **block Builders** and **Ethereum** itself.
 
 ### For users
 :::info
@@ -24,9 +24,9 @@ As users we refer to **Protocols, Searchers, Bot operators** and **Systematic tr
 - **UX & Enhanced Convenience**: Submit your bundles to a unified API, and Echo will direct them to your chosen builders 
 with minimal latency.
 
-- **Front-running protection**: By directly transmitting transactions to block builders, users can avoid the mempool and safeguard against MEV.
+- **Front-running Protection**: By directly transmitting transactions to block builders, users can avoid the mempool and safeguard against MEV.
 
-- **Effortless Builder Integrations and Upgrades**: We proactively manage and supervise all system enhancements 
+- **Effortless Builder Integrations and Upgrades**: We proactively manage and supervise all system upgrades 
 and the latest API specifications from builders.
 
 - **Bundle Inclusion Notifications**: Get notified of your confirmed bundles in real-time as they're included in new blocks. 
@@ -56,19 +56,19 @@ Echo can gather, and provide analytics on builder performance, statuses, and oth
 the whole ecosystem. **Such data-driven insights can drive better decision-making for users and builders alike.**
 
 
-### For Ethereum ... our community
+### For the Ethereum Network
 - **Mitigating Centralization Risks**: Currently there's a significant concentration of power amongst the Top-4 builders. 
 Such centralization is contrary to the foundational principles of Ethereum. 
-By promoting a diverse builder ecosystem, **Echo aims to directly countering this centralizing effect, 
+By promoting a diverse builder ecosystem, **Echo aims to directly counter this centralizing effect, 
 ensuring the Ethereum ecosystem remains decentralized**.
 
 - **Facilitating Innovation:** By lowering barriers to entry and promoting a more diverse ecosystem, 
 **Echo aims to become a catalyst for innovation.** New strategies, tools, and approaches might emerge when a broader range 
-of builders gain access to meaningful flow and compete on a more level playing field.
+of builders gain access to meaningful flow and compete on a more leveled playing field.
 
 In conclusion, **Echo aims to align with the core principles of the Ethereum ecosystem**, addressing several challenges 
 currently faced by users and builders. Not only does it promise to improve the user's UX experience, but it also
-holds the potential to usher innovation and transparency.
+holds the potential to usher in more innovation and transparency.
 
 
 
