@@ -1,0 +1,277 @@
+---
+sidebar_position: 7
+title: JSON-RPC
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+
+_The Ethereum JSON-RPC is a standard collection of methods that all execution clients implement.
+It is the canonical interface between users and the network._
+
+**By integrating the standard JSON-RPC interface Fiber allows Users to directly subscribe to the `subscribeNewTxs` and `subscribeNewExecutionPayloads`
+methods without the need to modify their existing stack.**
+
+#### Additional information
+
+* Subscriptions require a full duplex connections. Due to this reason, they are not available via HTTP and **supported only on WebSockets.**
+* Subscriptions are coupled to a connection. If the connection is closed, all subscriptions created over this connection are removed.
+* The subscriptions methods do not support filtering.
+* The Fiber WebSocket URL is: `ws://beta.fiberapi.io:8545`
+
+## eth\_subscribe
+
+- Starts a subscription to specific event.
+- For every event matching subscription, JSON-RPC notification with event details and subscription ID will be sent to a client.
+- Subscriptions are created with a regular RPC call, with `eth_subscribe` as method and subscription type as first parameter. If successful, returns `subscription ID`.
+
+#### Parameters
+
+| Parameter | Type | Description |
+| :--- | :--- | :--- |
+| subscriptionType | `string` | Type of subscription you want to subscribe to. |
+| arguments | `Filter Bool` | Optional arguments available only for pending transactions. |
+
+#### Returns
+
+| Returned type | Description |
+| :--- | :--- |
+| `string` | Subscription ID, used to identify subscription and to unsubscribe. |
+
+#### Notifications returns
+
+Depends on the subscription type.
+
+
+### `newHeads`
+Subscribes to incoming block headers. Fires a notification each time a new header is appended to the chain,
+including chain reorganizations. Returns `Block object`.
+
+**Parameter**
+- `newHeads` Returns full Block body
+
+**Successfull reponse**
+```json
+{
+	"jsonrpc":"2.0",
+	"method":"eth_subscription",
+	"params":
+		{
+			"subscription":"0x1a14b6bdcf4542fabf71c4abee244e47",
+			"result":
+				{
+					"author":"0x000000568b9b5a365eaa767d42e74ed88915c204",
+					"difficulty":"0x1",
+					"extraData":"0x4e65746865726d696e6420312e392e32322d302d6463373666616366612d32308639ad8ff3d850a261f3b26bc2a55e0f3a718de0dd040a19a4ce37e7b473f2d7481448a1e1fd8fb69260825377c0478393e6055f471a5cf839467ce919a6ad2700",
+					"gasLimit":"0x7a1200",
+					"gasUsed":"0x0",
+					"hash":"0xa4856602944fdfd18c528ef93cc52a681b38d766a7e39c27a47488c8461adcb0",
+					"logsBloom":"0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+					"miner":"0x0000000000000000000000000000000000000000",
+					"mixHash":"0x0000000000000000000000000000000000000000000000000000000000000000",
+					"nonce":"0x0000000000000000",
+					"number":"0x434822",
+					"parentHash":"0x1a9bdc31fc785f8a95efeeb7ae58f40f6366b8e805f47447a52335c95f4ceb49",
+					"receiptsRoot":"0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+					"sha3Uncles":"0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347",
+					"size":"0x261",
+					"stateRoot":"0xf38c4bf2958e541ec6df148e54ce073dc6b610f8613147ede568cb7b5c2d81ee",
+					"totalDifficulty":"0x633ebd",
+					"timestamp":"0x604726b0",
+					"transactions":[],
+					"transactionsRoot":"0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+					"uncles":[]
+				}
+		}
+}
+```
+
+### `newPendingTransactions`
+Subscribes to incoming pending transactions.
+
+**Parameters**
+- `newPendingTransactions` Returns only transaction hash.
+- `"newPendingTransactions", true` Returns full transaction body.
+
+**Successfull Response**
+```py
+{
+	"jsonrpc":"2.0",
+	"method":"eth_subscription",
+	"params":
+		{
+			"subscription":"0xfa...61d18f27",
+			"result": {
+			    'hash': '0xc317c...91777b0548f',
+			    'nonce': '0x1',
+			    'blockHash': None,
+			    'blockNumber': None,
+			    'transactionIndex': None,
+			    'from': '0x73496ac...0644bbe7f3dbfd14',
+			    'to': '0xa4ea687a2...1c0d00c49',
+			    'value': '0x0',
+			    'gasPrice': '0x989680',
+			    'gas': '0xea60',
+			    'input': '0xa90...',
+			    'r': '0xd1197e...',
+			    's': '0x3b0df085....',
+			    'v': '0x1b',
+			    'chainId': None,
+			    'type': '0x0'
+			    }
+		}
+}
+```
+
+### Examples
+
+Here users can find simple integration examples using popular libraries like web3.py:
+
+<Tabs>
+<TabItem value="py" label="Python">
+
+```py
+import asyncio
+import json
+from websockets import connect
+
+fiber_ws_url = 'ws://beta.fiberapi.io:8545'
+headers = {"Authorization": "YOUR_API_KEY"}  # Add your access token here
+
+# Get only hash of pending transactions
+params_hashes = '{"jsonrpc": "2.0", "id": 1, "method": "eth_subscribe", "params": ["newPendingTransactions"]}'
+
+# Get full transaction object of pending transactions
+params_full = '{"id":1,"jsonrpc":"2.0","method":"eth_subscribe","params":["newPendingTransactions", true]}'
+
+# Get head of new blocks
+params_blocks = '{"id":1,"jsonrpc":"2.0","method":"eth_subscribe","params":["newHeads"]}'
+
+async def get_event(params):
+    async with connect(fiber_ws_url, extra_headers=headers) as ws:
+        await ws.send(params)
+        subscription_response = await ws.recv()
+        print(subscription_response)
+
+        while True:
+            try:
+                message = await asyncio.wait_for(ws.recv(), timeout=15)
+                response = json.loads(message)
+                res = response['params']['result']
+                print(res)
+                pass
+            except:
+                pass
+
+if __name__ == "__main__":
+    loop = asyncio.get_event_loop()
+    while True:
+        loop.run_until_complete(get_event(params_hashes))
+```
+</TabItem>
+<TabItem value="js" label="JavaScript">
+
+```js
+import { WebSocketProvider } from "ethers";
+import WebSocket from "ws";
+
+const API_KEY = API_KEY
+const WS_URL = "ws://beta.fiberapi.io:8545"
+
+async function run() {
+    const ws = new WebSocket(WS_URL, { headers: { Authorization: API_KEY } });
+
+    console.log("ws opened")
+    const provider = new WebSocketProvider(ws)
+
+    const chainId = await provider.getNetwork()
+    console.log("chainId:", chainId)
+
+    // Pending transactions (only supports hashes)
+    provider.on('pending', (txHash) => {
+        console.log("txHash:", txHash)
+    })
+
+    // New block headers (only gives you the hashes)
+    provider.on('block', (blockHash) => {
+        console.log("block:", blockHash)
+    })
+}
+
+run().then().catch((error) => {
+    console.error(error);
+    process.exit(1);
+});
+```
+
+</TabItem>
+<TabItem value="rs" label="Rust">
+
+```rust
+use ethers::providers::{Authorization, ConnectionDetails, Middleware, Provider, StreamExt, Ws};
+
+#[tokio::main]
+async fn main() {
+    let provider = Provider::<Ws>::connect(ConnectionDetails::new(
+        "ws://localhost:8545/ws",
+        Some(Authorization::Raw(
+            "API_KEY".to_owned(),
+        )),
+    ))
+    .await
+    .unwrap();
+
+    subscribe_blocks(&provider).await;
+    subscribe_transactions(&provider, false).await;
+}
+
+async fn subscribe_blocks(provider: &Provider<Ws>) {
+    let mut stream = provider.subscribe_blocks().await.unwrap();
+
+    while let Some(block) = stream.next().await {
+        println!(
+            "Ts: {:?}, block number: {} -> {:?}",
+            block.timestamp,
+            block.number.unwrap(),
+            block.hash.unwrap()
+        );
+    }
+}
+
+async fn subscribe_transactions(provider: &Provider<Ws>, full: bool) {
+    if full {
+        let mut stream = provider.subscribe_full_pending_txs().await.unwrap();
+        while let Some(tx) = stream.next().await {
+            println!("{tx:?}");
+        }
+    } else {
+        let mut stream = provider.subscribe_pending_txs().await.unwrap();
+        while let Some(tx) = stream.next().await {
+            println!("{tx:?}");
+        }
+    }
+}
+```
+
+</TabItem>
+</Tabs>
+
+## eth\_unsubscribe
+
+Unsubscribes from subscription. Subscriptions are cancelled with a regular RPC call with `eth_unsubscribe` as method and `subscription ID` as a parameter. It returns a `bool` indicating if the subscription was cancelled successful.
+
+#### Parameters
+
+| Parameter name | Type | Description |
+| :--- | :--- | :--- |
+| subscriptionId | `string` | ID of subscription you want to unsubscribe. |
+
+#### Returns
+
+| Returned type | Description |
+| :--- | :--- |
+| `bool` | `true` if subscription was cancelled successful, `false` if not. |
+
+
+_Source: https://github.com/NethermindEth/docs/blob/master/ethereum-client/json-rpc/subscribe.md_
