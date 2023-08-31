@@ -10,9 +10,6 @@ import TabItem from "@theme/TabItem";
 _The Ethereum JSON-RPC API is a standard interface that all execution clients implement.
 It is the canonical interface between users and the network._
 
-**By integrating the standard JSON-RPC interface Fiber allows users to directly subscribe to the `newTransactions` and `newExecutionPayloadHeaders`
-streams without the need to modify their existing stack.**
-
 #### Additional information
 
 * Subscriptions require a full duplex connections. Due to this reason, they are not available via HTTP and **supported only on WebSockets.**
@@ -21,11 +18,32 @@ streams without the need to modify their existing stack.**
 * The Fiber WebSocket URL is: `ws://beta.fiberapi.io:8545`
 * We don't support the full JSON-RPC [execution API spec](https://ethereum.github.io/execution-apis/api-documentation/), only the methods below.
 
+#### Here documentation for the methods currently supported by Fiber:
+
+------------
+## `eth_sendRawTransaction`
+- Method to create new message call transaction or a contract creation for signed transactions.
+- Allows users to **broadcast transactions via the Fiber Network,** ensuring fast inclusion.
+
+#### Parameters
+| Parameter | Type | Description |
+| :--- | :--- | :--- |
+| data | `string` | The signed transaction data. |
+
+#### Returns
+| Returned type | Description |
+| :--- | :--- |
+| `32 Bytes` | The transaction hash, or the zero hash if the transaction is not yet available. |
+
+
+------------
 ## `eth_subscribe`
 
 - Starts a subscription to specific event.
 - For every event matching subscription, a JSON-RPC notification with event details and subscription ID will be sent to a client.
 - Subscriptions are created with a regular RPC call, with `eth_subscribe` as method and subscription type as first parameter. If successful, returns `subscription ID`.
+- **This method allows users to subscribe to the `newTransactions` and `newExecutionPayloadHeaders` low-latency
+streams; without the need to modify their existing stack.**
 
 #### Parameters
 
@@ -45,14 +63,14 @@ streams without the need to modify their existing stack.**
 Depends on the subscription type.
 
 
-### `newHeads`
+### subscriptionType - `newHeads`
 Subscribes to incoming block headers. Fires a notification each time a new header is appended to the chain,
 including chain reorganizations. Returns `Block object`.
 
 **Parameter**
 - `newHeads` Returns full Block body
 
-**Successfull reponse**
+**Successful reponse**
 ```json
 {
 	"jsonrpc":"2.0",
@@ -88,14 +106,14 @@ including chain reorganizations. Returns `Block object`.
 }
 ```
 
-### `newPendingTransactions`
+### subscriptionType - `newPendingTransactions`
 Subscribes to incoming pending transactions.
 
 **Parameters**
 - `newPendingTransactions` Returns only transaction hash.
 - `"newPendingTransactions", true` Returns full transaction body.
 
-**Successfull Response**
+**Successful Response**
 ```py
 {
 	"jsonrpc":"2.0",
@@ -125,7 +143,7 @@ Subscribes to incoming pending transactions.
 }
 ```
 
-### Examples
+### Example
 
 Here users can find simple integration examples using popular libraries like web3.py:
 
