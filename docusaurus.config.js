@@ -99,13 +99,13 @@ const config = {
             title: 'More',
             items: [
               {
-                label: 'Blog',
-                to: '/blog',
+                label: "GitHub",
+                href: "https://github.com/chainbound",
               },
               {
-                label: 'GitHub',
-                href: 'https://github.com/chainbound',
-              },
+                label: 'Chainbound',
+                href: 'https://www.chainbound.io/',
+              }
             ],
           },
         ],
