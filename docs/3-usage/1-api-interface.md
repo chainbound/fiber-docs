@@ -7,7 +7,7 @@ title: API Interface
 --------
 - The service supports the same API interface as the [Flashbots RPC](https://docs.flashbots.net/flashbots-auction/searchers/advanced/rpc-endpoint),
 with additional features which are defined below.  
-- The Echo API entrypoint is `http://echo-staging-rpc.chainbound.io/`. All requests to the API must be made over HTTPS.
+- The Echo API entrypoint is `https://echo-staging-rpc.chainbound.io/`. All requests to the API must be made over HTTPS.
 
 ## Authentication
 --------
