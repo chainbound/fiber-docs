@@ -63,11 +63,26 @@ const config = {
           src: 'img/echo-logo.jpg',
         },
         items: [
+            {
+            to: '/1-intro',
+            label: 'Intro',
+            position: 'left'
+          },
           {
             type: 'doc',
-            docId: 'intro',
+            docId: 'architecture',
             position: 'left',
             label: 'Docs',
+          },
+          {
+            to: '/commitment',
+            label: 'Our Commitment',
+            position: 'left'
+          },
+          {
+            to: '/6-disclaimer',
+            label: 'Disclaimer',
+            position: 'right'
           }
         ],
       },
