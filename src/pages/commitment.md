@@ -52,6 +52,6 @@ Presently, Echo retains the following data in its cache:
 - Block builder response objects and error messages (when available)
 
 
-:::info
+:::warning
 Echo respects user privacy by neither storing IP addresses nor tracking users' locations.
 :::
