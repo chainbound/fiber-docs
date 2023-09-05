@@ -48,10 +48,8 @@ _Analytics will not be available on Echo V 0.1.0, users should expect integratio
 
 Presently, Echo retains the following data in its cache:
 
-- Transactions in RLP encoding
-- The sequence of transactions within bundles
-- Transactions that have been reverted.
-- Builders response and error messages (when available)
+- RLP-encoded, signed transactions along with their ordering inside MEV bundles
+- Block builder response objects and error messages (when available)
 
 
 :::info
