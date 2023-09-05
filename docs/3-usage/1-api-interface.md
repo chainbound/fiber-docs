@@ -5,9 +5,15 @@ title: API Interface
 
 ## Endpoint
 --------
-- The Echo API entrypoint is `https://echo.chainbound.io`. All requests to the API must be made over HTTPS.
 - The service supports the same API interface as the [Flashbots RPC](https://docs.flashbots.net/flashbots-auction/searchers/advanced/rpc-endpoint),
-with a few additional features which are defined below.  
+with additional features which are defined below.  
+- The Echo API entrypoint is `https://echo-staging-rpc.chainbound.io/`. All requests to the API must be made over HTTPS.
+
+## Authentication
+--------
+
+Echo uses the same authentication mechanism as Fiber. To use the API, you must specify a valid API key in the `x-api-key` header of your request. You can obtain a free API key by reaching out to us at [admin@chainbound.io](mailto:admin@chainbound.io) or on [Discord](https://discord.gg/J4KNdeCYGX).
+
 
 **Echo is a drop-in replacement for any other builder API you already use via the following methods:**
 

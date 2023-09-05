@@ -1,10 +1,5 @@
----
-sidebar_position: 1
-title: Introduction
----
------------------
-
-
+# Introducing Echo  
+------
 #### **Echo** is a specialised API that allows Ethereum users to send bundles to their desired builders and the public mempool. 
 The service is designed for minimal latency, ensuring the highest possibility of being included in the upcoming block.
 
