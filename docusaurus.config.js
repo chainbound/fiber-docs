@@ -99,6 +99,10 @@ const config = {
                 label: 'GitHub',
                 href: 'https://github.com/chainbound',
               },
+              {
+                label: 'Chainbound',
+                href: 'https://www.chainbound.io/',
+              },
             ],
           },
         ],
