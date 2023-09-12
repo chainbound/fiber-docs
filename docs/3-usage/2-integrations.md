@@ -37,7 +37,7 @@ Here is a list of the builders currently supported, and the features that each o
 | `eth_sendBundle`        | ✓             | ✓               | ✓         | ✓               | ✓         | ✓       | ✓               | ✓              | ✓           |
 | `eth_cancelBundle`      | ✓             | ✗               | ✓         | ✗               | ✓         | ✓       | ✓               | ✓              | ✗           |
 | ETH refunds             | ✗             | ✗               | ✓         | ✓               | ✓         | ✓       | ✓               | ✗              | ✗           |
-| custom refund recipient | ✗             | ✗               | ✓         | ✓               | ✓         | ✓       | ✓               | ✗              | ✗           |
+| custom refund recipient | ✗             | ✗               | ✓         | ✗               | ✓         | ✓       | ✓               | ✗              | ✗           |
 | refund on multiple txs  | ✗             | ✗               | ✓         | ✗               | ✗         | ✗       | ✗               | ✗              | ✗           |
 | `X-Flashbots-Signature` | required      | -               | -         | -               | optional  | -       | required        | optional       | optional    |
 
