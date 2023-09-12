@@ -6,7 +6,7 @@ title: Integrations
 Here is a list of the Builders currently integrated. 
 Users can specify which Builders to send their bundles via the `mevBuilders` array field:
 
-| **Builders (value)**                                      |
+| **Builders (value)**                           |
 | ---------------------------------------------- |
 | `flashbots`                                    |
 | `beaverbuild`                                  |
@@ -14,6 +14,9 @@ Users can specify which Builders to send their bundles via the `mevBuilders` arr
 | `builder0x69`                                  |
 | `titan`                                        |
 | `f1b`                                          |
+| `blocknative`                                  |
+| `nfactorial`                                   |
+| `buildai`                                      |
 | `all` _to explicitly set all the above values_ |
 
 :::note
@@ -25,6 +28,9 @@ contact us on [Discord](https://discord.gg/J4KNdeCYGX) or email us at admin@chai
 ## Builders Features
 --------
 Here is a list of the builders currently supported, and the features that each one supports:
+
+
+<!-- TODO(nico): redo table with better format + new builders -->
 
 | **feature**             | **flashbots** | **beaverbuild** | **rsync** | **builder0x69** | **titan** | **f1b** |
 | ----------------------- | ------------- | --------------- | --------- | --------------- | --------- | ------- |
