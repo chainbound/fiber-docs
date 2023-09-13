@@ -10,7 +10,7 @@ To do so, you can follow our [Getting started](./usage/getting-started.mdx) guid
 
 ### Can I connect using Websockets?
 
-No, for now the only way to connect is using one of the provided [client packages](./usage/getting-started.mdx#installing). The reason is that gRPC streams are a little bit faster, but we’re planning to implement Websocket support soon.
+Yes, you can use the JSON-RPC API over Websocket. You can find more information in the [JSON-RPC API](./usage/json-rpc.mdx) section. If you don't have strict requirements to use Websockets, we recommend using gRPC instead, as it's a little bit faster and more efficient.
 
 ### Which networks does Fiber support?
 
