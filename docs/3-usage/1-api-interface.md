@@ -12,8 +12,13 @@ with additional features which are defined below.
 ## Authentication
 --------
 
-Echo uses the same authentication mechanism as Fiber. To use the API, you must specify a valid API key in the `x-api-key` header of your request. You can obtain a free API key by reaching out to us at [admin@chainbound.io](mailto:admin@chainbound.io) or on [Discord](https://discord.gg/J4KNdeCYGX).
+Echo uses the same authentication mechanism as Fiber. To use the API, you must specify a valid API key in the `x-api-key` header 
+of your request. You can obtain a free API key by reaching out to us at [admin@chainbound.io](mailto:admin@chainbound.io) or on [Discord](https://discord.gg/J4KNdeCYGX).
 
+For a successful request, your header should be:
+```json
+{"x-api-key": "echo-api-key"}
+```
 
 **Echo is a drop-in replacement for any other builder API you already use via the following methods:**
 
