@@ -3,6 +3,13 @@ sidebar_position: 7
 title: Changelog
 ---
 
+### 21 September 2023 – Fiber v0.1.8
+
+- New node deployment in Stockholm (eu-north-1) for improved topology
+- Fixed bug with sending transactions to Fiber
+- Fixed indexer bug with inconsistent node IDs
+- A lot of internal improvements and metrics
+
 ### 10 August 2023 – Fiber v0.1.7
 
 - New stream types:
