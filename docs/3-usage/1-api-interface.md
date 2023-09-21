@@ -38,6 +38,12 @@ Users can send budles and transactions via `eth_sendBundle` method:
       maxTimestamp,          // (Optional) Number, the maximum timestamp (in seconds) for which this bundle is valid
       revertingTxHashes,     // (Optional) Array[String], A list of tx hashes that are allowed to revert
       replacementUuid,       // (Optional) String, UUIDv4 that can be used to cancel/replace this bundle
+      refundPercent,         // (Optional) Number, the percentage (from 0 to 100) of the  ETH reward of the last transaction,
+                             //   or the transaction specified by refundIndex, that should be refunded back to the ‘refundRecipient’
+      refundIndex,           // (Optional) Number, the index of the transaction of which the ETH reward should be refunded.
+                             //   Default, last transaction in the bundle
+      refundRecipient,       // (Optional) Address, the address that will receive the ETH refund.
+                             //   Default, sender of the first transaction in the bundle
       mevBuilders,           // (Optional) Array[String], A list of mev builders to send this bundle to.
                              //   If not specified, the bundle will be sent to all available builders
       usePublicMempool,      // (Optional) Boolean, If true, the bundle will also be propagated to the public mempool
