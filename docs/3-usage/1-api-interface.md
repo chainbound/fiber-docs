@@ -50,6 +50,8 @@ Users can send budles and transactions via `eth_sendBundle` method:
                              //   through Fiber's internal network. Defaults to false.
                              //   WARNING: Using this flag will void the privacy guarantees of the bundle, making it
                              //   frontrunnable by anyone else, including other MEV searchers.
+      awaitBuilderResponses, // (Optional) Boolean, If true, the HTTP request will hang until all builders have
+                             //   responded, and the result will contain a `builderResponses` field. Defaults to false.
       awaitReceipt,          // (Optional) Boolean, If true, the HTTP request will hang until the bundle is either
                              //   included in a block, or the specified timeout is reached. Defaults to false.
       awaitReceiptTimeoutMs, // (Optional) Number, The timeout (in milliseconds) for the awaitReceipt flag.
@@ -60,6 +62,11 @@ Users can send budles and transactions via `eth_sendBundle` method:
 ```
 :::warning
 The `usePublicMempool` flag will void the privacy guarantees of the bundle, making it frontrunnable by anyone else, including other MEV searchers. Use it only to send bundles that are not vulnerable to frontrunning.
+:::
+
+:::info
+The `awaitBuilderResponses` flag can be very useful during testing & debugging, as it allows you to see the response from each builder. If for some reason some builders are returning an error, you can easily identify them and fix the issue. It's recommended to set this flag
+to false in production, as it will slow down the API response time significantly.
 :::
 
 ### Successful response
@@ -73,6 +80,10 @@ Here is the successful response format that you can expect from the API:
     bundleHash,          // String, a unique 256-bit bundle identifier, based its payload.
     receiptNotification, // (Optional) object containing the on-chain receipt of the bundle.
                          //   This field will only be present if you specified the `awaitReceipt` flag
+                         //   in the request.
+    builderResponses,    // (Optional) object containing the various builder responses as a key-value map,
+                         //   with the key being the builder name, and the value being the response from that builder.
+                         //   This field will only be present if you specified the `awaitBuilderResponses` flag
                          //   in the request.
   }
 }
