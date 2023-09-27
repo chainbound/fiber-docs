@@ -21,7 +21,9 @@ You can test the authentication from your terminal as follows:
 ```shell
 # HTTP
 curl https://echo-rpc.chainbound.io -X POST -H "x-api-key: <YOUR_API_KEY>" -H "Content-Type: application/json" -d '{"id":1,"jsonrpc":"2.0","method":"echo_status","params":[]}'
+```
 
+```shell
 # Websocket
 wscat -c wss://echo-rpc.chainbound.io/ws -H "x-api-key: <YOUR_API_KEY>" -x '{"id":1,"jsonrpc":"2.0","method":"echo_status","params":[]}
 ```
