@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added `echo_sendPrivateRawTransaction` endpoint: send a raw transaction directly to block builders
 - Added `echo_status` endpoint for testing and stauts checks
 - Fixed a bug with the `x-flashbots-signature` request header failing for some users
+- Removed blocknative as a builder (they shut down their builder service)
 
 ## [0.2.0] - 2023-09-20
 
