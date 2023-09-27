@@ -239,6 +239,20 @@ You can also omit the `params` object in the request and just include the signed
 In this case, the transaction will be forwarded to all available builders that support receiving private transactions.
 :::
 
+### Successful response
+
+Here is the successful response format that you can expect from the API:
+
+```js
+{
+  "jsonrpc": "2.0",
+  "id": "123",
+  "result": {
+    txHash, // String, the transaction hash of the private transaction
+  }
+}
+```
+
 ## `echo_status`
 
 ---
@@ -254,6 +268,16 @@ This is mainly useful for testing your API key and connectivity.
   "params": [
     {} // Empty object
   ]
+}
+```
+
+### Successful response
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": "1",
+  "result": "online"
 }
 ```
 
