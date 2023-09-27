@@ -3,28 +3,76 @@ sidebar_position: 1
 title: API Interface
 ---
 
-## Endpoint
---------
-- The service supports the same API interface as the [Flashbots RPC](https://docs.flashbots.net/flashbots-auction/searchers/advanced/rpc-endpoint),
-with additional features which are defined below.  
-- The Echo API entrypoint is `https://echo-rpc.chainbound.io/`. All requests to the API must be made over HTTPS.
+Echo supports the same API interface as the [Flashbots RPC](https://docs.flashbots.net/flashbots-auction/searchers/advanced/rpc-endpoint), with additional features which are defined below.
+
+The Echo API is available in both HTTP and Websocket flavors:
+
+- The HTTP API entrypoint is `https://echo-rpc.chainbound.io/`.
+- The Websocket API entrypoint is `wss://echo-rpc.chainbound.io/ws`.
 
 ## Authentication
---------
 
-Echo uses the same authentication mechanism as Fiber. To use the API, you must specify a valid API key in the `x-api-key` header 
-of your request. You can obtain a free API key by reaching out to us at [admin@chainbound.io](mailto:admin@chainbound.io) or on [Discord](https://discord.gg/J4KNdeCYGX).
+---
 
-For a successful request, your header should be:
-```json
-{"x-api-key": "echo-api-key"}
+Echo uses the same authentication mechanism as [Fiber](https://fiber.chainbound.io). To use the API, you must specify a valid API key in the `x-api-key` header of your request. You can obtain a free API key by reaching out to us at [admin@chainbound.io](mailto:admin@chainbound.io) or by joining our [Discord](https://discord.gg/J4KNdeCYGX) and opening a ticket.
+
+You can test the authentication from your terminal as follows:
+
+```shell
+# HTTP
+curl https://echo-rpc.chainbound.io -X POST -H "x-api-key: <YOUR_API_KEY>" -H "Content-Type: application/json" -d '{"id":1,"jsonrpc":"2.0","method":"echo_status","params":[]}'
+
+# Websocket
+wscat -c wss://echo-rpc.chainbound.io/ws -H "x-api-key: <YOUR_API_KEY>" -x '{"id":1,"jsonrpc":"2.0","method":"echo_status","params":[]}
 ```
 
-Here are all available API methods:
+## Flashbots Authentication
+
+---
+
+Additionally to an API key, you may also specify a Flashbots signature token in the `x-flashbots-signature` header of your HTTP requests. Echo will automatically forward the signature to the builders that support it, so that you can focus on your strategies and not worry about the details of each builder's API. For more details on the Flashbots signature, please refer to the [Flashbots documentation](https://docs.flashbots.net/flashbots-auction/searchers/advanced/rpc-endpoint#authentication).
+
+:::info
+If you are using Echo via Websocket, you have to specify this field in the message body instead.
+This is done by encapsulating your existing request (the entire JSON-RPC object) in a new JSON object,
+with the `x-flashbots-signature` field as a sibling of the `payload` field. Here is an example:
+
+```json
+{
+  "x-flashbots-signature": "0x...:0x...",
+  "payload": {
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "eth_sendBundle",
+    "params": [
+      {
+        "txs": ["0x..."],
+        "blockNumber": "0x1234"
+      }
+    ]
+  }
+}
+```
+
+:::
+
+## Available Methods
+
+---
+
+- [eth_sendBundle](#eth_sendbundle)
+- [eth_cancelBundle](#eth_cancelbundle)
+- [eth_sendPrivateRawTransaction](#eth_sendprivaterawtransaction)
+- [echo_status](#echo_status)
+- [echo_getBundleStats](#echo_getbundlestats)
+- [echo_getInclusionStats](#echo_getinclusionstats)
 
 ## `eth_sendBundle`
---------
-Users can send budles and transactions via `eth_sendBundle` method:
+
+---
+
+Users can send bundles via the `eth_sendBundle` method with this interface:
+
 ```js
 {
   "jsonrpc": "2.0",
@@ -60,6 +108,7 @@ Users can send budles and transactions via `eth_sendBundle` method:
   ]
 }
 ```
+
 :::warning
 The `usePublicMempool` flag will void the privacy guarantees of the bundle, making it frontrunnable by anyone else, including other MEV searchers. Use it only to send bundles that are not vulnerable to frontrunning.
 :::
@@ -70,6 +119,7 @@ to false in production, as it will slow down the API response time significantly
 :::
 
 ### Successful response
+
 Here is the successful response format that you can expect from the API:
 
 ```js
@@ -90,7 +140,8 @@ Here is the successful response format that you can expect from the API:
 ```
 
 ### Receipt Notification
-If you set the `awaitReceipt` flag to **true** in the request params, 
+
+If you set the `awaitReceipt` flag to **true** in the request params,
 the response will also include the `receiptNotification` field, which will be one of the following:
 
 ```js
@@ -108,8 +159,11 @@ the response will also include the `receiptNotification` field, which will be on
 ```
 
 ## `eth_cancelBundle`
---------
-Echo  allows users to cancel pending transactions by submitting a cancellation request via `eth_cancelBudnle`
+
+---
+
+Echo allows users to cancel pending bundles by submitting a cancellation request via the `eth_cancelBundle` method:
+
 ```js
 {
   "jsonrpc": "2.0",
@@ -125,13 +179,14 @@ Echo  allows users to cancel pending transactions by submitting a cancellation r
   ]
 }
 ```
+
 :::note
-The `replacementUuid` field must have been set when the bundle was submitted with `eth_sendBundle`.
+The `replacementUuid` field must have been set when the bundle was originally submitted with `eth_sendBundle`.
 :::
 
 :::warning
-You cannot specify a `replacementUuid` together with the `usePublicMempool` flag, 
-as transactions sent to the public mempool can always be included.
+You cannot specify a `replacementUuid` together with the `usePublicMempool` flag,
+as transactions sent to the public mempool can always be included by anyone.
 :::
 
 ### Successful response
@@ -144,8 +199,66 @@ as transactions sent to the public mempool can always be included.
 }
 ```
 
+## `eth_sendPrivateRawTransaction`
+
+---
+
+Echo allows users to send private transactions via the `eth_sendPrivateRawTransaction` method:
+
+```js
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "eth_sendPrivateRawTransaction",
+  "params": [
+    {
+      tx,            // String, the signed private transaction to execute
+      mevBuilders,   // (Optional) Array[String], A list of mev builders to send this transaction to.
+                     //   If not specified, the transaction will be sent to all available builders
+    }
+  ]
+}
+```
+
+:::info
+You can also omit the `params` object in the request and just include the signed transaction as a hex string like so:
+
+```js
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "eth_sendPrivateRawTransaction",
+  "params": [
+    "0x..." // String, the signed private transaction to execute
+  ]
+}
+```
+
+In this case, the transaction will be forwarded to all available builders that support receiving private transactions.
+:::
+
+## `echo_status`
+
+---
+
+This endpoint can be used to fetch information about the status of the Echo API.
+This is mainly useful for testing your API key and connectivity.
+
+```js
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "echo_status",
+  "params": [
+    {} // Empty object
+  ]
+}
+```
+
 ## `echo_getBundleStats`
---------
+
+---
+
 This endpoint can be used to fetch information about a specific bundle sent to Echo.
 
 ```js
@@ -162,6 +275,7 @@ This endpoint can be used to fetch information about a specific bundle sent to E
 ```
 
 ### Successful response
+
 Here is the successful response format that you can expect from the API:
 
 ```js
@@ -184,7 +298,9 @@ Here is the successful response format that you can expect from the API:
 ```
 
 ## `echo_getInclusionStats`
---------
+
+---
+
 This endpoint can be used to fetch information about the inclusion details of the bundles you send through Echo.
 
 ```js
@@ -199,6 +315,7 @@ This endpoint can be used to fetch information about the inclusion details of th
 ```
 
 ### Successful response
+
 Here is the successful response format that you can expect from the API:
 
 ```js
