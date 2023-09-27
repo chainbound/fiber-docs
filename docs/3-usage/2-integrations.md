@@ -16,7 +16,6 @@ Users can specify which Builders to send their bundles via the `mevBuilders` arr
 | `builder0x69`                                  |
 | `titan`                                        |
 | `f1b`                                          |
-| `blocknative`                                  |
 | `nfactorial`                                   |
 | `buildai`                                      |
 | `all` _to explicitly set all the above values_ |
@@ -32,14 +31,14 @@ contact us on [Discord](https://discord.gg/J4KNdeCYGX) or email us at admin@chai
 
 Here is a list of the builders currently supported, and the features that each one supports:
 
-| **feature**             | **flashbots** | **beaverbuild** | **rsync** | **builder0x69** | **titan** | **f1b** | **blocknative** | **nfactorial** | **buildai** |
-| ----------------------- | ------------- | --------------- | --------- | --------------- | --------- | ------- | --------------- | -------------- | ----------- |
-| `eth_sendBundle`        | ✓             | ✓               | ✓         | ✓               | ✓         | ✓       | ✓               | ✓              | ✓           |
-| `eth_cancelBundle`      | ✓             | ✗               | ✓         | ✗               | ✓         | ✓       | ✓               | ✓              | ✗           |
-| ETH refunds             | ✗             | ✓               | ✓         | ✓               | ✓         | ✓       | ✓               | ✗              | ✗           |
-| custom refund recipient | ✗             | ✓               | ✓         | ✗               | ✓         | ✓       | ✓               | ✗              | ✗           |
-| refund on multiple txs  | ✗             | ✗               | ✓         | ✗               | ✗         | ✗       | ✗               | ✗              | ✗           |
-| `X-Flashbots-Signature` | required      | -               | -         | -               | optional  | -       | required        | optional       | optional    |
+| **feature**             | **flashbots** | **beaverbuild** | **rsync** | **builder0x69** | **titan** | **f1b** | **nfactorial** | **buildai** |
+| ----------------------- | ------------- | --------------- | --------- | --------------- | --------- | ------- | -------------- | ----------- |
+| `eth_sendBundle`        | ✓             | ✓               | ✓         | ✓               | ✓         | ✓       | ✓              | ✓           |
+| `eth_cancelBundle`      | ✓             | ✗               | ✓         | ✗               | ✓         | ✓       | ✓              | ✗           |
+| ETH refunds             | ✗             | ✓               | ✓         | ✓               | ✓         | ✓       | ✗              | ✗           |
+| custom refund recipient | ✗             | ✓               | ✓         | ✗               | ✓         | ✓       | ✗              | ✗           |
+| refund on multiple txs  | ✗             | ✗               | ✓         | ✗               | ✗         | ✗       | ✗              | ✗           |
+| `X-Flashbots-Signature` | required      | -               | -         | -               | optional  | -       | optional       | optional    |
 
 :::info
 Echo API endpoint offer the ability to specify a set of `mevBuilders` to which the request should be forwarded.
