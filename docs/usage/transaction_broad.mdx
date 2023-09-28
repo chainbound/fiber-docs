@@ -7,9 +7,9 @@ import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
 
-## Sending Transactions
+## Sending Transactions via Echo
 
-**Fiber's users can leverage [Echo](https://echo.chainbound.io/) a standalone product, developed by Chainbound, to easily broadcast transactions to block builders and validators.**
+**Fiber's users can leverage [Echo](https://echo.chainbound.io/) a standalone product, developed by Chainbound, to easily broadcast transactions directly to block builders and validators.**
 
 :::info
 [Here](https://echo.chainbound.io/) Echo's official documentation!
@@ -27,3 +27,605 @@ Echo has the following unique features:
 
 
 You can obtain a **free API key** by reaching out to us at [admin@chainbound.io](mailto:admin@chainbound.io) or by joining our [Discord](https://discord.com/invite/J4KNdeCYGX) and opening a ticket.
+
+
+## Sending Transactions via Fiber
+
+:::info
+For users only interested in fast-inclusion, Fiber allows to bypass Echo's methods and inject transactions directly to the p2p network, guaranteeing low latency and reliable
+propagation globally.
+:::
+
+**We currently support 4 methods for sending transactions & bundles directly via Fiber:**
+
+| Method                            | Description                                        |
+| -----------------------           | -------------------------------------------------- |
+| `SendTransaction`                 | Method for sending signed transactions (with the `v`, `r`, `s` fields populated) to the Fiber Network. Fiber propagates these transactions to all other Fiber nodes, as well as all full nodes it's connected to. |
+| `SendRawTransaction`              | Method for sending a signed RLP encoded transaction. This is useful when you’re using libraries like `ethers` or `web3.js` with JavaScript, or `ethers-rs` with Rust. |
+| `SendTransactionSequence`         | Method for sending a sequence of transactions to be propagated across the network, to ensure that they arrive at the block producer in the correct order. |
+| `SendRawTransactionSequence`      | Same as above, but for RLP encoded signed transactions. |
+
+:::info
+The `SendTransactionSequence` and `SendRawTransactionSequence` methods don't guarantee that the transactions
+will land in order on-chain. They will be sent in sequence, but the final ordering will be determined by the
+block producer for the block in which they're included.
+:::
+
+**Here you can find the endpoints implementation in the different packages:**
+
+### `SendTransaction`
+
+<Tabs>
+<TabItem value="go" label="Golang">
+
+In Go, the method takes a `go-ethereum.types.Transaction` as a parameter. This plays along nicely with any code
+that's already using `go-ethereum` as a library.
+
+```go
+import (
+    "context"
+    "log"
+    "math/big"
+    "time"
+
+    fiber "github.com/chainbound/fiber-go"
+
+    "github.com/ethereum/go-ethereum/core/types"
+    "github.com/ethereum/go-ethereum/common"
+    "github.com/ethereum/go-ethereum/crypto"
+)
+
+
+func main() {
+    // Connection process omitted
+    ...
+
+    // Example transaction
+    tx := types.NewTx(&types.DynamicFeeTx{
+        Nonce:     nonce,
+        To:        common.HexToAddress("0x...."),
+        Value:     big.NewInt(100),
+        Gas:       21000,
+        GasFeeCap: big.NewInt(x),
+        GasTipCap: big.NewInt(y),
+        Data:      nil,
+    })
+
+    // Get your private key
+    pk, _ := crypto.HexToECDSA("YOUR_PRIVATE_KEY")
+    // Create a signer
+    signer := types.NewLondonSigner(common.Big1)
+
+    // Sign the transaction. Note that this doesn't RLP encode the transaction
+    signed, err := types.SignTx(tx, signer, pk)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // Create a timeout for sending
+    ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+    defer cancel()
+
+    // Returns:
+    // * Transaction hash
+    // * Unix timestamp in microseconds at which the node saw the transaction (useful for debugging latency issues)
+    // * Any potential errors
+    hash, timestamp, err := client.SendTransaction(ctx, signed)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+}
+```
+
+</TabItem>
+
+<TabItem value="rs" label="Rust">
+
+In Rust, we again use `ethers-rs` to construct and sign transactions.
+
+```rust
+use ethers::{
+    signers::{LocalWallet, Signer},
+    types::{transaction::eip2718::TypedTransaction, Address, TransactionRequest}, utils::hex::ToHex,
+};
+use fiber::Client;
+
+#[tokio::main]
+async fn main() {
+    // Connection process omitted
+    ...
+
+    // Construct transaction
+    let tx: TypedTransaction = TransactionRequest::new()
+        .nonce(3)
+        .gas_price(1)
+        .gas(25000)
+        .to("b94f5374fce5edbc8e2a8697c15331677e6ebf0b".parse::<Address>().unwrap())
+        .value(10)
+        .data(vec![0x55, 0x44])
+        .chain_id(1)
+        .into();
+
+    // Parse private key
+    let wallet: LocalWallet = "PRIVATE_KEY".parse().unwrap();
+
+    let signed = wallet.sign_transaction(&tx.clone()).await.unwrap();
+
+    let (hash, timestamp) = client.send_transaction(&signed).await.unwrap();
+}
+```
+
+</TabItem>
+
+<TabItem value="js" label="JavaScript">
+
+The JavaScript package uses `@ethereumjs/tx` to construct and sign transactions. If you want to use `ethers.js` or `web3.js`, you can do that with [SendRawTransaction](#sendrawtransaction)
+
+```js
+import { Client, TransactionResponse } from 'fiber-ts';
+import { TypedTransaction, TransactionFactory } from '@ethereumjs/tx';
+
+// Connection process omitted
+...
+
+const pk = Buffer.from('YOUR_PRIVATE_KEY', 'hex');
+
+// Build an EIP1559 TypedTransaction with ethereumjs
+const tx = TransactionFactory.fromTxData({
+    chainId: 1,
+    type: 2,
+    to: '0x...',
+    gasLimit: 21000,
+    value: 0,
+    nonce: 21,
+    maxFeePerGas: 20 * 1e9,
+    maxPriorityFeePerGas: 2 * 1e9,
+});
+
+// Sign & encode the transaction
+const signed = tx.sign(pk);
+
+// Result contains the timestamp (unix microseconds) and hash of the transaction
+const result: TransactionResponse = await client.sendTransaction(signed);
+```
+
+</TabItem>
+
+<TabItem value="py" label="Python">
+
+```py
+from fiber.client import Client, Transaction
+
+...
+
+try:
+    new_transaction = Transaction(
+        to='0x123abc...',
+        gas=100000,
+        nonce=0,
+        value=100,
+        sender='0x789xyz...',
+        type=1,
+        gas_price=10,
+        input='0xabcdef...',
+        max_fee=1000,
+        priority_fee=5,
+        v=27,
+        r='0x123456...',
+        s='0x789abc...',
+        access_list=None,
+        chain_id=1
+    )
+  sub = client.send_transaction(new_transaction)
+except Exception as e:
+    print("error sending tx", e)
+```
+
+</TabItem>
+</Tabs>
+
+### `SendRawTransaction`
+
+<Tabs>
+<TabItem value="go" label="Golang">
+
+```go
+import (
+    "context"
+    "log"
+    "math/big"
+    "time"
+
+    fiber "github.com/chainbound/fiber-go"
+
+    "github.com/ethereum/go-ethereum/core/types"
+    "github.com/ethereum/go-ethereum/common"
+    "github.com/ethereum/go-ethereum/crypto"
+)
+
+
+func main() {
+    // Connection process omitted
+    ...
+
+    // Example transaction
+    tx := types.NewTx(&types.DynamicFeeTx{
+        Nonce:     nonce,
+        To:        common.HexToAddress("0x...."),
+        Value:     big.NewInt(100),
+        Gas:       21000,
+        GasFeeCap: big.NewInt(x),
+        GasTipCap: big.NewInt(y),
+        Data:      nil,
+    })
+
+    // Get your private key
+    pk, _ := crypto.HexToECDSA("YOUR_PRIVATE_KEY")
+    // Create a signer
+    signer := types.NewLondonSigner(common.Big1)
+
+    // Sign the transaction. Note that this doesn't RLP encode the transaction
+    signed, err := types.SignTx(tx, signer, pk)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // Create a timeout for sending
+    ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+    defer cancel()
+
+    raw, err := signed.MarshalBinary()
+    if err != nil {
+        log.Fatal(err)
+    }
+
+
+    // Returns:
+    // * Transaction hash
+    // * Unix timestamp in microseconds at which the node saw the transaction (useful for debugging latency issues)
+    // * Any potential errors
+    hash, timestamp, err := client.SendRawTransaction(ctx, raw)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+}
+```
+
+</TabItem>
+<TabItem value="rs" label="Rust">
+
+In Rust, we again use `ethers-rs` to construct and sign transactions.
+
+```rust
+use ethers::{
+    signers::{LocalWallet, Signer},
+    types::{transaction::eip2718::TypedTransaction, Address, TransactionRequest}, utils::hex::ToHex,
+};
+use fiber::Client;
+
+#[tokio::main]
+async fn main() {
+    // Connection process omitted
+    ...
+
+    // Construct transaction
+    let tx: TypedTransaction = TransactionRequest::new()
+        .nonce(3)
+        .gas_price(1)
+        .gas(25000)
+        .to("b94f5374fce5edbc8e2a8697c15331677e6ebf0b".parse::<Address>().unwrap())
+        .value(10)
+        .data(vec![0x55, 0x44])
+        .chain_id(1)
+        .into();
+
+    // Parse private key
+    let wallet: LocalWallet = "PRIVATE_KEY".parse().unwrap();
+
+    let sig = wallet.sign_transaction(&tx.clone()).await.unwrap();
+
+    // Sign transaction
+    let signed = tx.rlp_signed(&sig);
+
+    let (hash, timestamp) = client.send_raw_transaction(&signed).await.unwrap();
+}
+```
+
+</TabItem>
+<TabItem value="js" label="JavaScript">
+
+With this endpoint you can use any library for serializing transactions. In this example, we'll use `ethers.js`.
+
+```js
+import { Client } from 'fiber-ts';
+import { ethers } from 'ethers';
+
+// Code omitted
+...
+
+const wallet = new ethers.Wallet('PRIVATE_KEY');
+
+const signedTx = await wallet.signTransaction({
+    chainId: 1,
+    type: 2,
+    to: '0x...',
+    gasLimit: 21000,
+    value: 0,
+    nonce: 21,
+    maxFeePerGas: 20 * 1e9,
+    maxPriorityFeePerGas: 2 * 1e9,
+});
+
+const result = await client.sendRawTransaction(signedTx);
+```
+
+</TabItem>
+<TabItem value="py" label="Python">
+
+```py
+from fiber.client import Client
+from web3 import Web3
+
+...
+
+private_key = 'YOUR_PRIVATE_KEY'
+
+# Set the transaction parameters
+transaction = {
+    'nonce': 0,
+    'gasPrice': 100,
+    'gas': YOUR_GAS_LIMIT,
+    'to': YOUR_RECIPIENT_ADDRESS,
+    'value': YOUR_AMOUNT_IN_WEI,
+    'data': YOUR_DATA
+}
+
+signed_tx = web3.eth.account.sign_transaction(transaction, private_key)
+
+try:
+    response = client.send_raw_transaction(signed_tx.rawTransaction)
+    print(response)
+except Exception as e:
+    print("error sending tx", e)
+```
+
+</TabItem>
+</Tabs>
+
+### `SendTransactionSequence`
+
+Sends multiple signed transactions in a sequence at the p2p level.
+
+:::caution
+This is not a bundle like in Flashbots. <br />
+The final transaction ordering is determined by the block producer.
+:::
+
+<Tabs>
+<TabItem value="go" label="Golang">
+
+```go
+import (
+    "context"
+    "log"
+    "math/big"
+    "time"
+
+    fiber "github.com/chainbound/fiber-go"
+
+    "github.com/ethereum/go-ethereum/core/types"
+    "github.com/ethereum/go-ethereum/common"
+    "github.com/ethereum/go-ethereum/crypto"
+)
+
+func main() {
+
+    ...
+
+    // Example transaction
+    tx := types.NewTx(&types.DynamicFeeTx{
+        Nonce:     nonce,
+        To:        common.HexToAddress("0x...."),
+        Value:     big.NewInt(100),
+        Gas:       21000,
+        GasFeeCap: big.NewInt(x),
+        GasTipCap: big.NewInt(y),
+        Data:      nil,
+    })
+
+    pk, _ := crypto.HexToECDSA("PRIVATE_KEY")
+    signer := types.NewLondonSigner(common.Big1)
+
+    signed, err := types.SignTx(tx, signer, pk)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // type should be *types.Transaction (but signed, e.g. v,r,s fields filled in)
+    // (this is the transaction that will be sent first)
+    target := someTargetTransaction
+
+    hashes, timestamp, err := client.SendTransactionSequence(ctx, target, signed)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    doSomething(hashes, timestamp)
+}
+```
+
+</TabItem>
+
+<TabItem value="rs" label="Rust">
+
+In Rust, we again use `ethers-rs` to construct and sign transactions.
+
+```rust
+use ethers::{
+    ...
+    types::Transaction,
+};
+use fiber::Client;
+
+#[tokio::main]
+async fn main() {
+    // Connection process, signing transaction omitted
+    ...
+
+    // build transactions with ethers-rs
+    let transactions: Vec<Transaction> = vec![tx1, tx2, tx3];
+
+    let (hash, timestamp) = client.send_transaction_sequence(transactions).await.unwrap();
+}
+```
+
+</TabItem>
+
+<TabItem value="js" label="JavaScript">
+
+The JavaScript package uses `@ethereumjs/tx` to construct and sign transactions.
+If you want to use `ethers.js` or `web3.js`, you can do that with [SendRawTransaction](#sendrawtransaction)
+
+```js
+import { Client, TransactionResponse } from 'fiber-ts';
+import { TypedTransaction, TransactionFactory } from '@ethereumjs/tx';
+
+// Connection process, signing transaction omitted
+...
+
+const transactions = [tx1, tx2, tx3];
+
+// Result contains an array of transaction hashes and their timestamps
+const result: TransactionResponse = await client.sendTransactionSequence(transactions);
+```
+
+</TabItem>
+<TabItem value="py" label="Python">
+
+```py
+from fiber.client import Client
+from web3 import Web3
+
+# Connection process, signing transactions omitted
+...
+
+try:
+    response = client.send_transaction_sequence([tx1, tx2, tx3])
+    print(response)
+except Exception as e:
+    print("error sending tx", e)
+```
+
+</TabItem>
+</Tabs>
+
+### `SendRawTransactionSequence`
+
+Exactly the same as above, but this time our transactions have to be RLP encoded. Check the [SendRawTransaction](#sendrawtransaction) section
+for full examples of signing and RLP encoding transactions.
+
+<Tabs>
+<TabItem value="go" label="Golang">
+
+```go
+import (
+    "context"
+    "log"
+    "math/big"
+    "time"
+
+    fiber "github.com/chainbound/fiber-go"
+
+    "github.com/ethereum/go-ethereum/core/types"
+    "github.com/ethereum/go-ethereum/common"
+    "github.com/ethereum/go-ethereum/crypto"
+)
+
+
+func main() {
+    // Connection process, signing transaction omitted
+    ...
+
+    bytes, err := signed.MarshalBinary()
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // Type should be []byte
+    targetTransaction := someTargetTransaction
+
+    hashes, timestamp, err := client.SendRawTransactionSequence(ctx, targetTransaction, bytes)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    doSomething(hashes, timestamp)
+}
+```
+
+</TabItem>
+
+<TabItem value="rs" label="Rust">
+
+In Rust, we again use `ethers-rs` to construct and sign transactions.
+
+```rust
+use ethers::{
+    signers::{LocalWallet, Signer},
+    types::{transaction::eip2718::TypedTransaction, Address, TransactionRequest}, utils::hex::ToHex,
+};
+use fiber::Client;
+
+#[tokio::main]
+async fn main() {
+    // Connection process, signing transaction omitted
+    ...
+
+    let target = "0xabcd...".to_string();
+
+    let transactions = vec![target, raw_signed];
+    let (hash, timestamp) = client.send_raw_transaction_sequence(transactions).await.unwrap();
+}
+```
+
+</TabItem>
+
+<TabItem value="js" label="JavaScript">
+
+The JavaScript package uses `@ethereumjs/tx` to construct and sign transactions. If you want to use `ethers.js` or `web3.js`, you can do that with [SendRawTransaction](#sendrawtransaction)
+
+```js
+import { Client, TransactionResponse } from 'fiber-ts';
+import { TypedTransaction, TransactionFactory } from '@ethereumjs/tx';
+
+// Connection process, signing transaction omitted
+...
+
+
+// Result contains the timestamp (unix microseconds) and hash of the transaction
+const result: TransactionResponse = await client.rawBackrunTransaction("0xabcd...", rawSigned);
+```
+
+</TabItem>
+<TabItem value="py" label="Python">
+
+```py
+from fiber.client import Client
+from web3 import Web3
+
+# Connection process, signing transactions omitted
+...
+
+target = '0xabcd...'
+
+try:
+    response = client.send_raw_transaction_sequence([target, raw_signed])
+    print(response)
+except Exception as e:
+    print("error sending tx", e)
+```
+
+</TabItem>
+</Tabs>
