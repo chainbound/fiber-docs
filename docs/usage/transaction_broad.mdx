@@ -7,13 +7,36 @@ import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
 
-## Sending Transactions
+## Sending Transactions via Echo
 
-Fiber allows you to inject transactions directly to the p2p network, guaranteeing low latency and reliable
+**Fiber's users can leverage [Echo](https://echo.chainbound.io/) a standalone product, developed by Chainbound, to easily broadcast transactions directly to block builders and validators.**
+
+:::info
+[Here](https://echo.chainbound.io/) Echo's official documentation!
+:::
+
+Echo has the following unique features:
+- **UX & Convenience**: Unified API for quick bundle submissions.
+- **Front-running Protection**: Direct transmissions to block builders, skipping the mempool to defend against MEV.
+- **Maintenance & Upgrades**: Automated system upgrades and updates with the latest builder API specifications.
+- **Real-time Notifications**: Immediate alerts once your bundle is included in a block via Fiber's `execution_payloads` stream.
+- **Mempool Add-on Integration**:
+    - Use the `SendTransactionSequence` method from Fiber.
+    - Allows global dispatch to both mempools and builders.
+    - _Ideal for rapid inclusion tasks like hack-prevention and Oracle updates._
+
+
+You can obtain a **free API key** by reaching out to us at [admin@chainbound.io](mailto:admin@chainbound.io) or by joining our [Discord](https://discord.com/invite/J4KNdeCYGX) and opening a ticket.
+
+
+## Sending Transactions via Fiber
+
+:::info
+For users only interested in fast-inclusion, Fiber allows to bypass Echo's methods and inject transactions directly to the p2p network, guaranteeing low latency and reliable
 propagation globally.
+:::
 
-
-**We currently support 4 methods for sending transactions:**
+**We currently support 4 methods for sending transactions & bundles directly via Fiber:**
 
 | Method                            | Description                                        |
 | -----------------------           | -------------------------------------------------- |
