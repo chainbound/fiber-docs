@@ -45,15 +45,16 @@ means that your node reached max n. of peers, and you have to add `fiber-inject`
 #### 1. Expose the p2p port of the Docker container
 
 :::info
-Make sure the mapped port isn't already taken by your local node.
+Make sure the mapped port isn't already taken by your local node. You can change the mapped port with the `--port` flag.
 :::
 
 ```bash
-docker run -p 30304:30303 --name fiber-inject mempirate/fiber-inject \
+docker run -p 30304:30303 --name fiber-inject ghcr.io/chainbound/fiber-inject:latest-arm64 \
     fiber-inject \
     --fiber-api $API_ENDPOINT \
     --fiber-key $YOUR_API_KEY \
-    --enodes $ENODE1,$ENODE2
+    --enodes $ENODE1,$ENODE2 \
+    --port 30303
 ```
 
 #### 2. Find the `enode`
