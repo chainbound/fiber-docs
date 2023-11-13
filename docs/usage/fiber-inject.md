@@ -26,6 +26,8 @@ IP addresses of your machine.
 
 The default port number is 30303 (the default p2p port of Ethereum nodes), but you can change it with the `--port` flag.
 
+We offer a pre-built Docker image for both `arm64` and `amd64` architectures (under the `latest-arm64` and `latest-amd64` tags respectively).
+
 ## Troubleshooting
 
 It's possible that your local node has reached its maximum amount of peers, and therefore won't accept Fiber inject as another peer.
