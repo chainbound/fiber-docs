@@ -82,6 +82,7 @@ for tx := range ch {
 
 ```rust
 use fiber::Client;
+use tokio_util::StreamExt;
 
 #[tokio::main]
 async fn main() {
@@ -207,6 +208,7 @@ Constructing filters with the Rust package is not very ergonomic yet. We're work
 
 ```rust
 use fiber::Client;
+use tokio_util::StreamExt;
 
 #[tokio::main]
 async fn main() {
@@ -313,6 +315,7 @@ func main() {
 
 ```rust
 use fiber::Client;
+use tokio_util::StreamExt;
 
 #[tokio::main]
 async fn main() {
@@ -408,6 +411,7 @@ func main() {
 
 ```rust
 use fiber::Client;
+use tokio_util::StreamExt;
 
 #[tokio::main]
 async fn main() {
@@ -503,6 +507,7 @@ func main() {
 
 ```rust
 use fiber::Client;
+use tokio_util::StreamExt;
 
 #[tokio::main]
 async fn main() {
