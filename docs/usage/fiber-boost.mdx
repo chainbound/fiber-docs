@@ -8,7 +8,7 @@ import TabItem from "@theme/TabItem";
 
 FiberBoost is a service that broadcasts ("boosts") blocks through the Fiber Network for faster global propagation, resulting in a reduced probability of missed slots due to [proposer boost & honest reorgs](https://www.paradigm.xyz/2023/04/mev-boost-ethereum-consensus#proposer-boost--honest-reorgs). FiberBoost provides multiple interfaces to boost blocks:
 
-### gRPC API
+## gRPC API
 The most straightforward and performant way to publish a block to Fiber is through the gRPC API. The `PublishBlock` endpoint is a bi-directional gRPC stream that accepts **SSZ encoded, signed beacon blocks**. The blocks can optionally be compressed with gzip.
 
 Both [`fiber-go >= v1.8.0`](https://github.com/chainbound/fiber-go/releases/tag/v1.8.0) and [`fiber-rs >= v0.5.1`](https://github.com/chainbound/fiber-rs/releases/tag/v0.5.1) provide an implementation of this method with gzip compression:
@@ -72,12 +72,18 @@ async fn main() {
 </TabItem>
 </Tabs>
 
-### MEV-Boost
+## MEV-Boost
 Chainbound maintains an open-source, modified version of the [MEV-Boost](https://boost.flashbots.net) validator sidecar at [this repository](https://github.com/chainbound/mev-boost). The fork has a very minimal diff with the upstream Flashbots repository and follows the same release schedule. Track the diff [here](https://github.com/chainbound/mev-boost/pull/1).
+
+### How it works
+The following interaction diagram depicts the block proposal process using the modified MEV-Boost:
+![](/img/fiber-boost.png)
+**The main difference with normal MEV-Boost is that when it receives a `Payload` from the relay, it will reconstruct the full signed beacon block, SSZ encode it and publish it to Fiber.**
 
 If you're a validator running MEV-Boost, this is the easiest way to start using FiberBoost.
 
+### Running it
 Coming soon!
 
-### Direct Peering
+## Direct Peering
 Coming soon!
