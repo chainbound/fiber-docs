@@ -1,0 +1,83 @@
+---
+sidebar_position: 4
+title: FiberBoost
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+FiberBoost is a service that broadcasts ("boosts") blocks through the Fiber Network for faster global propagation, resulting in a reduced probability of missed slots due to [proposer boost & honest reorgs](https://www.paradigm.xyz/2023/04/mev-boost-ethereum-consensus#proposer-boost--honest-reorgs). FiberBoost provides multiple interfaces to boost blocks:
+
+### gRPC API
+The most straightforward and performant way to publish a block to Fiber is through the gRPC API. The `PublishBlock` endpoint is a bi-directional gRPC stream that accepts **SSZ encoded, signed beacon blocks**. The blocks can optionally be compressed with gzip.
+
+Both [`fiber-go >= v1.8.0`](https://github.com/chainbound/fiber-go/releases/tag/v1.8.0) and [`fiber-rs >= v0.5.1`](https://github.com/chainbound/fiber-rs/releases/tag/v0.5.1) provide an implementation of this method with gzip compression:
+
+<Tabs>
+<TabItem value="go" label="Golang">
+
+```go
+import (
+	"context"
+	"fmt"
+	"log"
+	"time"
+
+    fiber "github.com/chainbound/fiber-go"
+)
+
+
+func main() {
+    // Connection process omitted
+    ...
+
+    // SSZ encoded, signed beacon block
+    beaconBlock := []byte{...}
+
+    ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	// Returns the slot, root, and timestamp of the block, or a potential error
+    slot, root, timestamp, err := client.SubmitBlock(ctx, beaconBlock)
+    if err != nil {
+    	log.Fatal(err)
+    }
+
+    fmt.Println("Submitted block", slot, root, timestamp)
+}
+```
+
+</TabItem>
+
+<TabItem value="rs" label="Rust">
+
+```rust
+use bytes::Bytes;
+use fiber::{Client, api::BlockSubmissionResponse};
+
+#[tokio::main]
+async fn main() {
+    // Connection process omitted
+    // ....
+
+    // SSZ encoded, signed beacon block
+    let beacon_block = vec![...];
+
+    let result: BlockSubmissionResponse = client.publish_block(beacon_block).await.unwrap();
+
+    println!("Submitted block: {} {:#x} {}", block.slot, block.root, block.timestamp);
+}
+```
+
+</TabItem>
+</Tabs>
+
+### MEV-Boost
+Chainbound maintains an open-source, modified version of the [MEV-Boost](https://boost.flashbots.net) validator sidecar at [this repository](https://github.com/chainbound/mev-boost). The fork has a very minimal diff with the upstream Flashbots repository and follows the same release schedule. Track the diff [here](https://github.com/chainbound/mev-boost/pull/1).
+
+If you're a validator running MEV-Boost, this is the easiest way to start using FiberBoost.
+
+Coming soon!
+
+### Direct Peering
+Coming soon!

@@ -18,7 +18,7 @@ In this [article](https://fiber.chainbound.io/blog/fiber-vs-bloxroute) we outlin
 ## 1. Searchers & Builders
 
 ### 1.1 MEV Capturing
-Low latency access to mempool data gives **searchers** and **builders** a latency and reliability advantage 
+Low latency access to mempool data gives **searchers** and **builders** a latency and reliability advantage
 over the competition.
 
 On the Execution Layer (EL), Fiber provides the `NewTransactions` stream, which returns new transactions that are propagated across the Ethereum mempool.
@@ -37,7 +37,7 @@ Order Flow (POF). Given `NewTransactions` has proven to be the fastest and most 
 :::
 
 ### 1.2 Transaction Inclusion Receipts
-Fiber can also be leveraged by **Builders** and **Searchers** that are looking to confirm the inclusion of their transactions in the most recent block 
+Fiber can also be leveraged by **Builders** and **Searchers** that are looking to confirm the inclusion of their transactions in the most recent block
 as fast as possible.
 On the Consensus Layer, Fiber provides the `NewExecutionPayloads` stream, which abstracts the payload from `BeaconBlockBody` and returns it as a separate stream.
 
@@ -51,7 +51,7 @@ To note, some applications include:
 Via the `sendTransaction` API endpoint, searchers are able to **submit transactions** to the Ethereum network via Fiber.
 This has many use-cases, including:
 * **Redundancy in transaction submission** - Fiber can be used as a backup to their main transaction submission service, which can be private or public.
-* **Censorship resistance** - Fiber can be used to submit transactions to the Ethereum network in a way that is resistant to censorship. 
+* **Censorship resistance** - Fiber can be used to submit transactions to the Ethereum network in a way that is resistant to censorship.
 
 :::warning
 Fiber is not integrated with any Private Order Flow (POF) provider, therefore users should be mindful of the usual dangers of submitting to the public mempool (front-running, sandwiching attacks).
@@ -67,26 +67,36 @@ With Fiber's stream, protocols and applications can track events in real-time to
 * Real-time **anomaly detection** in smart contracts deployments and transactions
 
 ## 3. Validators
-### 3.1 FiberGuard
-Validators can optimize their performance and minimize their p2p latency with the implementation of FiberGuard, 
+### 3.1 FiberBoost
+FiberBoost is a service that allows proposers (and relays) to broadcast blocks through Fiber Network, resulting in fast, global block propagation. Blocks are broadcast internally over our high-speed links, as well as to all the consensus P2P peers Fiber is connected to. In practice, **FiberBoost will reduce the probability of missed slots due to [proposer boost & honest reorgs](https://www.paradigm.xyz/2023/04/mev-boost-ethereum-consensus#proposer-boost--honest-reorgs)**.
+
+FiberBoost can boost blocks through the following 3 interfaces:
+- API
+- Modified MEV-Boost
+- Direct P2P peering
+
+Click [here](./usage/fiber-boost) to get started.
+
+### 3.2 FiberGuard
+Validators can optimize their performance and minimize their p2p latency with the implementation of FiberGuard,
 an advanced technology designed to enhance their operations.
 
 FiberGuard provides validators with a reliable and low-latency `NewBeaconBlocks` stream, which is crucial for
-promptly receiving new blocks. This capability enables validators to **efficiently generate attestations** and 
+promptly receiving new blocks. This capability enables validators to **efficiently generate attestations** and
 **produce new blocks**, improving their overall performance.
 
 By adopting FiberGuard, validators can achieve the following benefits:
 
-1. **Reduced Streaming Latency:** With FiberGuard, validators can experience significantly reduced streaming 
-latency of `BeaconBlock`. This improvement can lead to up to **1-second reduction in latency** when compared to a 
+1. **Reduced Streaming Latency:** With FiberGuard, validators can experience significantly reduced streaming
+latency of `BeaconBlock`. This improvement can lead to up to **1-second reduction in latency** when compared to a
 single node setup and a remarkable **50-200 milliseconds** reduction compared to other existing services.
 
-2. **Enhanced Reliability and Uptime:** Leveraging the distributed nature of the Fiber network, 
-validators can **increase the reliability and uptime of their operations**. This means that validators are 
+2. **Enhanced Reliability and Uptime:** Leveraging the distributed nature of the Fiber network,
+validators can **increase the reliability and uptime of their operations**. This means that validators are
 less prone to downtime or interruptions, resulting in a more dependable validation process.
 
-3. **Lower Operating Costs:** One of the key advantages of utilizing FiberGuard is the cost reduction 
-it offers to running a validator. By mitigating the **risks of reorgs, missed attestations, or inactivity penalties**, 
+3. **Lower Operating Costs:** One of the key advantages of utilizing FiberGuard is the cost reduction
+it offers to running a validator. By mitigating the **risks of reorgs, missed attestations, or inactivity penalties**,
 validators can avoid potential financial losses and optimize their profitability.
 
 :::note
