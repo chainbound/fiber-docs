@@ -16,7 +16,7 @@ title: Changelog
   - `NewExecutionPayloads`: this used to be the NewBlocks stream, but we've renamed it to avoid confusion.
   - `NewExecutionHeaders`: a stream of execution payload headers (no transactions). This stream is expected to be 10-30ms faster than the NewExecutionPayloads stream, because the headers get propagated internally without the payload, making them much smaller and faster to propagate.
   - `NewBeaconBlocks`: a stream of beacon blocks stripped out of the execution payload to make it more performant. You can think of this as the beacon block header.
-  - For more info, see our [updated docs on the stream types](./usage/streams_sub.mdx).
+  - For more info, see our [updated docs on the stream types](./usage/subscriptions.mdx).
 - Better de-duplication:
   - We've improved our transaction pool design again, and the chances of seeing duplicate / confirmed transactions should be close to 0 now.
 - Reliability improvements:
