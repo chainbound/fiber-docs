@@ -1,5 +1,5 @@
 ---
-sidebar_position: 4
+sidebar_position: 6
 title: Mempool Injector
 ---
 
@@ -64,6 +64,10 @@ Fetch `enode` from output:
 ```
 14:51:44.811 INF [DEVP2P] Starting devp2p server               enode=enode://6e45ab02bc08b03da9527ef42e07e12d144eea3365b102b3d7f3b7a3f4ae0aed24a039d346af3a7e0e3c84257458af076e55e8860e262f551dab9d4e472f0fe3@127.0.0.1:30303?discport=0
 ```
+
+:::info
+Note that the injector's enode is hardcoded and will always be the same.
+:::
 
 #### 3. Add `enode` to your local node's trusted peerset
 

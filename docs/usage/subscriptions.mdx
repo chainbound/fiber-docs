@@ -6,7 +6,7 @@ title: Subscribing to Streams
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-## Transactions - `subscribeNewTxs`
+## Transactions
 
 :::note
 This method opens a subscription in the form of a gRPC stream
@@ -270,14 +270,14 @@ There's currently a limit of 16 filter elements or "nodes" in the filter tree.
 :::
 
 
-## Block Headers - `subscribeNewExecutionHeaders`
+## Block Headers
 
-`ExecutionHeaders` are the headers of the blocks that are part of the execution layer (eth1). 
+`ExecutionHeaders` are the headers of the blocks that are part of the execution layer (eth1).
 These contain the traditional [block header](https://github.com/ethereum/consensus-specs/blob/dev/specs/capella/beacon-chain.md#executionpayloadheader).
 In contrast with the `ExecutionPayloads`, headers **do not contain the full list of transactions**.
 
 :::caution
-Blocks streamed are not **finalized**, meaning that the data is not guaranteed to be part of the canonical chain. 
+Blocks streamed are not **finalized**, meaning that the data is not guaranteed to be part of the canonical chain.
 Recent blocks can always be [reorged](https://www.paradigm.xyz/2021/07/ethereum-reorgs-after-the-merge).
 :::
 
@@ -366,7 +366,7 @@ print("error subscribing", e)
 </TabItem>
 </Tabs>
 
-## Block Payloads - `subscribeNewExecutionPayloads`
+## Block Payloads
 
 Execution Payloads are the traditional Blocks broadcasted on the execution layer (eth1).
 These contain the traditional [block header](https://github.com/ethereum/consensus-specs/blob/dev/specs/capella/beacon-chain.md#executionpayloadheader)
@@ -462,10 +462,10 @@ print("error subscribing", e)
 </TabItem>
 </Tabs>
 
-## Beacon Blocks - `subscribeNewBeaconBlocks`
+## Beacon Blocks
 
-Beacon Blocks are the blocks broadcasted on the beacon chain (eth2), which contain the canonical [consensus info](https://github.com/ethereum/consensus-specs/blob/dev/specs/capella/beacon-chain.md#executionpayloadheader). 
-We currently strip out the execution payload from this stream, as to keep the stream as light and fast as possible. 
+Beacon Blocks are the blocks broadcasted on the beacon chain (eth2), which contain the canonical [consensus info](https://github.com/ethereum/consensus-specs/blob/dev/specs/capella/beacon-chain.md#executionpayloadheader).
+We currently strip out the execution payload from this stream, as to keep the stream as light and fast as possible.
 If you also need the execution payload, please use the `subscribeNewExecutionPayloads` stream.
 
 :::caution
