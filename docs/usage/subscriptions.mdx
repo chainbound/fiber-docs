@@ -14,14 +14,12 @@ and broadcasts pending transaction that the node receives, either from the Fiber
 it's connected to.
 :::
 
-
 :::caution
 The transactions on this stream **have not been validated**, and in some cases they can be invalid,
 so we recommend having a process for filtering out invalid transactions.
 
 The reason Fiber does this is to not introduce any latency in the message path, ensuring fastest possible delivery.
 :::
-
 
 Let's look at how users can subscribe to the **pending transactions** stream:
 
@@ -44,7 +42,7 @@ func main() {
     ...
 
     // First make a sink channel on which to receive the transactions
-    ch := make(chan *fiber.Transaction)
+    ch := make(chan *fiber.TransactionWithSender)
     go func() {
         // This is a blocking call, so it needs to run in a Goroutine
         if err := client.SubscribeNewTxs(nil, ch); err != nil {
@@ -60,21 +58,8 @@ func main() {
 ```
 
 :::info
-The transaction type we use here (`fiber.Transaction`), contains all possible fields of all the different transaction types. You can differentiate them
-with the `type` field. There's also a helper method to convert this transaction to a `go-ethereum.types.Transaction` type, which you can do with
-`toNative()`.
-
-**Example**:
-
-```go
-...
-
-for tx := range ch {
-    nativeTx := tx.ToNative()
-    handleGethTransaction(nativeTx)
-}
-```
-
+The transaction type we use here (`fiber.TransactionWithSender`), in a wrapper for the native go-ethereum `types.Transaction` type,
+with the addition of the `Sender` address field. We include the sender address to avoid having to recalculate it in the client.
 :::
 
 </TabItem>
@@ -92,6 +77,7 @@ async fn main() {
         "YOUR_API_KEY".to_string()
     ).await.unwrap();
 
+    // Open the subscription with no filters
     let mut sub = client.subscribe_new_txs(None).await;
 
     // Consume the stream
@@ -102,7 +88,8 @@ async fn main() {
 ```
 
 :::note
-The stream yields transactions that are `ethers::types::Transaction` types from the [ethers-rs](https://github.com/gakonst/ethers-rs) crate.
+The stream yields transactions that are [`TransactionSignedEcRecovered`](https://github.com/paradigmxyz/reth/blob/0e166f0f326b86491c0b23a8cc483e8a224e9731/crates/primitives/src/transaction/mod.rs#L1474)
+types from the [reth_primitives](https://github.com/paradigmxyz/reth/blob/0e166f0f326b86491c0b23a8cc483e8a224e9731/crates/primitives) crate.
 :::
 
 </TabItem>
@@ -138,11 +125,11 @@ except Exception as e:
 </TabItem>
 </Tabs>
 
-
 ### Filtering
 
 The `subscribe` methods allows for parameters which allow users to **filter the transactions they receive.**
 Currently, we support filtering on the following transaction fields:
+
 - Sender
 - Receiver
 - MethodID
@@ -247,10 +234,6 @@ async fn main() {
 }
 ```
 
-:::note
-The stream yields transactions that are `ethers::types::Transaction` types from the [ethers-rs](https://github.com/gakonst/ethers-rs) crate.
-:::
-
 </TabItem>
 <TabItem value="js" label="JavaScript">
 
@@ -269,108 +252,11 @@ Evaluating filters will introduce anywhere from 10 to 200 microseconds, dependin
 There's currently a limit of 16 filter elements or "nodes" in the filter tree.
 :::
 
-
-## Block Headers
-
-`ExecutionHeaders` are the headers of the blocks that are part of the execution layer (eth1).
-These contain the traditional [block header](https://github.com/ethereum/consensus-specs/blob/dev/specs/capella/beacon-chain.md#executionpayloadheader).
-In contrast with the `ExecutionPayloads`, headers **do not contain the full list of transactions**.
-
-:::caution
-Blocks streamed are not **finalized**, meaning that the data is not guaranteed to be part of the canonical chain.
-Recent blocks can always be [reorged](https://www.paradigm.xyz/2021/07/ethereum-reorgs-after-the-merge).
-:::
-
-Let's see how to subscribe to new block headers in the different packages:
-
-<Tabs>
-<TabItem value="go" label="Golang">
-
-```go
-import (
-    ...
-    fiber "github.com/chainbound/fiber-go"
-)
-
-func main() {
-    ...
-
-    ch := make(chan *fiber.Block)
-
-    go func() {
-        if err := client.SubscribeNewExecutionPayloadHeaders(ch); err != nil {
-            log.Fatal(err)
-        }
-    }()
-
-    for block := range ch {
-        handleBlock(block)
-    }
-}
-```
-
-</TabItem>
-
-<TabItem value="rs" label="Rust">
-
-```rust
-use fiber::Client;
-use tokio_util::StreamExt;
-
-#[tokio::main]
-async fn main() {
-    let mut client = Client::connect(
-        "beta.fiberapi.io:8080".to_string(),
-        "API_KEY".to_string()
-    ).await.unwrap();
-
-    let mut sub = client.subscribe_new_execution_headers().await;
-
-    // Consume the stream
-    while let Some(block) = sub.next().await {
-        handle_block(tx);
-    }
-}
-```
-
-</TabItem>
-
-<TabItem value="js" label="Javascript">
-
-```js
-import { Block } from "fiber-ts";
-
-...
-
-const sub = client.subscribeNewExecutionHeaders();
-
-sub.on("data", (block: Block) => {
-  handleBlock(block);
-});
-```
-
-</TabItem>
-
-<TabItem value="py" label="Python">
-
-```py
-try:
-  sub = client.subscribe_new_execution_payload_headers()
-
-for block in sub:
-do_something(block)
-except Exception as e:
-print("error subscribing", e)
-```
-
-</TabItem>
-</Tabs>
-
 ## Block Payloads
 
 Execution Payloads are the traditional Blocks broadcasted on the execution layer (eth1).
-These contain the traditional [block header](https://github.com/ethereum/consensus-specs/blob/dev/specs/capella/beacon-chain.md#executionpayloadheader)
-and the full list of transactions.
+These contain the traditional [block header](https://github.com/ethereum/consensus-specs/blob/dev/specs/capella/beacon-chain.md#executionpayloadheader),
+the full list of transactions and beacon chain withdrawals.
 
 :::caution
 Blocks streamed are not **finalized**, meaning that the data is not guaranteed to be part of the canonical chain.
@@ -381,6 +267,9 @@ Let's see how to subscribe to new execution payloads in the different packages:
 
 <Tabs>
 <TabItem value="go" label="Golang">
+
+Execution payloads are returned as `*fiber.Block` which is a wrapper around `go-ethereum` native types
+such as `Header`, `Transaction` and `Withdrawal`.
 
 ```go
 import (
@@ -408,6 +297,14 @@ func main() {
 </TabItem>
 
 <TabItem value="rs" label="Rust">
+
+The type returned by this stream is an [`alloy-rpc-types::Block`](https://github.com/alloy-rs/alloy/blob/a4453d42ffb755a46bace2ceca3baa454e0cd807/crates/rpc-types/src/eth/block.rs#L18).
+Since the blocks returned are parsed from consensus-layer payloads, they are missing the following fields,
+which are set to `None` or `zero` in all returned stream items:
+
+- `parent_beacon_block_root`
+- `transactions_root`
+- `withdrawals_root`
 
 ```rust
 use fiber::Client;
