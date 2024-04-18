@@ -78,7 +78,7 @@ async fn main() {
     ).await.unwrap();
 
     // Open the subscription with no filters
-    let mut sub = client.subscribe_new_txs(None).await;
+    let mut sub = client.subscribe_new_transactions(None).await;
 
     // Consume the stream
     while let Some(tx) = sub.next().await {
@@ -113,7 +113,7 @@ sub.on("data", (tx: TypedTransaction) => {
 
 ```py
 try:
-  sub = client.subscribe_new_txs()
+  sub = client.subscribe_new_transactions()
 
   # Iterate over transaction stream
   for tx in sub:
@@ -225,7 +225,7 @@ async fn main() {
                     .to("0xdAC17F958D2ee523a2206206994597C13D831ec7");
 
     // Encode the filter
-    let mut sub = client.subscribe_new_txs(f.encode().unwrap()).await;
+    let mut sub = client.subscribe_new_transactions(f.encode().unwrap()).await;
 
     // Consume the stream
     while let Some(tx) = sub.next().await {
